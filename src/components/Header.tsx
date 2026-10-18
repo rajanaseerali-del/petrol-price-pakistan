@@ -87,10 +87,10 @@ export function Header() {
 
           <div className="flex items-center gap-3">
             <Link
-              href="/admin"
-              className="hidden sm:inline-flex items-center justify-center px-3.5 py-1.5 border border-emerald-700/20 text-xs font-bold rounded-lg text-emerald-800 bg-emerald-50 hover:bg-emerald-100 transition"
+              href="/petrol-calculator"
+              className="inline-flex items-center justify-center px-3.5 py-1.5 border border-emerald-700/20 text-xs font-bold rounded-lg text-emerald-800 bg-emerald-50 hover:bg-emerald-100 transition"
             >
-              Admin Portal
+              Fuel Calculator
             </Link>
           </div>
         </div>
