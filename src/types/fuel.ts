@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
-export type ProductId = 'petrol' | 'diesel' | 'hi-octane' | 'kerosene' | 'ldo';
+export type ProductId = 'petrol' | 'diesel' | 'hi-octane' | 'kerosene' | 'ldo' | 'lpg';
 
 export const FuelProductSchema = z.object({
-  id: z.enum(['petrol', 'diesel', 'hi-octane', 'kerosene', 'ldo']),
+  id: z.enum(['petrol', 'diesel', 'hi-octane', 'kerosene', 'ldo', 'lpg']),
   displayName: z.string(),
   displayNameUr: z.string().optional(),
   slug: z.string(),
@@ -39,7 +39,7 @@ export type VerificationStatus = z.infer<typeof VerificationStatusSchema>;
 
 export const PriceRecordSchema = z.object({
   id: z.string(),
-  productId: z.enum(['petrol', 'diesel', 'hi-octane', 'kerosene', 'ldo']),
+  productId: z.enum(['petrol', 'diesel', 'hi-octane', 'kerosene', 'ldo', 'lpg']),
   pricePaisa: z.number().int().positive(), // e.g. 39023 for 390.23 PKR
   pricePkr: z.number().positive(),
   currency: z.literal('PKR').default('PKR'),

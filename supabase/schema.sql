@@ -113,5 +113,6 @@ values
   ('diesel', 'High-Speed Diesel (HSD)', 'ہائی اسپیڈ ڈیزل', 'diesel-price-in-pakistan', 'Litre', 2),
   ('hi-octane', 'Hi-Octane (RON 97)', 'ہائی اوکٹین', 'hi-octane-price-in-pakistan', 'Litre', 3),
   ('kerosene', 'Kerosene Oil (SKO)', 'مٹی کا تیل', 'kerosene-oil-price-in-pakistan', 'Litre', 4),
-  ('ldo', 'Light Diesel Oil (LDO)', 'لائٹ ڈیزل آئل', 'light-diesel-oil-price-in-pakistan', 'Litre', 5)
+  ('ldo', 'Light Diesel Oil (LDO)', 'لائٹ ڈیزل آئل', 'light-diesel-oil-price-in-pakistan', 'Litre', 5),
+  ('lpg', 'LPG (Liquefied Petroleum Gas)', 'ایل پی جی', 'lpg-price-in-pakistan', 'kg', 6)
 on conflict (id) do nothing;

@@ -35,6 +35,12 @@ export function PriceCard({ product, record, featured = false }: PriceCardProps)
     timeZone: 'Asia/Karachi',
   }).format(new Date());
 
+  const formattedVerificationDate = new Intl.DateTimeFormat('en-PK', {
+    dateStyle: 'short',
+    timeStyle: 'short',
+    timeZone: 'Asia/Karachi',
+  }).format(new Date(record.verificationTimestamp));
+
   return (
     <div
       className={`rounded-2xl transition-all duration-200 flex flex-col justify-between ${
@@ -56,13 +62,15 @@ export function PriceCard({ product, record, featured = false }: PriceCardProps)
             <h3 className="font-extrabold text-slate-900 text-lg sm:text-xl tracking-tight">
               {product.displayName}
             </h3>
-            {product.displayNameUr && (
-              <span className="text-xs font-semibold text-emerald-800 font-serif">
-                {product.displayNameUr}
-              </span>
-            )}
+            <p className="text-[11px] text-slate-500 font-medium">
+              {product.id === 'hi-octane'
+                ? 'Quoted per city by PSO — see city table'
+                : product.id === 'lpg'
+                ? 'Priced per kilogram, not per litre'
+                : 'Nationwide — not quoted per city'}
+            </p>
           </div>
-          <span className="text-xs text-slate-500 font-medium">Per {product.unit}</span>
+          <span className="text-xs text-slate-500 font-bold bg-slate-100 px-2 py-0.5 rounded-md">/{product.unit}</span>
         </div>
 
         {/* Price Display */}

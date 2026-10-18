@@ -96,9 +96,14 @@ export default async function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <PriceCard product={petrol} record={latestPrices['petrol']} featured={true} />
-            <PriceCard product={diesel} record={latestPrices['diesel']} featured={true} />
-            {hiOctane && <PriceCard product={hiOctane} record={latestPrices['hi-octane']} />}
+            {products.map(product => (
+              <PriceCard
+                key={product.id}
+                product={product}
+                record={latestPrices[product.id]}
+                featured={product.id === 'petrol' || product.id === 'diesel'}
+              />
+            ))}
           </div>
         </section>
 
