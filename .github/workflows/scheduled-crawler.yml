@@ -12,5 +12,23 @@ jobs:
     steps:
       - name: Trigger Fuel Price Crawler Endpoint
         run: |
-          curl -s -X GET "${{ secrets.NETLIFY_SITE_URL }}/api/cron/check-prices" \
-               -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}"
+          TARGET_URL="${{ secrets.SITE_URL || secrets.NETLIFY_SITE_URL }}"
+          if [ -z "$TARGET_URL" ]; then
+            echo "Error: Neither SITE_URL nor NETLIFY_SITE_URL secret is defined!"
+            exit 1
+          fi
+          # Strip trailing slash if present
+          TARGET_URL="${TARGET_URL%/}"
+          echo "Target crawler URL: $TARGET_URL/api/cron/check-prices"
+          
+          RESPONSE=$(curl -s -w "\nHTTP_STATUS:%{http_code}" -X GET "$TARGET_URL/api/cron/check-prices" \
+               -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}")
+          
+          echo "$RESPONSE"
+          
+          HTTP_STATUS=$(echo "$RESPONSE" | tr -d '\r' | sed -n 's/.*HTTP_STATUS://p')
+          if [ "$HTTP_STATUS" != "200" ]; then
+            echo "Crawler endpoint failed with HTTP $HTTP_STATUS"
+            exit 1
+          fi
+          echo "Crawler check completed successfully."
