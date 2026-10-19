@@ -138,7 +138,13 @@ export class FuelRepository {
     for (const p of INITIAL_PRODUCTS) {
       const productRecords = records
         .filter(r => r.productId === p.id && r.verificationStatus === 'APPROVED')
-        .sort((a, b) => new Date(b.effectiveStart).getTime() - new Date(a.effectiveStart).getTime());
+        .sort((a, b) => {
+          const timeA = new Date(a.effectiveStart).getTime();
+          const timeB = new Date(b.effectiveStart).getTime();
+          if (timeB !== timeA) return timeB - timeA;
+          // Tie-breaker: newest verified timestamp
+          return new Date(b.verificationTimestamp).getTime() - new Date(a.verificationTimestamp).getTime();
+        });
 
       if (productRecords.length > 0) {
         latest[p.id] = productRecords[0];
