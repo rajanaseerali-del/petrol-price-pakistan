@@ -211,23 +211,41 @@ export async function GET(request: NextRequest) {
     const currentPaisa = latestByProduct[p.id]?.pricePaisa || defaultPaisaMap[p.id] || 0;
     const newPaisa = Math.round(p.scrapedPrice * 100);
 
-    // If rate has changed from current rate in database
-    if (newPaisa !== currentPaisa && currentPaisa > 0) {
-      recordsToInsert.push({
-        product_id: p.id,
-        price_paisa: newPaisa,
-        currency: 'PKR',
-        effective_start: scraped.effectiveDate,
-        source_publication_date: nowIso,
-        verification_status: 'APPROVED',
-        source_type: p.sourceType,
-        source_url: p.sourceUrl,
-        extraction_method: 'automated_cross_verified',
-        notification_identifier: `OGRA-REVISION-${dateStr}`,
-        previous_price_paisa: currentPaisa,
-        price_change_paisa: newPaisa - currentPaisa,
-        notes: scraped.notes,
-      });
+    // If rate has changed OR to refresh active daily verification timestamp
+    if (currentPaisa > 0) {
+      if (newPaisa !== currentPaisa) {
+        // Rate has changed: insert new revision record
+        recordsToInsert.push({
+          product_id: p.id,
+          price_paisa: newPaisa,
+          currency: 'PKR',
+          effective_start: scraped.effectiveDate,
+          source_publication_date: nowIso,
+          verification_status: 'APPROVED',
+          source_type: p.sourceType,
+          source_url: p.sourceUrl,
+          extraction_method: 'automated_cross_verified',
+          notification_identifier: `OGRA-REVISION-${dateStr}`,
+          previous_price_paisa: currentPaisa,
+          price_change_paisa: newPaisa - currentPaisa,
+          notes: scraped.notes,
+        });
+      } else if (latestByProduct[p.id]?.id) {
+        // Price unchanged, but refresh verification_timestamp in database so card shows today's verification
+        try {
+          await fetch(`${supabaseUrl}/rest/v1/price_records?id=eq.${latestByProduct[p.id].id}`, {
+            method: 'PATCH',
+            headers: {
+              apikey: serviceKey,
+              Authorization: `Bearer ${serviceKey}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ verification_timestamp: nowIso }),
+          });
+        } catch (e) {
+          console.warn(`Could not refresh timestamp for ${p.id}:`, e);
+        }
+      }
     }
   }
 
