@@ -40,25 +40,41 @@ async function scrapeAllFuelProducts(): Promise<ScrapedFuelRates> {
     if (psoRes.ok) {
       const html = await psoRes.text();
 
-      // Petrol
-      const petrolM = html.match(/(?:Petrol|Motor\s*Spirit|Premier\s*Euro\s*5)[\s\S]*?(?:Rs\.?|PKR)\s*(\d{2,3}(?:\.\d{1,2})?)/i);
-      if (petrolM) result.petrol = parseFloat(petrolM[1]);
+      // Parse table rows individually to guarantee clean separation between products
+      const rows = [...html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi)];
+      for (const r of rows) {
+        const text = r[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 
-      // High Speed Diesel
-      const dieselM = html.match(/(?:High\s*Speed\s*Diesel|HSD)[\s\S]*?(?:Rs\.?|PKR)\s*(\d{2,3}(?:\.\d{1,2})?)/i);
-      if (dieselM) result.diesel = parseFloat(dieselM[1]);
+        // 1. Regular Petrol (Premier Euro 5) - e.g. "PREMIER EURO 5 Rs.382.02/Ltr"
+        if (/PREMIER\s*EURO\s*5/i.test(text) && !/OCTANE/i.test(text)) {
+          const m = text.match(/(?:Rs\.?|PKR)?\s*(\d{2,3}(?:\.\d{1,2})?)/i);
+          if (m) result.petrol = parseFloat(m[1]);
+        }
 
-      // Hi-Octane (RON 97)
-      const octaneM = html.match(/(?:Hi-?Octane|Octane\+|Altron\s*X|RON\s*97)[\s\S]*?(?:Rs\.?|PKR)\s*(\d{2,3}(?:\.\d{1,2})?)/i);
-      if (octaneM) result.hiOctane = parseFloat(octaneM[1]);
+        // 2. High Speed Diesel - e.g. "HI-CETANE DIESEL EURO 5 Rs.389.8/Ltr"
+        if (/(?:HI-?CETANE\s*DIESEL|DIESEL\s*EURO\s*5|HSD)/i.test(text)) {
+          const m = text.match(/(?:Rs\.?|PKR)?\s*(\d{2,3}(?:\.\d{1,2})?)/i);
+          if (m) result.diesel = parseFloat(m[1]);
+        }
 
-      // Kerosene Oil (SKO)
-      const keroseneM = html.match(/(?:Kerosene|SKO|Kero)[\s\S]*?(?:Rs\.?|PKR)\s*(\d{2,3}(?:\.\d{1,2})?)/i);
-      if (keroseneM) result.kerosene = parseFloat(keroseneM[1]);
+        // 3. Hi-Octane (Octane Euro 5 / RON 97) - e.g. "Octane Euro 5 (Lahore) 415.00"
+        if (/OCTANE\s*EURO\s*5/i.test(text) && !result.hiOctane) {
+          const m = text.match(/(?:Rs\.?|PKR)?\s*(\d{3}(?:\.\d{1,2})?)/i);
+          if (m) result.hiOctane = parseFloat(m[1]);
+        }
 
-      // Light Diesel Oil (LDO)
-      const ldoM = html.match(/(?:Light\s*Diesel|LDO)[\s\S]*?(?:Rs\.?|PKR)\s*(\d{2,3}(?:\.\d{1,2})?)/i);
-      if (ldoM) result.ldo = parseFloat(ldoM[1]);
+        // 4. Kerosene (SKO) - e.g. "SKO Rs.326.75/Ltr"
+        if (/\bSKO\b|KEROSENE/i.test(text)) {
+          const m = text.match(/(?:Rs\.?|PKR)?\s*(\d{2,3}(?:\.\d{1,2})?)/i);
+          if (m) result.kerosene = parseFloat(m[1]);
+        }
+
+        // 5. Light Diesel Oil (LDO) - e.g. "LDO Rs.267.46/Ltr"
+        if (/\bLDO\b|LIGHT\s*DIESEL/i.test(text)) {
+          const m = text.match(/(?:Rs\.?|PKR)?\s*(\d{2,3}(?:\.\d{1,2})?)/i);
+          if (m) result.ldo = parseFloat(m[1]);
+        }
+      }
     }
   } catch (err) {
     console.warn('PSO fuels extraction:', err);
