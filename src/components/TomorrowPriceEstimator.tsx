@@ -222,22 +222,42 @@ export function TomorrowPriceEstimator({
       </div>
 
       {/* Practical Refuel Recommendation Banner */}
-      <div className="rounded-2xl p-4 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 space-y-1">
-        <span className="text-xs font-black text-emerald-900 dark:text-emerald-300 flex items-center gap-1.5 uppercase tracking-wide">
+      <div
+        className={`rounded-2xl p-4 border space-y-1 transition-colors ${
+          estimate.direction === 'INCREASE'
+            ? 'bg-amber-50/90 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800/60'
+            : estimate.direction === 'DECREASE'
+            ? 'bg-emerald-50/90 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800/60'
+            : 'bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700'
+        }`}
+      >
+        <span
+          className={`text-xs font-black flex items-center gap-1.5 uppercase tracking-wide ${
+            estimate.direction === 'INCREASE'
+              ? 'text-amber-900 dark:text-amber-300'
+              : estimate.direction === 'DECREASE'
+              ? 'text-emerald-900 dark:text-emerald-300'
+              : 'text-slate-700 dark:text-slate-300'
+          }`}
+        >
           <span>💡</span>
-          <span>Consumer Advice</span>
+          <span>Consumer Advice ({fuelLabel})</span>
         </span>
         <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-medium leading-relaxed">
           {estimate.direction === 'INCREASE' ? (
             <>
-              Refuel today. A standard 40L sedan tank is estimated to cost <strong className="font-black text-slate-950 dark:text-white">Rs. {tankDiffCost.toFixed(2)}</strong> more tomorrow.
+              Refuel today. A standard 40L sedan tank of {fuelLabel} is estimated to cost{' '}
+              <strong className="font-black text-slate-950 dark:text-white">Rs. {tankDiffCost.toFixed(2)}</strong> more tomorrow.
             </>
           ) : estimate.direction === 'DECREASE' ? (
             <>
-              Wait to refuel tomorrow. You could save approximately <strong className="font-black text-emerald-800 dark:text-emerald-300">Rs. {tankDiffCost.toFixed(2)}</strong> on a 40L fill-up.
+              Wait to refuel tomorrow. You could save approximately{' '}
+              <strong className="font-black text-emerald-800 dark:text-emerald-300">Rs. {tankDiffCost.toFixed(2)}</strong> on a 40L {fuelLabel} fill-up.
             </>
           ) : (
-            <>Prices are expected to remain steady. Refuel according to your standard travel schedule.</>
+            <>
+              {fuelLabel} rates are projected to remain steady. Refuel according to your standard travel schedule.
+            </>
           )}
         </p>
       </div>
