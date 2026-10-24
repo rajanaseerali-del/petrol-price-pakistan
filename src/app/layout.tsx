@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/components/Header';
@@ -11,6 +11,16 @@ const fontSans = Plus_Jakarta_Sans({
   variable: '--font-sans',
   display: 'swap',
 });
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#064e3b' },
+    { media: '(prefers-color-scheme: dark)', color: '#020617' },
+  ],
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://petrolpricepakistan.pk'),
@@ -117,10 +127,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdGlobal) }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 font-sans text-base leading-relaxed selection:bg-emerald-300 selection:text-emerald-950 transition-colors duration-200">
+      <body className="min-h-full flex flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 font-sans text-base leading-relaxed selection:bg-emerald-300 selection:text-emerald-950 transition-colors duration-200 overflow-x-hidden w-full max-w-full">
         <ThemeProvider>
           <Header />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 w-full max-w-full">{children}</main>
           <Footer />
         </ThemeProvider>
       </body>

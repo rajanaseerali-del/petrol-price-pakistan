@@ -67,27 +67,27 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7 space-y-10">
+      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-4 sm:py-7 space-y-8 sm:space-y-10 w-full">
         {/* Above-The-Fold Header Bar: Instant Rate Access Without Scrolling */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pb-2 border-b border-slate-200 dark:border-slate-800">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-slate-800">
           <div>
-            <div className="inline-flex items-center gap-2 text-xs font-bold text-emerald-800 dark:text-emerald-400 mb-0.5">
+            <div className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-emerald-800 dark:text-emerald-400 mb-0.5">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Official Government Notification Active · October 2026</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white tracking-tight">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-950 dark:text-white tracking-tight">
               Petrol Price Today in Pakistan
             </h1>
           </div>
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="text-xs font-black text-emerald-900 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950 px-3 py-1 rounded-lg border border-emerald-300 dark:border-emerald-800">
+          <div className="flex items-center gap-2 shrink-0 self-start sm:self-auto">
+            <span className="text-[11px] sm:text-xs font-black text-emerald-900 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950 px-2.5 py-1 rounded-lg border border-emerald-300 dark:border-emerald-800">
               Verified: 16 October 2026
             </span>
           </div>
         </div>
 
         {/* Current Verified Prices Grid - PRIMARY PETROL CARD ABOVE THE FOLD */}
-        <section aria-label="Current Fuel Rates" className="space-y-5">
+        <section aria-label="Current Fuel Rates" className="space-y-4 sm:space-y-5">
           <h2 className="sr-only">Verified Pakistani Petroleum Prices &amp; Fuel Rates</h2>
           {/* Primary Fuel Card (Petrol) */}
           {petrol && (
