@@ -39,37 +39,39 @@ export function PriceChart({ records, productName = 'Fuel' }: PriceChartProps) {
   const maxPrice = Math.ceil(Math.max(...chartData.map(d => d.price)) + 5);
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xs p-5 sm:p-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-4 border-b border-slate-100 gap-2">
+    <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/90 dark:border-slate-800 shadow-sm p-6 sm:p-8 transition-colors">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-5 border-b border-slate-100 dark:border-slate-800 gap-3">
         <div>
-          <h4 className="text-base font-bold text-slate-900 tracking-tight">
+          <h3 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white tracking-tight">
             {productName} Rate Trend (PKR / Litre)
-          </h4>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Verified official revision curve from authorized publications
+          </h3>
+          <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+            Verified official revision curve from authorized government publications
           </p>
         </div>
-        <div className="inline-flex items-center gap-2 text-xs font-semibold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200/60">
-          <span className="w-2 h-2 rounded-full bg-emerald-600" />
-          <span>Verified Government Revisions</span>
+        <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/80 px-4 py-1.5 rounded-full border border-emerald-200 dark:border-emerald-800 self-start sm:self-auto">
+          <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse" />
+          <span>Official Notified Curve</span>
         </div>
       </div>
 
-      <div className="h-64 sm:h-72 w-full">
+      <div className="h-72 sm:h-80 w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={chartData} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+          <LineChart data={chartData} margin={{ top: 10, right: 15, left: -10, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" className="dark:stroke-slate-800" vertical={false} />
             <XAxis
               dataKey="date"
               stroke="#64748b"
-              fontSize={11}
+              fontSize={13}
+              fontWeight={700}
               tickLine={false}
               axisLine={{ stroke: '#cbd5e1' }}
             />
             <YAxis
               domain={[minPrice, maxPrice]}
               stroke="#64748b"
-              fontSize={11}
+              fontSize={13}
+              fontWeight={700}
               tickLine={false}
               axisLine={false}
               tickFormatter={val => `Rs. ${val}`}
@@ -79,10 +81,10 @@ export function PriceChart({ records, productName = 'Fuel' }: PriceChartProps) {
                 if (active && payload && payload.length) {
                   const data = payload[0].payload;
                   return (
-                    <div className="bg-slate-900 text-white text-xs rounded-xl shadow-lg p-3 border border-slate-800">
-                      <p className="font-bold text-emerald-400">{data.date}</p>
-                      <p className="text-sm font-black mt-1">Rs. {Number(data.price).toFixed(2)} / L</p>
-                      <p className="text-[10px] text-slate-400 mt-0.5">{data.identifier}</p>
+                    <div className="bg-slate-950 dark:bg-slate-800 text-white text-sm rounded-2xl shadow-xl p-4 border border-slate-800 dark:border-slate-700">
+                      <p className="font-extrabold text-emerald-400">{data.date}</p>
+                      <p className="text-lg font-black mt-1">Rs. {Number(data.price).toFixed(2)} / L</p>
+                      <p className="text-xs text-slate-400 mt-0.5">{data.identifier}</p>
                     </div>
                   );
                 }
@@ -92,10 +94,10 @@ export function PriceChart({ records, productName = 'Fuel' }: PriceChartProps) {
             <Line
               type="monotone"
               dataKey="price"
-              stroke="#047857"
-              strokeWidth={3}
-              dot={{ r: 4, fill: '#047857', stroke: '#ffffff', strokeWidth: 2 }}
-              activeDot={{ r: 6, fill: '#065f46', stroke: '#ffffff', strokeWidth: 2 }}
+              stroke="#059669"
+              strokeWidth={3.5}
+              dot={{ r: 5, fill: '#059669', stroke: '#ffffff', strokeWidth: 2.5 }}
+              activeDot={{ r: 8, fill: '#047857', stroke: '#ffffff', strokeWidth: 3 }}
             />
           </LineChart>
         </ResponsiveContainer>

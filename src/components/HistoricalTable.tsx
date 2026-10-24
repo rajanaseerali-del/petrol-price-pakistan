@@ -10,27 +10,27 @@ interface HistoricalTableProps {
 export function HistoricalTable({ records, showProductColumn = false }: HistoricalTableProps) {
   if (!records || records.length === 0) {
     return (
-      <div className="bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-500 text-sm">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-8 text-center text-slate-500 dark:text-slate-400 text-base font-bold">
         No verified historical records found for this selection.
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden">
+    <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/90 dark:border-slate-800 shadow-sm overflow-hidden transition-colors">
       <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse text-xs sm:text-sm">
+        <table className="w-full text-left border-collapse text-sm sm:text-base">
           <thead>
-            <tr className="bg-slate-50/80 border-b border-slate-200 text-slate-600 font-bold uppercase tracking-wider text-[11px]">
-              {showProductColumn && <th className="py-3 px-4">Fuel Product</th>}
-              <th className="py-3 px-4">Effective Date</th>
-              <th className="py-3 px-4">Price (PKR / Litre)</th>
-              <th className="py-3 px-4">Price Revision</th>
-              <th className="py-3 px-4">Verification Source</th>
-              <th className="py-3 px-4">Status</th>
+            <tr className="bg-slate-100/90 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 font-black uppercase tracking-wider text-xs sm:text-sm">
+              {showProductColumn && <th className="py-4 px-5">Fuel Product</th>}
+              <th className="py-4 px-5">Effective Date</th>
+              <th className="py-4 px-5">Price (PKR / Unit)</th>
+              <th className="py-4 px-5">Price Revision</th>
+              <th className="py-4 px-5">Source Authority</th>
+              <th className="py-4 px-5">Verification</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 font-normal text-slate-800">
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-800 font-medium text-slate-800 dark:text-slate-200">
             {records.map(record => {
               const change = VerificationEngine.calculateChange(record.pricePaisa, record.previousPricePaisa);
               const formattedDate = new Intl.DateTimeFormat('en-PK', {
@@ -39,45 +39,49 @@ export function HistoricalTable({ records, showProductColumn = false }: Historic
               }).format(new Date(record.effectiveStart));
 
               return (
-                <tr key={record.id} className="hover:bg-slate-50/60 transition">
+                <tr key={record.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
                   {showProductColumn && (
-                    <td className="py-3.5 px-4 font-bold text-slate-900 capitalize">
+                    <td className="py-4 px-5 font-black text-slate-950 dark:text-white capitalize">
                       {record.productId}
                     </td>
                   )}
-                  <td className="py-3.5 px-4 font-semibold text-slate-900">
+                  <td className="py-4 px-5 font-bold text-slate-900 dark:text-white whitespace-nowrap">
                     {formattedDate}
                   </td>
-                  <td className="py-3.5 px-4 font-bold text-slate-900">
+                  <td className="py-4 px-5 font-black text-emerald-800 dark:text-emerald-400 whitespace-nowrap">
                     Rs. {record.pricePkr.toFixed(2)}
                   </td>
-                  <td className="py-3.5 px-4">
+                  <td className="py-4 px-5 whitespace-nowrap">
                     {change.direction === 'INCREASE' && (
-                      <span className="text-rose-700 font-bold">
-                        ▲ +Rs. {change.changePkr.toFixed(2)}
+                      <span className="inline-flex items-center gap-1 text-sm font-black text-rose-700 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/70 border border-rose-200 dark:border-rose-900 px-3 py-1 rounded-xl">
+                        <span>▲</span>
+                        <span>+Rs. {change.changePkr.toFixed(2)} ({change.percentage}%)</span>
                       </span>
                     )}
                     {change.direction === 'DECREASE' && (
-                      <span className="text-emerald-700 font-bold">
-                        ▼ -Rs. {Math.abs(change.changePkr).toFixed(2)}
+                      <span className="inline-flex items-center gap-1 text-sm font-black text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/70 border border-emerald-200 dark:border-emerald-800 px-3 py-1 rounded-xl">
+                        <span>▼</span>
+                        <span>-Rs. {Math.abs(change.changePkr).toFixed(2)} ({Math.abs(change.percentage)}%)</span>
                       </span>
                     )}
                     {change.direction === 'UNCHANGED' && (
-                      <span className="text-slate-400">Unchanged</span>
+                      <span className="inline-flex items-center text-sm font-bold text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-xl">
+                        Unchanged
+                      </span>
                     )}
                   </td>
-                  <td className="py-3.5 px-4">
+                  <td className="py-4 px-5">
                     <a
                       href={record.sourceUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-emerald-700 hover:text-emerald-900 underline font-medium truncate inline-block max-w-[150px]"
+                      className="text-emerald-700 dark:text-emerald-400 hover:underline font-bold truncate inline-block max-w-[180px]"
                     >
-                      {record.notificationIdentifier || record.sourceType}
+                      {record.notificationIdentifier || (record.sourceType === 'OGRA_NOTIFIED' ? 'OGRA Circular' : record.sourceType === 'PSO_OFFICIAL' ? 'PSO Official' : 'Official Gazette')} ↗
                     </a>
                   </td>
-                  <td className="py-3.5 px-4">
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                  <td className="py-4 px-5">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
                       ✓ {record.verificationStatus}
                     </span>
                   </td>

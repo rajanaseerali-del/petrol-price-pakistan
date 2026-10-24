@@ -56,8 +56,6 @@ export function TankFillCalculator({
   const [currentLevel, setCurrentLevel] = useState<number>(0); // 0 = empty, 0.25 = 1/4, 0.5 = 1/2, 0.75 = 3/4
   const [fuelType, setFuelType] = useState<'petrol' | 'diesel' | 'hi-octane'>('petrol');
 
-  const selectedPreset = PAKISTAN_TANK_PRESETS.find(p => p.id === selectedTankId);
-
   const handlePresetChange = (presetId: string) => {
     setSelectedTankId(presetId);
     const p = PAKISTAN_TANK_PRESETS.find(item => item.id === presetId);
@@ -86,17 +84,17 @@ export function TankFillCalculator({
   const refillCost = litresToFill * activeRate;
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/90 dark:border-slate-800 shadow-md p-6 sm:p-8 max-w-4xl mx-auto transition-colors">
+    <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/90 dark:border-slate-800 shadow-xl p-7 sm:p-10 max-w-5xl mx-auto transition-colors">
       {/* Header */}
-      <div className="border-b border-slate-100 dark:border-slate-800 pb-5 mb-6">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/60 text-emerald-800 dark:text-emerald-300 text-xs font-bold tracking-wide mb-2">
-          <span>⛽ Tank Full Cost Tool</span>
+      <div className="border-b border-slate-200 dark:border-slate-800 pb-6 mb-8">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs sm:text-sm font-black tracking-wide mb-3">
+          <span>⛽ Vehicle Tank Estimator</span>
         </div>
-        <h3 className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white tracking-tight">
+        <h2 className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
           Fuel Tank Fill-Up Cost Calculator
-        </h3>
-        <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 mt-1.5 leading-relaxed">
-          Quickly calculate how many rupees you need to completely fill up or top-off your bike, car, or SUV in Pakistan at today&apos;s verified rates.
+        </h2>
+        <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
+          Calculate the exact cost to completely fill up or top-off your vehicle in Pakistan based on today&apos;s verified OGRA fuel rates.
         </p>
       </div>
 
@@ -105,28 +103,28 @@ export function TankFillCalculator({
         <div className="lg:col-span-7 space-y-6">
           {/* Preset Selector */}
           <div>
-            <label htmlFor="tank-preset-select" className="block text-xs sm:text-sm font-extrabold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-2">
-              Select Your Vehicle Preset
+            <label htmlFor="tank-preset-select" className="block text-sm sm:text-base font-black text-slate-900 dark:text-white uppercase tracking-wider mb-2">
+              Select Vehicle Model
             </label>
             <div className="relative">
               <select
                 id="tank-preset-select"
                 value={selectedTankId}
                 onChange={e => handlePresetChange(e.target.value)}
-                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:bg-white dark:focus:bg-slate-900 focus:outline-hidden focus:ring-2 focus:ring-emerald-500 text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 transition appearance-none cursor-pointer"
+                className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl focus:bg-white dark:focus:bg-slate-900 focus:outline-hidden focus:border-emerald-600 text-base sm:text-lg font-bold text-slate-900 dark:text-white transition appearance-none cursor-pointer"
               >
                 {Array.from(new Set(PAKISTAN_TANK_PRESETS.map(p => p.category))).map(category => (
-                  <optgroup key={category} label={category} className="font-extrabold text-slate-800 dark:text-slate-200">
+                  <optgroup key={category} label={category} className="font-extrabold text-slate-900 dark:text-white">
                     {PAKISTAN_TANK_PRESETS.filter(p => p.category === category).map(p => (
-                      <option key={p.id} value={p.id} className="font-medium">
+                      <option key={p.id} value={p.id} className="font-medium text-slate-900 dark:text-slate-100">
                         {p.name}
                       </option>
                     ))}
                   </optgroup>
                 ))}
               </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
-                <svg className="w-5 h-5 fill-current" viewBox="0 0 20 20">
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-slate-500">
+                <svg className="w-6 h-6 fill-current" viewBox="0 0 20 20">
                   <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
                 </svg>
               </div>
@@ -135,54 +133,54 @@ export function TankFillCalculator({
 
           {/* Fuel Type Selector */}
           <div>
-            <label className="block text-xs sm:text-sm font-extrabold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-2">
+            <label className="block text-sm sm:text-base font-black text-slate-900 dark:text-white uppercase tracking-wider mb-2">
               Fuel Type
             </label>
-            <div className="grid grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-3 gap-3">
               <button
                 type="button"
                 onClick={() => setFuelType('petrol')}
-                className={`py-3 px-3 rounded-2xl text-center border transition ${
+                className={`py-3.5 px-4 rounded-2xl text-center border-2 transition ${
                   fuelType === 'petrol'
-                    ? 'bg-emerald-800 text-white border-emerald-800 shadow-sm'
+                    ? 'bg-emerald-700 text-white border-emerald-700 shadow-md'
                     : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-750'
                 }`}
               >
-                <span className="block text-xs sm:text-sm font-bold">Petrol</span>
-                <span className="block text-[11px] font-semibold mt-0.5 opacity-90">Rs {petrolPrice.toFixed(2)}</span>
+                <span className="block text-base font-black">Petrol</span>
+                <span className="block text-xs sm:text-sm font-bold mt-1 opacity-90">Rs. {petrolPrice.toFixed(2)}</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setFuelType('diesel')}
-                className={`py-3 px-3 rounded-2xl text-center border transition ${
+                className={`py-3.5 px-4 rounded-2xl text-center border-2 transition ${
                   fuelType === 'diesel'
-                    ? 'bg-emerald-800 text-white border-emerald-800 shadow-sm'
+                    ? 'bg-emerald-700 text-white border-emerald-700 shadow-md'
                     : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-750'
                 }`}
               >
-                <span className="block text-xs sm:text-sm font-bold">Diesel</span>
-                <span className="block text-[11px] font-semibold mt-0.5 opacity-90">Rs {dieselPrice.toFixed(2)}</span>
+                <span className="block text-base font-black">Diesel</span>
+                <span className="block text-xs sm:text-sm font-bold mt-1 opacity-90">Rs. {dieselPrice.toFixed(2)}</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => setFuelType('hi-octane')}
-                className={`py-3 px-3 rounded-2xl text-center border transition ${
+                className={`py-3.5 px-4 rounded-2xl text-center border-2 transition ${
                   fuelType === 'hi-octane'
-                    ? 'bg-emerald-800 text-white border-emerald-800 shadow-sm'
+                    ? 'bg-emerald-700 text-white border-emerald-700 shadow-md'
                     : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-750'
                 }`}
               >
-                <span className="block text-xs sm:text-sm font-bold">Hi-Octane</span>
-                <span className="block text-[11px] font-semibold mt-0.5 opacity-90">Rs {hiOctanePrice.toFixed(2)}</span>
+                <span className="block text-base font-black">Hi-Octane</span>
+                <span className="block text-xs sm:text-sm font-bold mt-1 opacity-90">Rs. {hiOctanePrice.toFixed(2)}</span>
               </button>
             </div>
           </div>
 
           {/* Tank Capacity Input */}
           <div>
-            <label htmlFor="tank-capacity-input" className="block text-xs sm:text-sm font-extrabold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-2">
+            <label htmlFor="tank-capacity-input" className="block text-sm sm:text-base font-black text-slate-900 dark:text-white uppercase tracking-wider mb-2">
               Total Tank Capacity (Litres)
             </label>
             <div className="relative">
@@ -193,32 +191,46 @@ export function TankFillCalculator({
                 step="0.5"
                 value={tankCapacity}
                 onChange={e => setTankCapacity(e.target.value === '' ? '' : Math.max(1, parseFloat(e.target.value)))}
-                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl focus:bg-white dark:focus:bg-slate-900 focus:outline-hidden focus:ring-2 focus:ring-emerald-500 text-base font-bold text-slate-900 dark:text-slate-100 transition"
+                className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl focus:bg-white dark:focus:bg-slate-900 focus:outline-hidden focus:border-emerald-600 text-lg sm:text-xl font-black text-slate-950 dark:text-white transition"
               />
-              <span className="absolute right-4 top-3 text-xs text-slate-400 font-extrabold uppercase">Litres</span>
+              <span className="absolute right-5 top-4 text-sm font-black text-slate-400 uppercase tracking-wider">Litres</span>
             </div>
           </div>
 
           {/* Current Fuel Gauge Level Selector */}
           <div>
-            <label className="block text-xs sm:text-sm font-extrabold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-2">
-              Current Fuel Level in Tank
-            </label>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="flex justify-between items-baseline mb-2">
+              <label className="block text-sm sm:text-base font-black text-slate-900 dark:text-white uppercase tracking-wider">
+                Current Fuel Level in Tank
+              </label>
+              <span className="text-sm font-bold text-emerald-700 dark:text-emerald-400">
+                Needs {fractionToFill * 100}% fuel
+              </span>
+            </div>
+
+            {/* Visual Gauge Progress Bar */}
+            <div className="w-full h-3 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden mb-3">
+              <div
+                className="h-full bg-gradient-to-r from-amber-500 via-emerald-500 to-emerald-600 transition-all duration-300"
+                style={{ width: `${currentLevel * 100}%` }}
+              />
+            </div>
+
+            <div className="grid grid-cols-4 gap-2.5">
               {[
                 { label: 'Empty (0%)', value: 0 },
                 { label: '1/4 Tank', value: 0.25 },
-                { label: 'Half Tank (1/2)', value: 0.5 },
+                { label: 'Half (50%)', value: 0.5 },
                 { label: '3/4 Tank', value: 0.75 },
               ].map(level => (
                 <button
                   key={level.label}
                   type="button"
                   onClick={() => setCurrentLevel(level.value)}
-                  className={`py-2 px-2 rounded-xl text-xs sm:text-sm font-bold border transition text-center ${
+                  className={`py-3 px-2 rounded-2xl text-xs sm:text-sm font-black border-2 transition text-center ${
                     currentLevel === level.value
-                      ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
-                      : 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                      ? 'bg-emerald-700 text-white border-emerald-700 shadow-sm'
+                      : 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700'
                   }`}
                 >
                   {level.label}
@@ -229,47 +241,48 @@ export function TankFillCalculator({
         </div>
 
         {/* Results Panel */}
-        <div className="lg:col-span-5 bg-gradient-to-b from-emerald-50 to-emerald-100/60 dark:from-slate-800/90 dark:to-slate-800/40 rounded-3xl border border-emerald-200/80 dark:border-slate-700 p-6 sm:p-7 space-y-6">
+        <div className="lg:col-span-5 bg-gradient-to-br from-emerald-50 via-emerald-100/60 to-emerald-200/40 dark:from-slate-800 dark:via-slate-800/90 dark:to-emerald-950/40 rounded-3xl border-2 border-emerald-300 dark:border-slate-700 p-7 sm:p-8 space-y-6 shadow-md">
           <div>
-            <span className="text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-400 block mb-1">
-              {currentLevel === 0 ? 'Full Tank Cost' : 'Top-Up / Refill Cost'}
+            <span className="text-xs sm:text-sm font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-400 block mb-2">
+              {currentLevel === 0 ? 'Full Tank Fill-Up Cost' : 'Top-Off Refill Cost'}
             </span>
-            <div className="flex items-baseline gap-2">
-              <span className="text-2xl sm:text-3xl font-extrabold text-slate-950 dark:text-white">Rs</span>
-              <span className="text-4xl sm:text-5xl font-black text-slate-950 dark:text-white tracking-tight">
+            <div className="flex flex-wrap items-baseline gap-2">
+              <span className="text-2xl sm:text-3xl font-black text-slate-600 dark:text-slate-400">Rs.</span>
+              <span className="text-5xl sm:text-6xl font-black text-slate-950 dark:text-white tracking-tight">
                 {Math.round(refillCost).toLocaleString('en-PK')}
               </span>
+              <span className="text-base font-bold text-slate-600 dark:text-slate-400">PKR</span>
             </div>
-            <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
-              Required to fill <strong className="text-slate-900 dark:text-white">{litresToFill.toFixed(1)} Litres</strong> from {currentLevel * 100}% to 100% full.
+            <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 mt-2 font-medium leading-relaxed">
+              Required to pump <strong className="text-emerald-800 dark:text-emerald-300 font-black">{litresToFill.toFixed(1)} Litres</strong> to reach 100% capacity.
             </p>
           </div>
 
-          <div className="space-y-3 pt-2 border-t border-emerald-200/60 dark:border-slate-700">
-            <div className="flex justify-between items-center text-xs sm:text-sm">
-              <span className="text-slate-600 dark:text-slate-400 font-medium">Full Tank Total (0 to 100%):</span>
-              <span className="font-extrabold text-slate-900 dark:text-white">
-                Rs {Math.round(fullTankTotalCost).toLocaleString('en-PK')}
+          <div className="space-y-3.5 pt-4 border-t border-emerald-200/80 dark:border-slate-700 text-sm sm:text-base">
+            <div className="flex justify-between items-center">
+              <span className="text-slate-600 dark:text-slate-400 font-semibold">0 to 100% Full Tank:</span>
+              <span className="font-black text-slate-950 dark:text-white text-base sm:text-lg">
+                Rs. {Math.round(fullTankTotalCost).toLocaleString('en-PK')}
               </span>
             </div>
 
-            <div className="flex justify-between items-center text-xs sm:text-sm">
-              <span className="text-slate-600 dark:text-slate-400 font-medium">Price per Litre:</span>
-              <span className="font-extrabold text-emerald-800 dark:text-emerald-400">
-                Rs {activeRate.toFixed(2)}
+            <div className="flex justify-between items-center">
+              <span className="text-slate-600 dark:text-slate-400 font-semibold">Price per Litre:</span>
+              <span className="font-black text-emerald-800 dark:text-emerald-400 text-base sm:text-lg">
+                Rs. {activeRate.toFixed(2)}
               </span>
             </div>
 
-            <div className="flex justify-between items-center text-xs sm:text-sm">
-              <span className="text-slate-600 dark:text-slate-400 font-medium">Selected Fuel:</span>
-              <span className="font-bold text-slate-900 dark:text-white capitalize">
+            <div className="flex justify-between items-center">
+              <span className="text-slate-600 dark:text-slate-400 font-semibold">Selected Fuel:</span>
+              <span className="font-black text-slate-950 dark:text-white capitalize">
                 {fuelType === 'hi-octane' ? 'Hi-Octane (RON 97)' : fuelType}
               </span>
             </div>
           </div>
 
-          <div className="bg-white/80 dark:bg-slate-900/80 rounded-2xl p-4 border border-emerald-100 dark:border-slate-700/60 text-xs text-slate-600 dark:text-slate-400 font-mono leading-relaxed">
-            {litresToFill.toFixed(1)} L × Rs {activeRate.toFixed(2)} = Rs {Math.round(refillCost).toLocaleString('en-PK')}
+          <div className="bg-white/90 dark:bg-slate-900/90 rounded-2xl p-4 border border-emerald-200 dark:border-slate-700 text-sm font-mono font-bold text-slate-800 dark:text-slate-200 leading-relaxed shadow-inner">
+            {litresToFill.toFixed(1)} L × Rs. {activeRate.toFixed(2)} = Rs. {Math.round(refillCost).toLocaleString('en-PK')}
           </div>
         </div>
       </div>

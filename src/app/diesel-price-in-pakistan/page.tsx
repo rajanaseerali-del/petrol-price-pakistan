@@ -28,33 +28,33 @@ export default async function DieselPage() {
   const hiOctaneRate = latestPrices['hi-octane']?.pricePkr ?? 415.00;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-14 space-y-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16">
       {/* Breadcrumb */}
-      <nav className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
+      <nav className="text-sm font-semibold text-slate-500 dark:text-slate-400">
         <ol className="flex items-center space-x-2">
           <li>
             <Link href="/" className="hover:text-emerald-700 dark:hover:text-emerald-400">Home</Link>
           </li>
           <li>/</li>
-          <li className="text-slate-900 dark:text-white font-bold">Diesel Price in Pakistan</li>
+          <li className="text-slate-900 dark:text-white font-black">Diesel Price in Pakistan</li>
         </ol>
       </nav>
 
       <div className="space-y-4 max-w-4xl">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-300 text-xs font-black tracking-wide">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-300 text-xs sm:text-sm font-black tracking-wide">
           <span>● High-Speed Diesel (HSD)</span>
         </div>
-        <h1 className="text-3xl sm:text-5xl font-black text-slate-950 dark:text-white tracking-tight">
+        <h1 className="text-4xl sm:text-6xl font-black text-slate-950 dark:text-white tracking-tight">
           High-Speed Diesel Price in Pakistan Today
         </h1>
-        <p className="text-base text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed font-normal">
+        <p className="text-lg sm:text-xl text-slate-700 dark:text-slate-300 max-w-3xl leading-relaxed font-normal">
           High-Speed Diesel (HSD) is the primary fuel powering heavy logistics, public transit, and agriculture in Pakistan. Rates are strictly regulated by the Oil &amp; Gas Regulatory Authority (OGRA).
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         <div className="lg:col-span-5">
-          <PriceCard product={diesel} record={currentPrice} featured={true} />
+          <PriceCard product={diesel} record={currentPrice} featured={false} />
         </div>
         <div className="lg:col-span-7">
           <PriceChart records={dieselHistory} productName="High-Speed Diesel (HSD)" />
@@ -64,12 +64,12 @@ export default async function DieselPage() {
       <AdPlacement slotId="diesel-page-mid" format="banner" />
 
       {/* Tank Fill-up cost calculator for diesel */}
-      <section className="space-y-4">
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-3">
-          <h2 className="text-2xl font-black text-slate-950 dark:text-white tracking-tight">
+      <section className="space-y-6">
+        <div className="border-b border-slate-200 dark:border-slate-800 pb-4">
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
             Calculate Commercial &amp; SUV Diesel Tank Fill-Up Cost
           </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-base text-slate-600 dark:text-slate-400 mt-1.5">
             Compute exact diesel fill-up expenses for Hilux Revo, HiAce, Fortuner, and commercial fleets.
           </p>
         </div>
@@ -81,12 +81,12 @@ export default async function DieselPage() {
       </section>
 
       {/* Historical revisions */}
-      <section className="space-y-4">
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-3">
-          <h2 className="text-2xl font-black text-slate-950 dark:text-white tracking-tight">
+      <section className="space-y-6">
+        <div className="border-b border-slate-200 dark:border-slate-800 pb-4">
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
             Official Diesel Price Revisions Archive (2026)
           </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-base text-slate-600 dark:text-slate-400 mt-1.5">
             Fortnightly regulatory decisions notified by the Federal Ministry of Energy.
           </p>
         </div>
@@ -94,12 +94,12 @@ export default async function DieselPage() {
       </section>
 
       {/* Calculator */}
-      <section className="space-y-4">
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-3">
-          <h2 className="text-2xl font-black text-slate-950 dark:text-white tracking-tight">
+      <section className="space-y-6">
+        <div className="border-b border-slate-200 dark:border-slate-800 pb-4">
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
             Commercial &amp; Freight Diesel Calculator
           </h2>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <p className="text-base text-slate-600 dark:text-slate-400 mt-1.5">
             Distance and fleet fuel consumption estimator.
           </p>
         </div>
