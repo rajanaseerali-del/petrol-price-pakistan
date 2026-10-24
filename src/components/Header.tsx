@@ -2,10 +2,12 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   const navLinks = [
     { href: '/', label: "Today's Rates" },
@@ -16,6 +18,16 @@ export function Header() {
     { href: '/petrol-calculator', label: 'Calculator' },
     { href: '/petrol-price-by-city', label: 'By City' },
   ];
+
+  const isLinkActive = (href: string) => {
+    if (href === '/') {
+      return pathname === '/';
+    }
+    if (href === '/petrol-price-history') {
+      return pathname === '/petrol-price-history' || pathname === '/diesel-price-history';
+    }
+    return pathname === href;
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-xs transition-colors">
@@ -29,7 +41,14 @@ export function Header() {
           <div className="flex items-center gap-2.5 text-emerald-200 text-xs font-medium">
             <span>October 2026 Notification</span>
             <span className="text-emerald-500">|</span>
-            <Link href="/methodology" className="hover:text-white underline decoration-emerald-400/50">
+            <Link
+              href="/methodology"
+              className={`transition ${
+                pathname === '/methodology'
+                  ? 'text-white font-black bg-emerald-800 px-2 py-0.5 rounded-md'
+                  : 'hover:text-white underline decoration-emerald-400/50'
+              }`}
+            >
               Methodology
             </Link>
           </div>
@@ -56,24 +75,35 @@ export function Header() {
             </Link>
           </div>
 
-          {/* Desktop Nav Links */}
+          {/* Desktop Nav Links with ACTIVE page highlight */}
           <nav className="hidden lg:flex items-center space-x-1">
-            {navLinks.map(link => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="px-3 py-1.5 rounded-lg text-sm font-bold text-slate-700 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 transition"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map(link => {
+              const active = isLinkActive(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`px-3 py-1.5 rounded-lg text-sm transition select-none ${
+                    active
+                      ? 'bg-emerald-600 text-white shadow-xs font-black ring-1 ring-emerald-500/50 dark:bg-emerald-600 dark:text-white'
+                      : 'text-slate-700 dark:text-slate-200 font-bold hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Right controls */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <Link
               href="/petrol-calculator"
-              className="hidden xl:inline-flex items-center justify-center px-3 py-1.5 border border-emerald-600/30 dark:border-emerald-500/30 text-xs font-black rounded-lg text-emerald-900 dark:text-emerald-200 bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 transition"
+              className={`hidden xl:inline-flex items-center justify-center px-3 py-1.5 border text-xs rounded-lg transition ${
+                pathname === '/petrol-calculator'
+                  ? 'bg-emerald-600 text-white font-black border-emerald-600 shadow-xs ring-1 ring-emerald-500/50'
+                  : 'border-emerald-600/30 dark:border-emerald-500/30 font-bold text-emerald-900 dark:text-emerald-200 bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60'
+              }`}
             >
               Fill-Up Tool
             </Link>
@@ -100,19 +130,26 @@ export function Header() {
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer */}
+        {/* Mobile Navigation Drawer with ACTIVE page highlight */}
         {mobileMenuOpen && (
           <div className="lg:hidden py-3 border-t border-slate-200 dark:border-slate-800 space-y-1 animate-fadeIn">
-            {navLinks.map(link => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-lg text-sm font-bold text-slate-800 dark:text-slate-200 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:text-emerald-700 dark:hover:text-emerald-400 transition"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map(link => {
+              const active = isLinkActive(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block px-3 py-2 rounded-lg text-sm transition ${
+                    active
+                      ? 'bg-emerald-600 text-white font-black ring-1 ring-emerald-500/50'
+                      : 'text-slate-800 dark:text-slate-200 font-bold hover:bg-emerald-50 dark:hover:bg-slate-800 hover:text-emerald-700 dark:hover:text-emerald-400'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
             <div className="pt-2">
               <Link
                 href="/petrol-calculator"

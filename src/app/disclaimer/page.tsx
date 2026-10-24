@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Official Disclaimer | Petrol Price Pakistan',
@@ -7,11 +8,29 @@ export const metadata: Metadata = {
 
 export default function DisclaimerPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-6">
-      <h1 className="text-3xl font-black text-slate-950 tracking-tight">Legal Disclaimer</h1>
-      <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs space-y-4 text-xs sm:text-sm text-slate-600 leading-relaxed">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
+      <nav className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
+        <ol className="flex items-center space-x-2">
+          <li>
+            <Link href="/" className="hover:text-emerald-700 dark:hover:text-emerald-400">Home</Link>
+          </li>
+          <li>/</li>
+          <li className="text-slate-900 dark:text-white font-bold">Disclaimer</li>
+        </ol>
+      </nav>
+
+      <div className="space-y-3">
+        <h1 className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
+          Legal Disclaimer
+        </h1>
+        <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
+          Statutory information and data calculation notices.
+        </p>
+      </div>
+
+      <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-4 text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed transition-colors">
         <p>
-          Petrol Price Pakistan is an independent informational service. We are not an official arm of the Government of Pakistan, OGRA, or any Oil Marketing Company.
+          <strong className="text-slate-900 dark:text-white">Petrol Price Pakistan</strong> is an independent informational service. We are not an official arm of the Government of Pakistan, OGRA, or any Oil Marketing Company.
         </p>
         <p>
           While we exercise extreme care to reflect official gazette notifications accurately, users and commercial entities must always refer to official gazette notices published by the Finance Division and OGRA for statutory compliance.
