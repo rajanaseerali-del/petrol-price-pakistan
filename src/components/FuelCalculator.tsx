@@ -61,7 +61,7 @@ export const POPULAR_PAKISTAN_VEHICLES: VehiclePreset[] = [
     category: 'Sedans',
     defaultFuel: 'petrol',
     mileageKmPerLitre: 13,
-    description: 'Costed at 13 km/L — a typical real-world average for the Toyota Corolla GLi 1.3, not the brochure claim.',
+    description: 'Costed at 13 km/L — a typical real-world average for the Toyota Corolla GLi 1.3, not brochure claim.',
   },
   {
     id: 'corolla_16_18',
@@ -98,7 +98,7 @@ export const POPULAR_PAKISTAN_VEHICLES: VehiclePreset[] = [
   // SUVs & Pickups
   {
     id: 'sportage',
-    name: 'KIA Sportage / Hyundai Tucson — 10.5 km/L',
+    name: 'KIA Sportage / Tucson — 10.5 km/L',
     category: 'SUVs & Pickups',
     defaultFuel: 'petrol',
     mileageKmPerLitre: 10.5,
@@ -142,30 +142,23 @@ export function FuelCalculator({
   initialDieselPrice = 389.80,
   initialHiOctanePrice = 415.00,
 }: FuelCalculatorProps) {
-  // Mode selection: by_car | by_distance | by_litres
   const [mode, setMode] = useState<'by_car' | 'by_distance' | 'by_litres'>('by_car');
-
-  // Shared fuel type state
   const [fuelType, setFuelType] = useState<'petrol' | 'diesel' | 'hi-octane'>('petrol');
 
-  // Mode 1: By Car state
   const [carDistanceKm, setCarDistanceKm] = useState<number | ''>(100);
   const [selectedVehicleId, setSelectedVehicleId] = useState<string>('alto');
   const [carIsReturnTrip, setCarIsReturnTrip] = useState<boolean>(false);
 
-  // Mode 2: By Distance state
   const [distanceKm, setDistanceKm] = useState<number | ''>(100);
   const [mileageKmPerLitre, setMileageKmPerLitre] = useState<number | ''>(14);
   const [distanceIsReturnTrip, setDistanceIsReturnTrip] = useState<boolean>(false);
 
-  // Mode 3: By Litres state
   const [litresInput, setLitresInput] = useState<number | ''>(20);
 
   const selectedVehicle =
     POPULAR_PAKISTAN_VEHICLES.find(v => v.id === selectedVehicleId) ||
-    POPULAR_PAKISTAN_VEHICLES[2]; // Default to Alto
+    POPULAR_PAKISTAN_VEHICLES[2];
 
-  // Handle vehicle preset change (auto update fuel type)
   const handleVehicleChange = (vehicleId: string) => {
     setSelectedVehicleId(vehicleId);
     const vehicle = POPULAR_PAKISTAN_VEHICLES.find(v => v.id === vehicleId);
@@ -174,7 +167,6 @@ export function FuelCalculator({
     }
   };
 
-  // Determine current active per-litre rate
   const getCurrentRate = () => {
     switch (fuelType) {
       case 'petrol':
@@ -188,14 +180,12 @@ export function FuelCalculator({
 
   const currentRate = getCurrentRate();
 
-  // Calculations for Mode 1: By Car
   const validCarDistance = typeof carDistanceKm === 'number' && carDistanceKm > 0 ? carDistanceKm : 0;
   const effectiveCarDistance = carIsReturnTrip ? validCarDistance * 2 : validCarDistance;
   const carLitresNeeded = selectedVehicle.mileageKmPerLitre > 0 ? effectiveCarDistance / selectedVehicle.mileageKmPerLitre : 0;
   const carTotalCost = carLitresNeeded * currentRate;
   const carCostPerKm = effectiveCarDistance > 0 ? carTotalCost / effectiveCarDistance : 0;
 
-  // Calculations for Mode 2: By Distance
   const validDistance = typeof distanceKm === 'number' && distanceKm > 0 ? distanceKm : 0;
   const effectiveDistance = distanceIsReturnTrip ? validDistance * 2 : validDistance;
   const validMileage = typeof mileageKmPerLitre === 'number' && mileageKmPerLitre > 0 ? mileageKmPerLitre : 1;
@@ -203,33 +193,32 @@ export function FuelCalculator({
   const distanceTotalCost = distanceLitresNeeded * currentRate;
   const distanceCostPerKm = effectiveDistance > 0 ? distanceTotalCost / effectiveDistance : 0;
 
-  // Calculations for Mode 3: By Litres
   const validLitres = typeof litresInput === 'number' && litresInput > 0 ? litresInput : 0;
   const litresTotalCost = validLitres * currentRate;
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-3xl border-2 border-slate-200 dark:border-slate-800 shadow-xl p-7 sm:p-10 max-w-4xl mx-auto transition-colors">
+    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md p-5 sm:p-7 max-w-4xl mx-auto transition-colors">
       {/* Title */}
-      <div className="border-b-2 border-slate-200 dark:border-slate-800 pb-6 mb-8">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-emerald-50 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-sm font-black tracking-wide mb-3">
+      <div className="border-b border-slate-200 dark:border-slate-800 pb-4 mb-5">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs font-bold tracking-wide mb-2">
           <span>⚡ Fuel Trip Calculator</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 dark:text-white tracking-tight">
+        <h2 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white tracking-tight">
           What Your Trip Costs At Today&apos;s Rate
         </h2>
-        <p className="text-lg sm:text-xl text-slate-700 dark:text-slate-300 mt-3 leading-relaxed">
+        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1">
           Estimate precise fuel expenses by vehicle model, custom distance, or exact litres pumped.
         </p>
       </div>
 
-      {/* 3 MODE TABS: By car | By distance | By litres */}
-      <div className="grid grid-cols-3 gap-2.5 p-2 bg-slate-100 dark:bg-slate-800 rounded-2xl mb-8 border border-slate-300 dark:border-slate-700">
+      {/* 3 MODE TABS */}
+      <div className="grid grid-cols-3 gap-2 p-1.5 bg-slate-100 dark:bg-slate-800 rounded-xl mb-5 border border-slate-200 dark:border-slate-700">
         <button
           type="button"
           onClick={() => setMode('by_car')}
-          className={`py-4 px-3 rounded-xl text-base sm:text-lg font-black transition text-center ${
+          className={`py-2 px-2 rounded-lg text-xs sm:text-sm font-bold transition text-center ${
             mode === 'by_car'
-              ? 'bg-white dark:bg-slate-900 text-emerald-800 dark:text-emerald-300 shadow-md border-2 border-emerald-500/40 dark:border-emerald-500/30'
+              ? 'bg-white dark:bg-slate-900 text-emerald-800 dark:text-emerald-300 shadow-xs border border-slate-200 dark:border-slate-700'
               : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white'
           }`}
         >
@@ -238,9 +227,9 @@ export function FuelCalculator({
         <button
           type="button"
           onClick={() => setMode('by_distance')}
-          className={`py-4 px-3 rounded-xl text-base sm:text-lg font-black transition text-center ${
+          className={`py-2 px-2 rounded-lg text-xs sm:text-sm font-bold transition text-center ${
             mode === 'by_distance'
-              ? 'bg-white dark:bg-slate-900 text-emerald-800 dark:text-emerald-300 shadow-md border-2 border-emerald-500/40 dark:border-emerald-500/30'
+              ? 'bg-white dark:bg-slate-900 text-emerald-800 dark:text-emerald-300 shadow-xs border border-slate-200 dark:border-slate-700'
               : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white'
           }`}
         >
@@ -249,9 +238,9 @@ export function FuelCalculator({
         <button
           type="button"
           onClick={() => setMode('by_litres')}
-          className={`py-4 px-3 rounded-xl text-base sm:text-lg font-black transition text-center ${
+          className={`py-2 px-2 rounded-lg text-xs sm:text-sm font-bold transition text-center ${
             mode === 'by_litres'
-              ? 'bg-white dark:bg-slate-900 text-emerald-800 dark:text-emerald-300 shadow-md border-2 border-emerald-500/40 dark:border-emerald-500/30'
+              ? 'bg-white dark:bg-slate-900 text-emerald-800 dark:text-emerald-300 shadow-xs border border-slate-200 dark:border-slate-700'
               : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white'
           }`}
         >
@@ -260,22 +249,22 @@ export function FuelCalculator({
       </div>
 
       {/* FUEL TYPE SELECTOR */}
-      <div className="mb-8">
-        <label className="block text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase tracking-wider mb-2.5">
+      <div className="mb-5">
+        <label className="block text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider mb-1.5">
           Select Fuel Type
         </label>
-        <div className="grid grid-cols-3 gap-3 sm:gap-4">
+        <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
           <button
             type="button"
             onClick={() => setFuelType('petrol')}
-            className={`py-4 px-3 sm:px-4 rounded-2xl text-center border-2 transition ${
+            className={`py-2 px-2 rounded-xl text-center border transition ${
               fuelType === 'petrol'
-                ? 'bg-emerald-700 text-white border-emerald-700 shadow-md ring-2 ring-emerald-500/30'
-                : 'bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-750'
+                ? 'bg-emerald-700 text-white border-emerald-700 shadow-xs'
+                : 'bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-100'
             }`}
           >
-            <span className="block text-lg font-black">Petrol</span>
-            <span className="block text-sm sm:text-base font-bold mt-1 opacity-90">
+            <span className="block text-sm font-black">Petrol</span>
+            <span className="block text-[11px] font-semibold mt-0.5 opacity-90">
               Rs. {initialPetrolPrice.toFixed(2)}
             </span>
           </button>
@@ -283,14 +272,14 @@ export function FuelCalculator({
           <button
             type="button"
             onClick={() => setFuelType('diesel')}
-            className={`py-4 px-3 sm:px-4 rounded-2xl text-center border-2 transition ${
+            className={`py-2 px-2 rounded-xl text-center border transition ${
               fuelType === 'diesel'
-                ? 'bg-emerald-700 text-white border-emerald-700 shadow-md ring-2 ring-emerald-500/30'
-                : 'bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-750'
+                ? 'bg-emerald-700 text-white border-emerald-700 shadow-xs'
+                : 'bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-100'
             }`}
           >
-            <span className="block text-lg font-black">Diesel</span>
-            <span className="block text-sm sm:text-base font-bold mt-1 opacity-90">
+            <span className="block text-sm font-black">Diesel</span>
+            <span className="block text-[11px] font-semibold mt-0.5 opacity-90">
               Rs. {initialDieselPrice.toFixed(2)}
             </span>
           </button>
@@ -298,28 +287,25 @@ export function FuelCalculator({
           <button
             type="button"
             onClick={() => setFuelType('hi-octane')}
-            className={`py-4 px-3 sm:px-4 rounded-2xl text-center border-2 transition ${
+            className={`py-2 px-2 rounded-xl text-center border transition ${
               fuelType === 'hi-octane'
-                ? 'bg-emerald-700 text-white border-emerald-700 shadow-md ring-2 ring-emerald-500/30'
-                : 'bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-750'
+                ? 'bg-emerald-700 text-white border-emerald-700 shadow-xs'
+                : 'bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-100'
             }`}
           >
-            <span className="block text-lg font-black">Hi-Octane</span>
-            <span className="block text-sm sm:text-base font-bold mt-1 opacity-90">
+            <span className="block text-sm font-black">Hi-Octane</span>
+            <span className="block text-[11px] font-semibold mt-0.5 opacity-90">
               Rs. {initialHiOctanePrice.toFixed(2)}
             </span>
           </button>
         </div>
       </div>
 
-      {/* ========================================================= */}
       {/* MODE 1: BY CAR TAB */}
-      {/* ========================================================= */}
       {mode === 'by_car' && (
-        <div className="space-y-7">
-          {/* DISTANCE (KM) */}
+        <div className="space-y-4">
           <div>
-            <label htmlFor="car-distance" className="block text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase tracking-wider mb-2.5">
+            <label htmlFor="car-distance" className="block text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider mb-1.5">
               Trip Distance (KM)
             </label>
             <input
@@ -328,14 +314,13 @@ export function FuelCalculator({
               min="1"
               value={carDistanceKm}
               onChange={e => setCarDistanceKm(e.target.value === '' ? '' : Math.max(0, parseFloat(e.target.value)))}
-              className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 rounded-2xl focus:bg-white dark:focus:bg-slate-900 focus:outline-hidden focus:border-emerald-600 text-xl font-black text-slate-950 dark:text-white transition"
+              className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl focus:bg-white dark:focus:bg-slate-900 focus:outline-hidden focus:border-emerald-600 text-base font-bold text-slate-950 dark:text-white transition"
               placeholder="100"
             />
           </div>
 
-          {/* YOUR VEHICLE DROPDOWN */}
           <div>
-            <label htmlFor="car-vehicle" className="block text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase tracking-wider mb-2.5">
+            <label htmlFor="car-vehicle" className="block text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider mb-1.5">
               Your Vehicle Model &amp; Mileage
             </label>
             <div className="relative">
@@ -343,93 +328,89 @@ export function FuelCalculator({
                 id="car-vehicle"
                 value={selectedVehicleId}
                 onChange={e => handleVehicleChange(e.target.value)}
-                className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 rounded-2xl focus:bg-white dark:focus:bg-slate-900 focus:outline-hidden focus:border-emerald-600 text-lg sm:text-xl font-bold text-slate-900 dark:text-white transition appearance-none cursor-pointer"
+                className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl focus:bg-white dark:focus:bg-slate-900 focus:outline-hidden focus:border-emerald-600 text-sm font-bold text-slate-900 dark:text-white transition appearance-none cursor-pointer"
               >
                 {Array.from(new Set(POPULAR_PAKISTAN_VEHICLES.map(v => v.category))).map(category => (
-                  <optgroup key={category} label={category} className="font-extrabold text-slate-900 dark:text-white">
+                  <optgroup key={category} label={category} className="font-bold text-slate-900 dark:text-white">
                     {POPULAR_PAKISTAN_VEHICLES.filter(v => v.category === category).map(v => (
-                      <option key={v.id} value={v.id} className="font-semibold text-slate-900 dark:text-slate-100">
+                      <option key={v.id} value={v.id} className="font-medium text-slate-900 dark:text-slate-100">
                         {v.name}
                       </option>
                     ))}
                   </optgroup>
                 ))}
               </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-slate-500">
-                <svg className="w-6 h-6 fill-current" viewBox="0 0 20 20">
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-slate-400">
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
                   <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
                 </svg>
               </div>
             </div>
-            <p className="text-base text-slate-700 dark:text-slate-300 mt-2.5 leading-relaxed font-medium">
+            <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
               {selectedVehicle.description}
             </p>
           </div>
 
-          {/* Return trip */}
-          <div className="flex items-center gap-3.5 pt-1">
+          <div className="flex items-center gap-2.5 pt-0.5">
             <input
               id="car-return-trip"
               type="checkbox"
               checked={carIsReturnTrip}
               onChange={e => setCarIsReturnTrip(e.target.checked)}
-              className="w-5 h-5 rounded-lg text-emerald-600 focus:ring-emerald-500 border-slate-300 dark:border-slate-700 cursor-pointer"
+              className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 dark:border-slate-700 cursor-pointer"
             />
-            <label htmlFor="car-return-trip" className="text-base sm:text-lg font-black text-slate-900 dark:text-slate-100 cursor-pointer select-none">
+            <label htmlFor="car-return-trip" className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 cursor-pointer select-none">
               Return trip (double the distance to {effectiveCarDistance} KM)
             </label>
           </div>
 
           {/* RESULTS CARD */}
-          <div className="bg-gradient-to-br from-emerald-50 via-emerald-100/70 to-emerald-200/50 dark:from-slate-800 dark:via-slate-800/90 dark:to-emerald-950/50 rounded-3xl border-2 border-emerald-400/80 dark:border-slate-700 p-7 sm:p-9 space-y-7 shadow-lg">
+          <div className="bg-gradient-to-br from-emerald-50 via-emerald-100/60 to-emerald-200/40 dark:from-slate-800 dark:via-slate-800/90 dark:to-emerald-950/40 rounded-2xl border border-emerald-300 dark:border-slate-700 p-5 space-y-4 shadow-xs">
             <div>
-              <span className="text-sm font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-300 block mb-2">
+              <span className="text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-300 block mb-1">
                 Estimated Trip Fuel Cost
               </span>
-              <div className="flex flex-wrap items-baseline gap-2.5">
-                <span className="text-3xl font-black text-slate-600 dark:text-slate-400">Rs.</span>
-                <span className="text-6xl sm:text-7xl font-black text-slate-950 dark:text-white tracking-tight">
+              <div className="flex flex-wrap items-baseline gap-1.5">
+                <span className="text-xl font-black text-slate-500 dark:text-slate-400">Rs.</span>
+                <span className="text-4xl sm:text-5xl font-black text-slate-950 dark:text-white tracking-tight">
                   {Math.round(carTotalCost).toLocaleString('en-PK')}
                 </span>
-                <span className="text-2xl font-black text-slate-600 dark:text-slate-400">PKR</span>
+                <span className="text-base font-bold text-slate-500 dark:text-slate-400">PKR</span>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 sm:gap-5">
-              <div className="bg-white/95 dark:bg-slate-900/95 p-5 sm:p-6 rounded-2xl border-2 border-emerald-200 dark:border-slate-700 shadow-sm">
-                <span className="text-xs sm:text-sm font-black text-slate-600 dark:text-slate-400 uppercase tracking-wider block">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-white/95 dark:bg-slate-900/95 p-3.5 rounded-xl border border-emerald-200 dark:border-slate-700 shadow-xs">
+                <span className="text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                   Fuel Needed
                 </span>
-                <span className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white mt-1.5 block">
+                <span className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white mt-0.5 block">
                   {carLitresNeeded.toFixed(1)} L
                 </span>
               </div>
 
-              <div className="bg-white/95 dark:bg-slate-900/95 p-5 sm:p-6 rounded-2xl border-2 border-emerald-200 dark:border-slate-700 shadow-sm">
-                <span className="text-xs sm:text-sm font-black text-slate-600 dark:text-slate-400 uppercase tracking-wider block">
+              <div className="bg-white/95 dark:bg-slate-900/95 p-3.5 rounded-xl border border-emerald-200 dark:border-slate-700 shadow-xs">
+                <span className="text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                   Cost Per KM
                 </span>
-                <span className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white mt-1.5 block">
+                <span className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white mt-0.5 block">
                   Rs. {carCostPerKm.toFixed(2)}
                 </span>
               </div>
             </div>
 
-            <div className="pt-3 text-base sm:text-lg text-slate-800 dark:text-slate-200 font-mono font-black leading-relaxed border-t-2 border-emerald-200 dark:border-slate-700">
+            <div className="pt-2 text-xs text-slate-700 dark:text-slate-300 font-mono font-bold leading-relaxed border-t border-emerald-200 dark:border-slate-700">
               {carLitresNeeded.toFixed(1)} L × Rs. {currentRate.toFixed(2)} · {effectiveCarDistance} KM · {selectedVehicle.name.split('—')[0].trim()}
             </div>
           </div>
         </div>
       )}
 
-      {/* ========================================================= */}
       {/* MODE 2: BY DISTANCE TAB */}
-      {/* ========================================================= */}
       {mode === 'by_distance' && (
-        <div className="space-y-7">
-          {/* DISTANCE (KM) */}
+        <div className="space-y-4">
           <div>
-            <label htmlFor="dist-km" className="block text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase tracking-wider mb-2.5">
+            <label htmlFor="dist-km" className="block text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider mb-1.5">
               Distance (KM)
             </label>
             <input
@@ -438,14 +419,13 @@ export function FuelCalculator({
               min="1"
               value={distanceKm}
               onChange={e => setDistanceKm(e.target.value === '' ? '' : Math.max(0, parseFloat(e.target.value)))}
-              className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 rounded-2xl focus:bg-white dark:focus:bg-slate-900 focus:outline-hidden focus:border-emerald-600 text-xl font-black text-slate-950 dark:text-white transition"
+              className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl focus:bg-white dark:focus:bg-slate-900 focus:outline-hidden focus:border-emerald-600 text-base font-bold text-slate-950 dark:text-white transition"
               placeholder="100"
             />
           </div>
 
-          {/* MILEAGE (KM PER LITRE) */}
           <div>
-            <label htmlFor="dist-mileage" className="block text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase tracking-wider mb-2.5">
+            <label htmlFor="dist-mileage" className="block text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider mb-1.5">
               Mileage (KM Per Litre)
             </label>
             <input
@@ -455,19 +435,18 @@ export function FuelCalculator({
               step="0.5"
               value={mileageKmPerLitre}
               onChange={e => setMileageKmPerLitre(e.target.value === '' ? '' : parseFloat(e.target.value))}
-              className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 rounded-2xl focus:bg-white dark:focus:bg-slate-900 focus:outline-hidden focus:border-emerald-600 text-xl font-black text-slate-950 dark:text-white transition"
+              className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl focus:bg-white dark:focus:bg-slate-900 focus:outline-hidden focus:border-emerald-600 text-base font-bold text-slate-950 dark:text-white transition"
               placeholder="14"
             />
 
-            {/* QUICK PRESET PILLS */}
-            <div className="flex flex-wrap gap-2.5 mt-3.5">
+            <div className="flex flex-wrap gap-2 mt-2">
               <button
                 type="button"
                 onClick={() => setMileageKmPerLitre(45)}
-                className={`text-sm sm:text-base px-4 py-2.5 rounded-xl font-black border-2 transition ${
+                className={`text-xs px-3 py-1.5 rounded-lg font-bold border transition ${
                   mileageKmPerLitre === 45
-                    ? 'bg-emerald-700 text-white border-emerald-700 shadow-sm'
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700'
+                    ? 'bg-emerald-700 text-white border-emerald-700 shadow-xs'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-700 hover:bg-slate-200'
                 }`}
               >
                 Bike · 45 km/L
@@ -475,10 +454,10 @@ export function FuelCalculator({
               <button
                 type="button"
                 onClick={() => setMileageKmPerLitre(14)}
-                className={`text-sm sm:text-base px-4 py-2.5 rounded-xl font-black border-2 transition ${
+                className={`text-xs px-3 py-1.5 rounded-lg font-bold border transition ${
                   mileageKmPerLitre === 14
-                    ? 'bg-emerald-700 text-white border-emerald-700 shadow-sm'
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700'
+                    ? 'bg-emerald-700 text-white border-emerald-700 shadow-xs'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-700 hover:bg-slate-200'
                 }`}
               >
                 Car · 14 km/L
@@ -486,10 +465,10 @@ export function FuelCalculator({
               <button
                 type="button"
                 onClick={() => setMileageKmPerLitre(9)}
-                className={`text-sm sm:text-base px-4 py-2.5 rounded-xl font-black border-2 transition ${
+                className={`text-xs px-3 py-1.5 rounded-lg font-bold border transition ${
                   mileageKmPerLitre === 9
-                    ? 'bg-emerald-700 text-white border-emerald-700 shadow-sm'
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700'
+                    ? 'bg-emerald-700 text-white border-emerald-700 shadow-xs'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-700 hover:bg-slate-200'
                 }`}
               >
                 SUV · 9 km/L
@@ -497,70 +476,66 @@ export function FuelCalculator({
             </div>
           </div>
 
-          {/* Return trip */}
-          <div className="flex items-center gap-3.5 pt-1">
+          <div className="flex items-center gap-2.5 pt-0.5">
             <input
               id="dist-return-trip"
               type="checkbox"
               checked={distanceIsReturnTrip}
               onChange={e => setDistanceIsReturnTrip(e.target.checked)}
-              className="w-5 h-5 rounded-lg text-emerald-600 focus:ring-emerald-500 border-slate-300 dark:border-slate-700 cursor-pointer"
+              className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 dark:border-slate-700 cursor-pointer"
             />
-            <label htmlFor="dist-return-trip" className="text-base sm:text-lg font-black text-slate-900 dark:text-slate-100 cursor-pointer select-none">
+            <label htmlFor="dist-return-trip" className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 cursor-pointer select-none">
               Return trip (double the distance to {effectiveDistance} KM)
             </label>
           </div>
 
           {/* RESULTS CARD */}
-          <div className="bg-gradient-to-br from-emerald-50 via-emerald-100/70 to-emerald-200/50 dark:from-slate-800 dark:via-slate-800/90 dark:to-emerald-950/50 rounded-3xl border-2 border-emerald-400/80 dark:border-slate-700 p-7 sm:p-9 space-y-7 shadow-lg">
+          <div className="bg-gradient-to-br from-emerald-50 via-emerald-100/60 to-emerald-200/40 dark:from-slate-800 dark:via-slate-800/90 dark:to-emerald-950/40 rounded-2xl border border-emerald-300 dark:border-slate-700 p-5 space-y-4 shadow-xs">
             <div>
-              <span className="text-sm font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-300 block mb-2">
+              <span className="text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-300 block mb-1">
                 Total Fuel Cost
               </span>
-              <div className="flex flex-wrap items-baseline gap-2.5">
-                <span className="text-3xl font-black text-slate-600 dark:text-slate-400">Rs.</span>
-                <span className="text-6xl sm:text-7xl font-black text-slate-950 dark:text-white tracking-tight">
+              <div className="flex flex-wrap items-baseline gap-1.5">
+                <span className="text-xl font-black text-slate-500 dark:text-slate-400">Rs.</span>
+                <span className="text-4xl sm:text-5xl font-black text-slate-950 dark:text-white tracking-tight">
                   {Math.round(distanceTotalCost).toLocaleString('en-PK')}
                 </span>
-                <span className="text-2xl font-black text-slate-600 dark:text-slate-400">PKR</span>
+                <span className="text-base font-bold text-slate-500 dark:text-slate-400">PKR</span>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 sm:gap-5">
-              <div className="bg-white/95 dark:bg-slate-900/95 p-5 sm:p-6 rounded-2xl border-2 border-emerald-200 dark:border-slate-700 shadow-sm">
-                <span className="text-xs sm:text-sm font-black text-slate-600 dark:text-slate-400 uppercase tracking-wider block">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-white/95 dark:bg-slate-900/95 p-3.5 rounded-xl border border-emerald-200 dark:border-slate-700 shadow-xs">
+                <span className="text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                   Fuel Needed
                 </span>
-                <span className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white mt-1.5 block">
+                <span className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white mt-0.5 block">
                   {distanceLitresNeeded.toFixed(1)} L
                 </span>
               </div>
 
-              <div className="bg-white/95 dark:bg-slate-900/95 p-5 sm:p-6 rounded-2xl border-2 border-emerald-200 dark:border-slate-700 shadow-sm">
-                <span className="text-xs sm:text-sm font-black text-slate-600 dark:text-slate-400 uppercase tracking-wider block">
+              <div className="bg-white/95 dark:bg-slate-900/95 p-3.5 rounded-xl border border-emerald-200 dark:border-slate-700 shadow-xs">
+                <span className="text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                   Cost Per KM
                 </span>
-                <span className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white mt-1.5 block">
+                <span className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white mt-0.5 block">
                   Rs. {distanceCostPerKm.toFixed(2)}
                 </span>
               </div>
             </div>
 
-            <div className="pt-3 text-base sm:text-lg text-slate-800 dark:text-slate-200 font-mono font-black leading-relaxed border-t-2 border-emerald-200 dark:border-slate-700">
+            <div className="pt-2 text-xs text-slate-700 dark:text-slate-300 font-mono font-bold leading-relaxed border-t border-emerald-200 dark:border-slate-700">
               {distanceLitresNeeded.toFixed(1)} L × Rs. {currentRate.toFixed(2)} · {effectiveDistance} KM
             </div>
           </div>
         </div>
       )}
 
-      {/* ========================================================= */}
       {/* MODE 3: BY LITRES TAB */}
-      {/* ========================================================= */}
       {mode === 'by_litres' && (
-        <div className="space-y-7">
-          {/* LITRES INPUT */}
+        <div className="space-y-4">
           <div>
-            <label htmlFor="litres-input" className="block text-base sm:text-lg font-black text-slate-900 dark:text-white uppercase tracking-wider mb-2.5">
+            <label htmlFor="litres-input" className="block text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider mb-1.5">
               Litres to Pump
             </label>
             <input
@@ -570,50 +545,50 @@ export function FuelCalculator({
               step="0.5"
               value={litresInput}
               onChange={e => setLitresInput(e.target.value === '' ? '' : Math.max(0, parseFloat(e.target.value)))}
-              className="w-full px-5 py-4 bg-slate-50 dark:bg-slate-800 border-2 border-slate-300 dark:border-slate-700 rounded-2xl focus:bg-white dark:focus:bg-slate-900 focus:outline-hidden focus:border-emerald-600 text-xl font-black text-slate-950 dark:text-white transition"
+              className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl focus:bg-white dark:focus:bg-slate-900 focus:outline-hidden focus:border-emerald-600 text-base font-bold text-slate-950 dark:text-white transition"
               placeholder="20"
             />
-            <p className="text-base text-slate-700 dark:text-slate-300 mt-2.5 leading-relaxed font-medium">
-              Use this when you already know how much you are putting in — e.g. a partial fill, or a canister.
+            <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+              Use this when you already know how much you are putting in — e.g. a partial fill or canister.
             </p>
           </div>
 
           {/* RESULTS CARD */}
-          <div className="bg-gradient-to-br from-emerald-50 via-emerald-100/70 to-emerald-200/50 dark:from-slate-800 dark:via-slate-800/90 dark:to-emerald-950/50 rounded-3xl border-2 border-emerald-400/80 dark:border-slate-700 p-7 sm:p-9 space-y-7 shadow-lg">
+          <div className="bg-gradient-to-br from-emerald-50 via-emerald-100/60 to-emerald-200/40 dark:from-slate-800 dark:via-slate-800/90 dark:to-emerald-950/40 rounded-2xl border border-emerald-300 dark:border-slate-700 p-5 space-y-4 shadow-xs">
             <div>
-              <span className="text-sm font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-300 block mb-2">
+              <span className="text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-300 block mb-1">
                 Total Fuel Cost
               </span>
-              <div className="flex flex-wrap items-baseline gap-2.5">
-                <span className="text-3xl font-black text-slate-600 dark:text-slate-400">Rs.</span>
-                <span className="text-6xl sm:text-7xl font-black text-slate-950 dark:text-white tracking-tight">
+              <div className="flex flex-wrap items-baseline gap-1.5">
+                <span className="text-xl font-black text-slate-500 dark:text-slate-400">Rs.</span>
+                <span className="text-4xl sm:text-5xl font-black text-slate-950 dark:text-white tracking-tight">
                   {Math.round(litresTotalCost).toLocaleString('en-PK')}
                 </span>
-                <span className="text-2xl font-black text-slate-600 dark:text-slate-400">PKR</span>
+                <span className="text-base font-bold text-slate-500 dark:text-slate-400">PKR</span>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 sm:gap-5">
-              <div className="bg-white/95 dark:bg-slate-900/95 p-5 sm:p-6 rounded-2xl border-2 border-emerald-200 dark:border-slate-700 shadow-sm">
-                <span className="text-xs sm:text-sm font-black text-slate-600 dark:text-slate-400 uppercase tracking-wider block">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-white/95 dark:bg-slate-900/95 p-3.5 rounded-xl border border-emerald-200 dark:border-slate-700 shadow-xs">
+                <span className="text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                   Fuel Quantity
                 </span>
-                <span className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white mt-1.5 block">
+                <span className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white mt-0.5 block">
                   {validLitres.toFixed(1)} L
                 </span>
               </div>
 
-              <div className="bg-white/95 dark:bg-slate-900/95 p-5 sm:p-6 rounded-2xl border-2 border-emerald-200 dark:border-slate-700 shadow-sm">
-                <span className="text-xs sm:text-sm font-black text-slate-600 dark:text-slate-400 uppercase tracking-wider block">
+              <div className="bg-white/95 dark:bg-slate-900/95 p-3.5 rounded-xl border border-emerald-200 dark:border-slate-700 shadow-xs">
+                <span className="text-[11px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                   Rate Per Litre
                 </span>
-                <span className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white mt-1.5 block">
+                <span className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white mt-0.5 block">
                   Rs. {currentRate.toFixed(2)}
                 </span>
               </div>
             </div>
 
-            <div className="pt-3 text-base sm:text-lg text-slate-800 dark:text-slate-200 font-mono font-black leading-relaxed border-t-2 border-emerald-200 dark:border-slate-700">
+            <div className="pt-2 text-xs text-slate-700 dark:text-slate-300 font-mono font-bold leading-relaxed border-t border-emerald-200 dark:border-slate-700">
               {validLitres.toFixed(1)} L × Rs. {currentRate.toFixed(2)} · {fuelType === 'petrol' ? 'Petrol' : fuelType === 'diesel' ? 'Diesel' : 'Hi-Octane'}
             </div>
           </div>
@@ -621,7 +596,7 @@ export function FuelCalculator({
       )}
 
       {/* FOOTER NOTE */}
-      <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed pt-6 border-t-2 border-slate-200 dark:border-slate-800 mt-8 font-medium">
+      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed pt-4 border-t border-slate-200 dark:border-slate-800 mt-5">
         Priced at the official active OGRA notified rate. Vehicle mileage estimates reflect typical real-world city consumption reported by motorists in Pakistan.
       </p>
     </div>
