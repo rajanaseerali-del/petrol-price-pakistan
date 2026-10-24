@@ -39,17 +39,17 @@ export function PriceChart({ records, productName = 'Fuel' }: PriceChartProps) {
   const maxPrice = Math.ceil(Math.max(...chartData.map(d => d.price)) + 5);
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/90 dark:border-slate-800 shadow-sm p-6 sm:p-8 transition-colors">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-5 border-b border-slate-100 dark:border-slate-800 gap-3">
+    <div className="bg-white dark:bg-slate-900 rounded-3xl border-2 border-slate-200 dark:border-slate-800 shadow-lg p-6 sm:p-9 transition-colors">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-5 border-b-2 border-slate-100 dark:border-slate-800 gap-3">
         <div>
-          <h3 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white tracking-tight">
+          <h3 className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white tracking-tight">
             {productName} Rate Trend (PKR / Litre)
           </h3>
-          <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
+          <p className="text-base text-slate-600 dark:text-slate-400 mt-1 font-medium">
             Verified official revision curve from authorized government publications
           </p>
         </div>
-        <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/80 px-4 py-1.5 rounded-full border border-emerald-200 dark:border-emerald-800 self-start sm:self-auto">
+        <div className="inline-flex items-center gap-2 text-sm font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/80 px-4 py-2 rounded-2xl border border-emerald-200 dark:border-emerald-800 self-start sm:self-auto">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse" />
           <span>Official Notified Curve</span>
         </div>
@@ -62,7 +62,7 @@ export function PriceChart({ records, productName = 'Fuel' }: PriceChartProps) {
             <XAxis
               dataKey="date"
               stroke="#64748b"
-              fontSize={13}
+              fontSize={14}
               fontWeight={700}
               tickLine={false}
               axisLine={{ stroke: '#cbd5e1' }}
@@ -70,7 +70,7 @@ export function PriceChart({ records, productName = 'Fuel' }: PriceChartProps) {
             <YAxis
               domain={[minPrice, maxPrice]}
               stroke="#64748b"
-              fontSize={13}
+              fontSize={14}
               fontWeight={700}
               tickLine={false}
               axisLine={false}
@@ -81,10 +81,10 @@ export function PriceChart({ records, productName = 'Fuel' }: PriceChartProps) {
                 if (active && payload && payload.length) {
                   const data = payload[0].payload;
                   return (
-                    <div className="bg-slate-950 dark:bg-slate-800 text-white text-sm rounded-2xl shadow-xl p-4 border border-slate-800 dark:border-slate-700">
+                    <div className="bg-slate-950 dark:bg-slate-800 text-white text-base rounded-2xl shadow-xl p-4 border border-slate-700">
                       <p className="font-extrabold text-emerald-400">{data.date}</p>
-                      <p className="text-lg font-black mt-1">Rs. {Number(data.price).toFixed(2)} / L</p>
-                      <p className="text-xs text-slate-400 mt-0.5">{data.identifier}</p>
+                      <p className="text-xl font-black mt-1">Rs. {Number(data.price).toFixed(2)} / L</p>
+                      <p className="text-sm text-slate-400 mt-0.5">{data.identifier}</p>
                     </div>
                   );
                 }
@@ -95,9 +95,9 @@ export function PriceChart({ records, productName = 'Fuel' }: PriceChartProps) {
               type="monotone"
               dataKey="price"
               stroke="#059669"
-              strokeWidth={3.5}
-              dot={{ r: 5, fill: '#059669', stroke: '#ffffff', strokeWidth: 2.5 }}
-              activeDot={{ r: 8, fill: '#047857', stroke: '#ffffff', strokeWidth: 3 }}
+              strokeWidth={4}
+              dot={{ r: 6, fill: '#059669', stroke: '#ffffff', strokeWidth: 3 }}
+              activeDot={{ r: 9, fill: '#047857', stroke: '#ffffff', strokeWidth: 3 }}
             />
           </LineChart>
         </ResponsiveContainer>

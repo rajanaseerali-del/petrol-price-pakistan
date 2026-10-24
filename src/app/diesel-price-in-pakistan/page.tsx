@@ -30,7 +30,7 @@ export default async function DieselPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16">
       {/* Breadcrumb */}
-      <nav className="text-sm font-semibold text-slate-500 dark:text-slate-400">
+      <nav className="text-base font-bold text-slate-500 dark:text-slate-400">
         <ol className="flex items-center space-x-2">
           <li>
             <Link href="/" className="hover:text-emerald-700 dark:hover:text-emerald-400">Home</Link>
@@ -40,36 +40,37 @@ export default async function DieselPage() {
         </ol>
       </nav>
 
-      <div className="space-y-4 max-w-4xl">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-300 text-xs sm:text-sm font-black tracking-wide">
+      <div className="space-y-4 max-w-5xl">
+        <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-emerald-100 dark:bg-emerald-950/90 border border-emerald-300 dark:border-emerald-800 text-emerald-950 dark:text-emerald-300 text-sm font-black tracking-wide">
           <span>● High-Speed Diesel (HSD)</span>
         </div>
-        <h1 className="text-4xl sm:text-6xl font-black text-slate-950 dark:text-white tracking-tight">
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-slate-950 dark:text-white tracking-tight leading-tight">
           High-Speed Diesel Price in Pakistan Today
         </h1>
-        <p className="text-lg sm:text-xl text-slate-700 dark:text-slate-300 max-w-3xl leading-relaxed font-normal">
+        <p className="text-xl sm:text-2xl text-slate-700 dark:text-slate-300 max-w-4xl leading-relaxed font-medium">
           High-Speed Diesel (HSD) is the primary fuel powering heavy logistics, public transit, and agriculture in Pakistan. Rates are strictly regulated by the Oil &amp; Gas Regulatory Authority (OGRA).
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <div className="lg:col-span-5">
-          <PriceCard product={diesel} record={currentPrice} featured={false} />
-        </div>
-        <div className="lg:col-span-7">
-          <PriceChart records={dieselHistory} productName="High-Speed Diesel (HSD)" />
-        </div>
+      {/* Featured Primary Diesel Price Card */}
+      <div className="w-full">
+        <PriceCard product={diesel} record={currentPrice} featured={true} />
+      </div>
+
+      {/* Rate Trend Chart */}
+      <div className="w-full">
+        <PriceChart records={dieselHistory} productName="High-Speed Diesel (HSD)" />
       </div>
 
       <AdPlacement slotId="diesel-page-mid" format="banner" />
 
       {/* Tank Fill-up cost calculator for diesel */}
       <section className="space-y-6">
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-4">
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
+        <div className="border-b-2 border-slate-200 dark:border-slate-800 pb-5">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 dark:text-white tracking-tight">
             Calculate Commercial &amp; SUV Diesel Tank Fill-Up Cost
           </h2>
-          <p className="text-base text-slate-600 dark:text-slate-400 mt-1.5">
+          <p className="text-lg text-slate-700 dark:text-slate-300 mt-2 font-medium">
             Compute exact diesel fill-up expenses for Hilux Revo, HiAce, Fortuner, and commercial fleets.
           </p>
         </div>
@@ -82,11 +83,11 @@ export default async function DieselPage() {
 
       {/* Historical revisions */}
       <section className="space-y-6">
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-4">
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
+        <div className="border-b-2 border-slate-200 dark:border-slate-800 pb-5">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 dark:text-white tracking-tight">
             Official Diesel Price Revisions Archive (2026)
           </h2>
-          <p className="text-base text-slate-600 dark:text-slate-400 mt-1.5">
+          <p className="text-lg text-slate-700 dark:text-slate-300 mt-2 font-medium">
             Fortnightly regulatory decisions notified by the Federal Ministry of Energy.
           </p>
         </div>
@@ -95,12 +96,12 @@ export default async function DieselPage() {
 
       {/* Calculator */}
       <section className="space-y-6">
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-4">
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
+        <div className="border-b-2 border-slate-200 dark:border-slate-800 pb-5">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 dark:text-white tracking-tight">
             Commercial &amp; Freight Diesel Calculator
           </h2>
-          <p className="text-base text-slate-600 dark:text-slate-400 mt-1.5">
-            Distance and fleet fuel consumption estimator.
+          <p className="text-lg text-slate-700 dark:text-slate-300 mt-2 font-medium">
+            Estimate diesel fuel expenses by kilometers, route distance, or volume.
           </p>
         </div>
         <FuelCalculator
@@ -109,11 +110,11 @@ export default async function DieselPage() {
         />
       </section>
 
-      {/* SEO FAQs */}
+      {/* FAQs with SEO Schema */}
       <FAQSection
         faqs={DIESEL_PAGE_FAQS}
-        title="Diesel (HSD) FAQs"
-        description="Comprehensive details on diesel taxation, industrial and logistics impact, and quality standards in Pakistan."
+        title="Diesel Pricing FAQs (Pakistan)"
+        description="Comprehensive answers regarding High-Speed Diesel (HSD) pricing, subsidies, and commercial freight impact."
       />
     </div>
   );

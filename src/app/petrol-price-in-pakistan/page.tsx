@@ -30,7 +30,7 @@ export default async function PetrolPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 space-y-16">
       {/* Breadcrumb */}
-      <nav className="text-sm font-semibold text-slate-500 dark:text-slate-400">
+      <nav className="text-base font-bold text-slate-500 dark:text-slate-400">
         <ol className="flex items-center space-x-2">
           <li>
             <Link href="/" className="hover:text-emerald-700 dark:hover:text-emerald-400">Home</Link>
@@ -40,36 +40,37 @@ export default async function PetrolPage() {
         </ol>
       </nav>
 
-      <div className="space-y-4 max-w-4xl">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-300 text-xs sm:text-sm font-black tracking-wide">
+      <div className="space-y-4 max-w-5xl">
+        <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-emerald-100 dark:bg-emerald-950/90 border border-emerald-300 dark:border-emerald-800 text-emerald-950 dark:text-emerald-300 text-sm font-black tracking-wide">
           <span>● Motor Spirit (Super Petrol 92 RON)</span>
         </div>
-        <h1 className="text-4xl sm:text-6xl font-black text-slate-950 dark:text-white tracking-tight">
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-slate-950 dark:text-white tracking-tight leading-tight">
           Petrol Price in Pakistan Today
         </h1>
-        <p className="text-lg sm:text-xl text-slate-700 dark:text-slate-300 max-w-3xl leading-relaxed font-normal">
+        <p className="text-xl sm:text-2xl text-slate-700 dark:text-slate-300 max-w-4xl leading-relaxed font-medium">
           Official ex-depot consumer sale price for Motor Spirit (Super Petrol) across all filling stations in Pakistan. Regulated by OGRA and notified by the Federal Ministry of Energy.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <div className="lg:col-span-5">
-          <PriceCard product={petrol} record={currentPrice} featured={true} />
-        </div>
-        <div className="lg:col-span-7">
-          <PriceChart records={petrolHistory} productName="Petrol (Motor Spirit)" />
-        </div>
+      {/* Featured Primary Price Card */}
+      <div className="w-full">
+        <PriceCard product={petrol} record={currentPrice} featured={true} />
+      </div>
+
+      {/* Rate Trend Chart */}
+      <div className="w-full">
+        <PriceChart records={petrolHistory} productName="Petrol (Motor Spirit)" />
       </div>
 
       <AdPlacement slotId="petrol-page-mid" format="banner" />
 
       {/* Tank Fill-up cost calculator for petrol */}
       <section className="space-y-6">
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-4">
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
+        <div className="border-b-2 border-slate-200 dark:border-slate-800 pb-5">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 dark:text-white tracking-tight">
             Calculate Petrol Tank Fill-Up Cost
           </h2>
-          <p className="text-base text-slate-600 dark:text-slate-400 mt-1.5">
+          <p className="text-lg text-slate-700 dark:text-slate-300 mt-2 font-medium">
             Choose your vehicle model to compute total tank fill cost and quarter top-off rates at today&apos;s petrol price.
           </p>
         </div>
@@ -82,11 +83,11 @@ export default async function PetrolPage() {
 
       {/* Historical revisions */}
       <section className="space-y-6">
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-4">
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
+        <div className="border-b-2 border-slate-200 dark:border-slate-800 pb-5">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 dark:text-white tracking-tight">
             Recent Petrol Price Revisions (2026)
           </h2>
-          <p className="text-base text-slate-600 dark:text-slate-400 mt-1.5">
+          <p className="text-lg text-slate-700 dark:text-slate-300 mt-2 font-medium">
             Official chronological history of government notifications and price adjustments.
           </p>
         </div>
@@ -95,22 +96,25 @@ export default async function PetrolPage() {
 
       {/* Calculator for petrol trips */}
       <section className="space-y-6">
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-4">
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
+        <div className="border-b-2 border-slate-200 dark:border-slate-800 pb-5">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 dark:text-white tracking-tight">
             Calculate Your Journey Petrol Cost
           </h2>
-          <p className="text-base text-slate-600 dark:text-slate-400 mt-1.5">
-            Distance-based fuel consumption and budget estimator.
+          <p className="text-lg text-slate-700 dark:text-slate-300 mt-2 font-medium">
+            Plan city and highway trips based on verified per-litre petrol rates.
           </p>
         </div>
-        <FuelCalculator initialPetrolPrice={petrolRate} initialDieselPrice={dieselRate} />
+        <FuelCalculator
+          initialPetrolPrice={petrolRate}
+          initialDieselPrice={dieselRate}
+        />
       </section>
 
-      {/* SEO FAQs */}
+      {/* FAQs with SEO Schema */}
       <FAQSection
         faqs={PETROL_PAGE_FAQS}
-        title="Petrol (Super) FAQs"
-        description="Key information regarding petrol price composition, petroleum development levy (PDL), and octane ratings in Pakistan."
+        title="Petrol Pricing FAQs (Pakistan)"
+        description="Detailed answers on how petrol is taxed, petroleum levy rates, and fortnightly revisions by OGRA."
       />
     </div>
   );
