@@ -27,12 +27,26 @@ export const metadata: Metadata = {
     'ogra petroleum prices',
     'fuel price revision pakistan',
     'hi octane price pakistan',
+    'kerosene oil price pakistan',
+    'lpg price pakistan',
     'petrol calculator pakistan',
   ],
-  authors: [{ name: 'Petrol Price Pakistan Research Team' }],
+  authors: [{ name: 'Petrol Price Pakistan Research Team', url: 'https://petrolpricepakistan.pk/about' }],
+  creator: 'Petrol Price Pakistan',
+  publisher: 'Petrol Price Pakistan',
+  alternates: {
+    canonical: './',
+  },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   openGraph: {
     title: 'Petrol Price Today in Pakistan | Official OGRA Rates',
@@ -42,7 +56,52 @@ export const metadata: Metadata = {
     siteName: 'Petrol Price Pakistan',
     locale: 'en_PK',
     type: 'website',
+    images: [
+      {
+        url: '/opengraph-image',
+        width: 1200,
+        height: 630,
+        alt: 'Petrol Price Today in Pakistan - Official OGRA Verified Rates',
+      },
+    ],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Petrol Price Today in Pakistan | Official OGRA Rates',
+    description:
+      'Official verified petroleum prices, diesel rates, and fuel cost calculators in Pakistan.',
+    images: ['/opengraph-image'],
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || 'petrolpricepakistan-verification',
+  },
+};
+
+const jsonLdGlobal = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': 'https://petrolpricepakistan.pk/#organization',
+      name: 'Petrol Price Pakistan',
+      url: 'https://petrolpricepakistan.pk',
+      logo: 'https://petrolpricepakistan.pk/opengraph-image',
+      description: 'Official verified petroleum prices, diesel rates, and fuel cost calculators in Pakistan.',
+      sameAs: [
+        'https://price.ogra.org.pk',
+        'https://www.petroleum.gov.pk',
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://petrolpricepakistan.pk/#website',
+      url: 'https://petrolpricepakistan.pk',
+      name: 'Petrol Price Pakistan',
+      publisher: {
+        '@id': 'https://petrolpricepakistan.pk/#organization',
+      },
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -53,7 +112,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`h-full antialiased scroll-smooth ${fontSans.variable}`} suppressHydrationWarning>
       <head>
-        <link rel="canonical" href="https://petrolpricepakistan.pk" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdGlobal) }}
+        />
       </head>
       <body className="min-h-full flex flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 font-sans text-base leading-relaxed selection:bg-emerald-300 selection:text-emerald-950 transition-colors duration-200">
         <ThemeProvider>

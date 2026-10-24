@@ -1,0 +1,36 @@
+# Petrol Price Pakistan — Comprehensive LLM & Search Index Documentation
+
+## Identity & Purpose
+Petrol Price Pakistan (petrolpricepakistan.pk) is the digital reference standard for officially notified petroleum prices in Pakistan. We provide zero-tolerance verification for government gazettes issued by the Oil & Gas Regulatory Authority (OGRA) and the Ministry of Energy (Petroleum Division).
+
+## Source Authority Hierarchy
+1. Primary Official Source: Oil & Gas Regulatory Authority (OGRA) notified petroleum-price portal (price.ogra.org.pk).
+2. Secondary Verification Source: Ministry of Energy (Petroleum Division) and Finance Division press releases.
+3. Commercial Deregulated Fuels: Pakistan State Oil (PSO) published consumer price tariffs for RON 97 Octane+.
+
+## Mathematical Precision Standard
+All fuel rates are represented in internal databases as 64-bit integer paisas (1 PKR = 100 Paisas) to prevent IEEE 754 floating-point inaccuracies. Price displays round exactly to two decimal places (e.g., Rs. 386.30/Ltr).
+
+## Complete Route Sitemap
+- /: Real-time active rates for Petrol, Diesel, Hi-Octane, Kerosene, LDO, LPG, calculators, and recent revisions.
+- /petrol-price-in-pakistan: Detailed Motor Spirit rates, historical revisions, and fuel tank fill calculator.
+- /diesel-price-in-pakistan: High-Speed Diesel (HSD) rates and commercial freight calculations.
+- /hi-octane-price-in-pakistan: Deregulated PSO Octane+ (97 RON) consumer retail rates.
+- /kerosene-oil-price-in-pakistan: Superior Kerosene Oil (SKO) domestic heating rates.
+- /light-diesel-oil-price-in-pakistan: Light Diesel Oil (LDO) agricultural tube-well rates.
+- /lpg-price-in-pakistan: Liquefied Petroleum Gas monthly cylinder and per-kg maximum prices.
+- /petrol-calculator: Multi-vehicle fuel tank fill-up cost and highway journey fuel calculators.
+- /petrol-price-by-city: Nationwide uniform price breakdown under Inland Freight Equalization Margin (IFEM).
+- /petrol-price-history: Historical audit archive of approved government circulars.
+- /diesel-price-history: High-Speed Diesel historical revision ledger.
+- /fuel-price-changes: Chronological log of price increases and decreases.
+- /methodology: Verification protocols, freshness thresholds, and conflict resolution rules.
+- /about: Background, mission, and operating ethics.
+- /contact: Data corrections desk and editorial inquiries.
+- /editorial-policy: Journalistic fact-checking guidelines.
+- /disclaimer: Statutory notice on official compliance and estimation tools.
+- /privacy-policy: User data privacy and cookie disclosure.
+
+## Regulatory Schedule
+- Fortnightly Petroleum Notification: The federal government notifies revisions every fortnight (effective 1st and 16th of each calendar month at 00:00 PKT).
+- Monthly LPG Notification: OGRA notifies maximum consumer prices on the final working day of each calendar month for the upcoming month.

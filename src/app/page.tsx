@@ -88,6 +88,7 @@ export default async function HomePage() {
 
         {/* Current Verified Prices Grid - PRIMARY PETROL CARD ABOVE THE FOLD */}
         <section aria-label="Current Fuel Rates" className="space-y-5">
+          <h2 className="sr-only">Verified Pakistani Petroleum Prices &amp; Fuel Rates</h2>
           {/* Primary Fuel Card (Petrol) */}
           {petrol && (
             <div className="w-full">

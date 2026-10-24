@@ -39,7 +39,7 @@ export default function AboutPage() {
         <p>
           Our mission is simple and unwavering: <strong className="text-slate-900 dark:text-white">provide 100% verified, traceable, and timestamped petroleum price data</strong> based solely on notified government circulars from the Oil &amp; Gas Regulatory Authority (OGRA) and the Ministry of Energy.
         </p>
-        <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white pt-2">Our Operating Standards</h3>
+        <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white pt-2">Our Operating Standards</h2>
         <ul className="list-disc pl-5 space-y-2">
           <li><strong className="text-slate-900 dark:text-white">Traceability:</strong> Every published rate links to its official source documentation.</li>
           <li><strong className="text-slate-900 dark:text-white">No Predictions:</strong> We do not publish speculative predictions or claim insider access.</li>

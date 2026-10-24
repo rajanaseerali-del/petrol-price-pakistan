@@ -44,9 +44,9 @@ export default async function HiOctanePage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
         <PriceCard product={hiOctane} record={currentPrice} featured={true} />
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 space-y-3.5 shadow-xs">
-          <h3 className="font-bold text-slate-900 dark:text-white text-base">
+          <h2 className="font-bold text-slate-900 dark:text-white text-base">
             About PSO Octane+ Euro 5
-          </h3>
+          </h2>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
             Pakistan State Oil (PSO) publishes retail rates for Octane+ across its company-owned and dealer-operated pump network. Because Hi-Octane is deregulated, minor regional variations may occur in remote areas outside standard inland freight pools.
           </p>
