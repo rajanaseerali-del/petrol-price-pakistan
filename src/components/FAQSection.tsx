@@ -58,6 +58,7 @@ export function FAQSection({
           {faqs.map((faq, idx) => (
             <details
               key={idx}
+              open={idx === 0}
               className="group py-4 transition-all cursor-pointer"
             >
               <summary className="flex justify-between items-center text-sm sm:text-base font-bold text-slate-950 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-emerald-400 select-none list-none pr-2">
