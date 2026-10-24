@@ -36,20 +36,24 @@ export const metadata: Metadata = {
   },
 };
 
+import { ThemeProvider } from '@/context/ThemeContext';
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full antialiased scroll-smooth">
+    <html lang="en" className="h-full antialiased scroll-smooth" suppressHydrationWarning>
       <head>
         <link rel="canonical" href="https://petrolpricepakistan.pk" />
       </head>
-      <body className="min-h-full flex flex-col bg-slate-50/60 text-slate-900 font-sans selection:bg-emerald-200 selection:text-emerald-950">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+      <body className="min-h-full flex flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 font-sans selection:bg-emerald-300 selection:text-emerald-950 transition-colors duration-200">
+        <ThemeProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

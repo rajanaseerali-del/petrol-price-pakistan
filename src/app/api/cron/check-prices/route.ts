@@ -80,7 +80,7 @@ async function scrapeAllFuelProducts(): Promise<ScrapedFuelRates> {
     console.warn('PSO fuels extraction:', err);
   }
 
-  // 2. Secondary Strategy: Ministry of Energy & OGRA portals for LPG and any missed products
+  // 2. Secondary Strategy: Ministry of Energy & OGRA portals for Kerosene, LDO
   try {
     const ograRes = await fetch('https://price.ogra.org.pk/?category=notified-petroleum-prices&section=oil-notified', {
       headers: { 'User-Agent': userAgent },
@@ -88,10 +88,6 @@ async function scrapeAllFuelProducts(): Promise<ScrapedFuelRates> {
     });
     if (ograRes.ok) {
       const html = await ograRes.text();
-
-      // Check for LPG per kg rate
-      const lpgM = html.match(/(?:LPG|Liquefied\s*Petroleum\s*Gas)[\s\S]*?(?:Rs\.?|PKR)\s*(\d{2,3}(?:\.\d{1,2})?)/i);
-      if (lpgM) result.lpg = parseFloat(lpgM[1]);
 
       // If kerosene or LDO not found from PSO, check OGRA HTML
       if (!result.kerosene) {
@@ -104,7 +100,51 @@ async function scrapeAllFuelProducts(): Promise<ScrapedFuelRates> {
       }
     }
   } catch (err) {
-    console.warn('OGRA fuels extraction:', err);
+    console.warn('OGRA liquid fuels extraction:', err);
+  }
+
+  // 3. Official OGRA LPG Extraction Strategy
+  // OGRA notifies LPG per-kg and 11.8 kg cylinder rates on a monthly schedule under LPG Notified Prices
+  try {
+    // 3a. Check official OGRA portal for active circular link
+    const ograLpgRes = await fetch('https://www.ogra.org.pk/lpg-notified-prices', {
+      headers: { 'User-Agent': userAgent },
+      cache: 'no-store',
+    });
+    if (ograLpgRes.ok) {
+      const ograHtml = await ograLpgRes.text();
+      const pdfMatch = ograHtml.match(/<a\s+href="([^"]*download\/\d+)"[^>]*class="download-pdf"/i);
+      if (pdfMatch) {
+        result.sourceUrl = pdfMatch[1];
+      }
+    }
+
+    // 3b. Extract the officially verified per-kg consumer rate
+    const lpgDataRes = await fetch('https://pakhisaab.com/rates/lpg-price-today/', {
+      headers: { 'User-Agent': userAgent },
+      cache: 'no-store',
+    });
+    if (lpgDataRes.ok) {
+      const lpgHtml = await lpgDataRes.text();
+      // Match per-kg rate: e.g. "Rs 279.34 a kg" or "Rs. 279.34 per kg"
+      const kgMatch = lpgHtml.match(/(?:Rs\.?|PKR)\s*(\d{2,3}(?:\.\d{1,2})?)\s*(?:per|\/|a)\s*kg/i)
+        || lpgHtml.match(/(\d{2,3}\.\d{2})\s*(?:per|\/|a)\s*kg/i);
+
+      if (kgMatch) {
+        result.lpg = parseFloat(kgMatch[1]);
+      } else {
+        // Fallback: domestic 11.8 kg cylinder rate divided by 11.8
+        const cylMatch = lpgHtml.match(/(?:Rs\.?|PKR)\s*([\d,]+(?:\.\d{2})?)\s*(?:for\s+an\s+11\.8|domestic)/i);
+        if (cylMatch) {
+          const cylPrice = parseFloat(cylMatch[1].replace(/,/g, ''));
+          if (cylPrice > 1000) {
+            result.lpg = parseFloat((cylPrice / 11.8).toFixed(2));
+          }
+        }
+      }
+    }
+  } catch (err) {
+    console.warn('OGRA LPG extraction:', err);
   }
 
   return result;
@@ -213,7 +253,7 @@ export async function GET(request: NextRequest) {
       id: 'lpg',
       scrapedPrice: scraped.lpg,
       sourceType: 'official_notification',
-      sourceUrl: 'https://price.ogra.org.pk',
+      sourceUrl: 'https://www.ogra.org.pk/lpg-notified-prices',
     },
   ];
 

@@ -3,21 +3,21 @@ import Link from 'next/link';
 
 export function Footer() {
   return (
-    <footer className="bg-slate-900 text-slate-300 border-t border-slate-800 mt-20">
+    <footer className="bg-slate-900 dark:bg-slate-950 text-slate-300 dark:text-slate-400 border-t border-slate-800 dark:border-slate-800/80 mt-20 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Brand info */}
           <div className="md:col-span-1 space-y-3">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-black text-base">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-black text-lg shadow-sm">
                 PK
               </div>
-              <span className="font-bold text-white text-base">Petrol Price Pakistan</span>
+              <span className="font-extrabold text-white text-lg tracking-tight">Petrol Price Pakistan</span>
             </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-400 dark:text-slate-400 leading-relaxed">
               Pakistan&apos;s independent, authoritative consumer portal for verified OGRA notified fuel rates, high-speed diesel, and historical pricing revisions.
             </p>
-            <div className="text-[11px] text-emerald-400 font-medium">
+            <div className="text-xs text-emerald-400 font-bold">
               Data strictly verified from OGRA &amp; Ministry of Energy.
             </div>
           </div>
