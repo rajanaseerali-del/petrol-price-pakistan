@@ -21,7 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { route: '/petrol-price-history', changeFrequency: 'daily', priority: 0.85 },
     { route: '/diesel-price-history', changeFrequency: 'daily', priority: 0.85 },
     { route: '/fuel-price-changes', changeFrequency: 'daily', priority: 0.85 },
-    { route: '/methodology', changeFrequency: 'monthly', priority: 0.7 },
+    { route: '/advertise', changeFrequency: 'monthly', priority: 0.7 },
     { route: '/about', changeFrequency: 'monthly', priority: 0.6 },
     { route: '/contact', changeFrequency: 'monthly', priority: 0.6 },
     { route: '/privacy-policy', changeFrequency: 'monthly', priority: 0.5 },

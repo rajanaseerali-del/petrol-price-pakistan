@@ -183,17 +183,43 @@ export function TankFillCalculator({
             <label htmlFor="tank-capacity-input" className="block text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider mb-1.5">
               Total Tank Capacity (Litres)
             </label>
-            <div className="relative">
-              <input
-                id="tank-capacity-input"
-                type="number"
-                min="1"
-                step="0.5"
-                value={tankCapacity}
-                onChange={e => setTankCapacity(e.target.value === '' ? '' : Math.max(1, parseFloat(e.target.value)))}
-                className="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl focus:bg-white dark:focus:bg-slate-900 focus:outline-hidden focus:border-emerald-600 text-base font-black text-slate-950 dark:text-white transition"
-              />
-              <span className="absolute right-3.5 top-2.5 text-xs font-black text-slate-400 uppercase tracking-wider">Litres</span>
+            <div className="flex items-center gap-2">
+              {/* Stepper buttons shifted to left side */}
+              <div className="flex items-center rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 overflow-hidden shrink-0 shadow-2xs">
+                <button
+                  type="button"
+                  onClick={() => setTankCapacity(prev => Math.max(1, (Number(prev) || 0) - 1))}
+                  className="w-10 h-11 flex items-center justify-center font-black text-xl text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 transition select-none cursor-pointer"
+                  aria-label="Decrease litres capacity"
+                >
+                  −
+                </button>
+                <div className="w-[1px] h-6 bg-slate-300 dark:bg-slate-700" />
+                <button
+                  type="button"
+                  onClick={() => setTankCapacity(prev => (Number(prev) || 0) + 1)}
+                  className="w-10 h-11 flex items-center justify-center font-black text-xl text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 transition select-none cursor-pointer"
+                  aria-label="Increase litres capacity"
+                >
+                  +
+                </button>
+              </div>
+
+              {/* Number input with Litres suffix cleanly padded on right */}
+              <div className="relative flex-1">
+                <input
+                  id="tank-capacity-input"
+                  type="number"
+                  min="1"
+                  step="0.5"
+                  value={tankCapacity}
+                  onChange={e => setTankCapacity(e.target.value === '' ? '' : Math.max(1, parseFloat(e.target.value)))}
+                  className="w-full pl-3.5 pr-16 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl focus:bg-white dark:focus:bg-slate-900 focus:outline-hidden focus:border-emerald-600 text-base font-black text-slate-950 dark:text-white transition [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                />
+                <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider pointer-events-none select-none">
+                  Litres
+                </span>
+              </div>
             </div>
           </div>
 

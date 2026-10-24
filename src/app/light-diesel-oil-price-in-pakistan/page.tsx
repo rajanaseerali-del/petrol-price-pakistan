@@ -35,13 +35,13 @@ export default async function LightDieselOilPage() {
 
       <div className="space-y-2 max-w-4xl">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-800 text-emerald-950 dark:text-emerald-300 text-xs font-bold tracking-wide">
-          <span>● Light Diesel Oil (LDO)</span>
+          <span>● Regulated Fuel Rate</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white tracking-tight">
-          Light Diesel Oil (LDO) Price in Pakistan Today
+          Light Diesel Price in Pakistan Today
         </h1>
         <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-          Official ex-depot consumer sale price for Light Diesel Oil (LDO) used in agricultural tubewells and flour mills in Pakistan. Regulated directly by OGRA.
+          Official ex-depot consumer sale price for Light Diesel used in agricultural tubewells and flour mills in Pakistan. Regulated directly by OGRA.
         </p>
       </div>
 
@@ -52,7 +52,7 @@ export default async function LightDieselOilPage() {
 
       {/* Trend Chart */}
       <div className="w-full">
-        <PriceChart records={ldoHistory} productName="Light Diesel Oil (LDO)" />
+        <PriceChart records={ldoHistory} productName="Light Diesel" />
       </div>
 
       <AdPlacement slotId="ldo-page-mid" format="banner" />

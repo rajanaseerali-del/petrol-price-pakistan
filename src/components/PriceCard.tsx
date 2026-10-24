@@ -52,10 +52,10 @@ export function PriceCard({ product, record, featured = false }: PriceCardProps)
           <div className="flex items-center gap-1.5 flex-wrap min-w-0">
             <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-emerald-600 text-white text-xs font-black uppercase tracking-wider shadow-xs">
               <span>★</span>
-              <span>Primary National Rate</span>
+              <span>Petrol Rate</span>
             </span>
             <span className="text-xs font-bold text-emerald-900 dark:text-emerald-300 bg-emerald-100/90 dark:bg-emerald-950/90 px-2.5 py-0.5 rounded-lg border border-emerald-300 dark:border-emerald-800">
-              ● Active Fortnight Notification
+              ● Active Notification
             </span>
           </div>
 
@@ -69,13 +69,13 @@ export function PriceCard({ product, record, featured = false }: PriceCardProps)
           {/* Left: Title & Change */}
           <div className="md:col-span-6 space-y-1 min-w-0">
             <span className="text-[10px] font-black text-emerald-700 dark:text-emerald-400 uppercase tracking-wider block">
-              REGULATED CONSUMER FUEL
+              OFFICIAL RETAIL RATE
             </span>
             <h3 className="font-black text-slate-950 dark:text-white text-xl sm:text-2xl tracking-tight leading-tight break-words">
               {product.displayName}
             </h3>
             <p className="text-xs text-slate-600 dark:text-slate-300 font-medium leading-normal">
-              Ex-depot nationwide retail rate for passenger vehicles across Pakistan.
+              Official nationwide consumer rate across filling stations in Pakistan.
             </p>
 
             {/* Difference Pill */}
@@ -187,7 +187,7 @@ export function PriceCard({ product, record, featured = false }: PriceCardProps)
             </h3>
             <p className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold truncate block mt-0.5">
               {product.id === 'hi-octane'
-                ? 'PSO Euro 5 (RON 97)'
+                ? 'Commercial retail rate'
                 : product.id === 'lpg'
                 ? 'Per kilogram rate'
                 : 'Nationwide rate'}

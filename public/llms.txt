@@ -26,7 +26,7 @@ Petrol Price Pakistan consumes and cross-verifies fuel rates directly from offic
 - [Price Increases & Decreases](https://petrolpricepakistan.pk/fuel-price-changes): Exact mathematical paisa revisions.
 - [Fuel Tank Fill-Up Calculator](https://petrolpricepakistan.pk/petrol-calculator): Accurate fill-up planning tool for bikes, hatchbacks, sedans, and SUVs.
 - [Rates by City & Depots](https://petrolpricepakistan.pk/petrol-price-by-city): Explanation of Inland Freight Equalization Margin (IFEM).
-- [Verification Methodology](https://petrolpricepakistan.pk/methodology): Official source hierarchy and integer paisa arithmetic.
+- [Advertise With Us](https://petrolpricepakistan.pk/advertise): Advertising options and media inquiries for Pakistani motorists.
 
 ## Pricing Mechanism
 Standard petrol and diesel prices in Pakistan are determined on a fortnightly cycle (effective 1st and 16th of each month) under the Petroleum Products (Petroleum Levy) Ordinance and OGRA formula incorporating:

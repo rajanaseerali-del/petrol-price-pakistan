@@ -24,12 +24,12 @@ export default async function PetrolPage() {
   const petrol = products.find(p => p.id === 'petrol')!;
   const currentPrice = latestPrices['petrol'];
   const petrolRate = currentPrice?.pricePkr ?? 377.71;
-  const dieselRate = latestPrices['diesel']?.pricePkr ?? 202.00;
+  const dieselRate = latestPrices['diesel']?.pricePkr ?? 393.66;
   const hiOctaneRate = latestPrices['hi-octane']?.pricePkr ?? 415.00;
   const petrolFaqs = getPetrolPageFaqs(petrolRate);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12 space-y-10 sm:space-y-16 w-full">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-6 sm:space-y-8 w-full">
       {/* Breadcrumb */}
       <nav className="text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400">
         <ol className="flex items-center space-x-2">
@@ -41,15 +41,15 @@ export default async function PetrolPage() {
         </ol>
       </nav>
 
-      <div className="space-y-3 sm:space-y-4 max-w-5xl">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-950/90 border border-emerald-300 dark:border-emerald-800 text-emerald-950 dark:text-emerald-300 text-xs sm:text-sm font-black tracking-wide">
-          <span>● Motor Spirit (Super Petrol 92 RON)</span>
+      <div className="space-y-2 max-w-4xl">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/90 border border-emerald-300 dark:border-emerald-800 text-emerald-950 dark:text-emerald-300 text-xs font-black tracking-wide">
+          <span>● Regulated Fuel Rate</span>
         </div>
-        <h1 className="text-2xl sm:text-4xl lg:text-6xl font-black text-slate-950 dark:text-white tracking-tight leading-tight">
+        <h1 className="text-2xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight leading-tight">
           Petrol Price in Pakistan Today
         </h1>
-        <p className="text-sm sm:text-base lg:text-xl text-slate-700 dark:text-slate-300 max-w-4xl leading-relaxed font-medium">
-          Official ex-depot consumer sale price for Motor Spirit (Super Petrol) across all filling stations in Pakistan. Regulated by OGRA and notified by the Federal Ministry of Energy.
+        <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 max-w-3xl leading-relaxed font-medium">
+          Official ex-depot consumer sale price for Petrol across all filling stations in Pakistan. Regulated by OGRA and notified by the Federal Ministry of Energy.
         </p>
       </div>
 
@@ -60,7 +60,7 @@ export default async function PetrolPage() {
 
       {/* Rate Trend Chart */}
       <div className="w-full">
-        <PriceChart records={petrolHistory} productName="Petrol (Motor Spirit)" />
+        <PriceChart records={petrolHistory} productName="Petrol" />
       </div>
 
       <AdPlacement slotId="petrol-page-mid" format="banner" />

@@ -15,7 +15,7 @@ export function Header() {
     { href: '/diesel-price-in-pakistan', label: 'Diesel' },
     { href: '/petrol-price-history', label: 'History' },
     { href: '/fuel-price-changes', label: 'Changes' },
-    { href: '/petrol-calculator', label: 'Calculator' },
+    { href: '/petrol-calculator', label: 'Calculators' },
     { href: '/petrol-price-by-city', label: 'By City' },
   ];
 
@@ -31,33 +31,22 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-xs transition-colors w-full">
-      {/* Top verified bar */}
-      <div className="bg-emerald-900 dark:bg-emerald-950 text-emerald-100 text-[11px] sm:text-xs py-1.5 px-3 sm:px-4 font-semibold tracking-wide border-b border-emerald-800/40">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-1 text-center sm:text-left">
-          <div className="flex items-center gap-1.5 sm:gap-2">
+      {/* Top verified bar - slim & space-efficient */}
+      <div className="bg-emerald-900 dark:bg-emerald-950 text-emerald-100 text-[10px] sm:text-xs py-1 px-3 sm:px-4 font-semibold tracking-wide border-b border-emerald-800/40">
+        <div className="max-w-7xl mx-auto flex justify-between items-center gap-1">
+          <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
             <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-            <span className="font-bold text-white truncate sm:overflow-visible">Official OGRA &amp; Petroleum Division verified rates</span>
+            <span className="font-bold text-white truncate">Official OGRA &amp; Ministry of Energy Rates</span>
           </div>
-          <div className="flex items-center gap-2 text-emerald-200 text-[11px] sm:text-xs font-medium">
-            <span>October 2026</span>
-            <span className="text-emerald-500">|</span>
-            <Link
-              href="/methodology"
-              className={`transition ${
-                pathname === '/methodology'
-                  ? 'text-white font-black bg-emerald-800 px-2 py-0.5 rounded-md'
-                  : 'hover:text-white underline decoration-emerald-400/50'
-              }`}
-            >
-              Methodology
-            </Link>
+          <div className="flex items-center gap-2 text-emerald-200 text-[10px] sm:text-xs font-semibold shrink-0">
+            <span>Fortnightly Cycle · October 2026</span>
           </div>
         </div>
       </div>
 
       {/* Main navigation */}
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-14">
           {/* Logo brand */}
           <div className="flex items-center gap-2.5 sm:gap-3 shrink-0 min-w-0">
             <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group min-w-0">
@@ -97,17 +86,6 @@ export function Header() {
 
           {/* Right controls */}
           <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-            <Link
-              href="/petrol-calculator"
-              className={`hidden xl:inline-flex items-center justify-center px-3 py-1.5 border text-xs rounded-lg transition ${
-                pathname === '/petrol-calculator'
-                  ? 'bg-emerald-600 text-white font-black border-emerald-600 shadow-xs ring-1 ring-emerald-500/50'
-                  : 'border-emerald-600/30 dark:border-emerald-500/30 font-bold text-emerald-900 dark:text-emerald-200 bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60'
-              }`}
-            >
-              Fill-Up Tool
-            </Link>
-
             <ThemeToggle />
 
             {/* Mobile Hamburger Button (Accessible 44px touch target) */}
@@ -151,15 +129,6 @@ export function Header() {
                 </Link>
               );
             })}
-            <div className="pt-2">
-              <Link
-                href="/petrol-calculator"
-                onClick={() => setMobileMenuOpen(false)}
-                className="min-h-[44px] flex items-center justify-center w-full px-4 py-2.5 rounded-xl text-sm font-black text-white bg-emerald-700 hover:bg-emerald-800 shadow-xs active:scale-[0.99] transition"
-              >
-                Tank Fill-Up Calculator
-              </Link>
-            </div>
           </div>
         )}
       </div>

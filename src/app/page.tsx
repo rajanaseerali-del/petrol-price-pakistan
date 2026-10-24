@@ -4,6 +4,7 @@ import { FuelRepository } from '@/lib/fuel-repository';
 import { PriceCard } from '@/components/PriceCard';
 import { FuelCalculator } from '@/components/FuelCalculator';
 import { TankFillCalculator } from '@/components/TankFillCalculator';
+import { TomorrowPriceEstimator } from '@/components/TomorrowPriceEstimator';
 import { FAQSection } from '@/components/FAQSection';
 import { HOME_FAQS } from '@/lib/faq-data';
 import { HistoricalTable } from '@/components/HistoricalTable';
@@ -19,8 +20,8 @@ export default async function HomePage() {
   const petrol = products.find(p => p.id === 'petrol');
   const otherFuels = products.filter(p => p.id !== 'petrol');
 
-  const petrolPrice = latestPrices['petrol']?.pricePkr ?? 386.30;
-  const dieselPrice = latestPrices['diesel']?.pricePkr ?? 396.96;
+  const petrolPrice = latestPrices['petrol']?.pricePkr ?? 377.71;
+  const dieselPrice = latestPrices['diesel']?.pricePkr ?? 393.66;
   const hiOctanePrice = latestPrices['hi-octane']?.pricePkr ?? 415.00;
 
   // JSON-LD Structured Data for search engines
@@ -29,15 +30,15 @@ export default async function HomePage() {
     '@type': 'WebSite',
     name: 'Petrol Price Today in Pakistan',
     url: 'https://petrolpricepakistan.pk',
-    description: 'Official verified petroleum prices, diesel rates, and fuel cost calculators in Pakistan.',
-    publisher: {
-      '@type': 'Organization',
-      name: 'Petrol Price Pakistan',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: 'https://petrolpricepakistan.pk/petrol-price-by-city?q={search_term_string}',
+      'query-input': 'required name=search_term_string',
     },
-    mainEntity: [
+    hasPart: [
       {
         '@type': 'Product',
-        name: 'Petrol (Motor Spirit)',
+        name: 'Petrol',
         offers: {
           '@type': 'Offer',
           priceCurrency: 'PKR',
@@ -48,7 +49,7 @@ export default async function HomePage() {
       },
       {
         '@type': 'Product',
-        name: 'High-Speed Diesel (HSD)',
+        name: 'Diesel',
         offers: {
           '@type': 'Offer',
           priceCurrency: 'PKR',
@@ -67,22 +68,22 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-4 sm:py-7 space-y-8 sm:space-y-10 w-full">
-        {/* Above-The-Fold Header Bar: Instant Rate Access Without Scrolling */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-slate-800">
-          <div>
-            <div className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-emerald-800 dark:text-emerald-400 mb-0.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Official Government Notification Active · October 2026</span>
-            </div>
+      <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 py-2.5 sm:py-5 space-y-6 sm:space-y-8 w-full">
+        {/* Compact Above-The-Fold Header Bar - Eliminates wasted top spacing */}
+        <div className="flex items-center justify-between gap-2 pb-2 border-b border-slate-200 dark:border-slate-800">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
             <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-950 dark:text-white tracking-tight">
               Petrol Price Today in Pakistan
             </h1>
           </div>
+          <span className="text-xs font-bold text-slate-500 dark:text-slate-400 hidden sm:inline-block">
+            Official OGRA Rates Active
+          </span>
         </div>
 
         {/* Current Verified Prices Grid - PRIMARY PETROL CARD ABOVE THE FOLD */}
-        <section aria-label="Current Fuel Rates" className="space-y-4 sm:space-y-5">
+        <section aria-label="Current Fuel Rates" className="space-y-4">
           <h2 className="sr-only">Verified Pakistani Petroleum Prices &amp; Fuel Rates</h2>
           {/* Primary Fuel Card (Petrol) */}
           {petrol && (
@@ -95,14 +96,14 @@ export default async function HomePage() {
             </div>
           )}
 
-          {/* Secondary Fuel Cards (Diesel, Hi-Octane, Kerosene, LDO, LPG) */}
-          <div className="space-y-2.5">
+          {/* Secondary Fuel Cards (Diesel, Hi-Octane, Kerosene, Light Diesel, LPG) */}
+          <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                Other Regulated Petroleum &amp; Gases
+                Other Fuel Rates
               </span>
               <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold">
-                Secondary regulated rates
+                Official ex-depot rates
               </span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3.5">
@@ -116,6 +117,15 @@ export default async function HomePage() {
               ))}
             </div>
           </div>
+        </section>
+
+        {/* Tomorrow's Estimated Price Feature */}
+        <section aria-label="Tomorrow's Price Projection" id="tomorrow-forecast">
+          <TomorrowPriceEstimator
+            petrolPrice={petrolPrice}
+            dieselPrice={dieselPrice}
+            hiOctanePrice={hiOctanePrice}
+          />
         </section>
 
         {/* Fuel Tank Fill-Up Cost Calculator Tool */}
@@ -139,59 +149,30 @@ export default async function HomePage() {
         </section>
 
         {/* Price History Chart & Summary */}
-        <section aria-label="Historical Price Trend" className="space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b-2 border-slate-200 dark:border-slate-800 pb-4">
+        <section aria-label="Historical Price Trend" className="space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b-2 border-slate-200 dark:border-slate-800 pb-3">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white tracking-tight">
+              <h2 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white tracking-tight">
                 Petrol Price History &amp; Revisions
               </h2>
-              <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 font-medium">
-                Traceable official notifications preserved without silent overwriting
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-0.5 font-medium">
+                Official chronological notifications published by OGRA
               </p>
             </div>
             <Link
               href="/petrol-price-history"
-              className="text-sm font-black text-emerald-800 dark:text-emerald-300 hover:text-emerald-950 dark:hover:text-emerald-100 underline decoration-2"
+              className="text-xs sm:text-sm font-black text-emerald-800 dark:text-emerald-300 hover:text-emerald-950 dark:hover:text-emerald-100 underline decoration-2"
             >
-              View Full Multi-Month Archive →
+              View Full Price History Archive →
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
             <div className="lg:col-span-6">
-              <PriceChart records={petrolHistory} productName="Petrol (Super)" />
+              <PriceChart records={petrolHistory} productName="Petrol" />
             </div>
             <div className="lg:col-span-6">
-              <HistoricalTable records={recentRevisions.slice(0, 5)} showProductColumn={true} />
-            </div>
-          </div>
-        </section>
-
-        {/* Official Source & Verification Explanation */}
-        <section aria-label="Official Verification Methodology" className="bg-white dark:bg-slate-900 rounded-3xl border-2 border-slate-200 dark:border-slate-800 p-6 sm:p-10 shadow-sm transition-colors">
-          <div className="max-w-4xl space-y-4">
-            <div className="inline-flex items-center gap-2 text-xs font-black text-emerald-800 dark:text-emerald-300 uppercase tracking-wider">
-              <span>🛡️ Data Integrity Guarantee</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white tracking-tight">
-              Where Do These Fuel Figures Come From?
-            </h2>
-            <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed font-normal">
-              Unlike blogs that predict or fabricate fuel prices before official gazette notifications, our platform only publishes rates verified through the official <strong>Oil &amp; Gas Regulatory Authority (OGRA) Notified Prices Portal</strong> and the <strong>Ministry of Energy (Petroleum Division)</strong> press releases.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-3">
-              <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700">
-                <span className="text-base font-black text-slate-950 dark:text-white block mb-1">Primary Source</span>
-                <span className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 block leading-relaxed font-medium">OGRA Notified Petroleum circulars published under the Petroleum Products Ordinance.</span>
-              </div>
-              <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700">
-                <span className="text-base font-black text-slate-950 dark:text-white block mb-1">Secondary Audit</span>
-                <span className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 block leading-relaxed font-medium">Finance Division &amp; Petroleum Division official media press bulletins.</span>
-              </div>
-              <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700">
-                <span className="text-base font-black text-slate-950 dark:text-white block mb-1">Deregulated Fuels</span>
-                <span className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 block leading-relaxed font-medium">PSO published fuel prices for Octane+ Euro 5 (RON 97) retail pumps.</span>
-              </div>
+              <HistoricalTable records={recentRevisions.slice(0, 6)} showProductColumn={true} />
             </div>
           </div>
         </section>

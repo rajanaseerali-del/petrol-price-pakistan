@@ -11,9 +11,9 @@ import { getDieselPageFaqs } from '@/lib/faq-data';
 import { AdPlacement } from '@/components/AdPlacement';
 
 export const metadata: Metadata = {
-  title: 'Diesel Price in Pakistan Today | Latest High-Speed Diesel (HSD) Rates',
+  title: 'Diesel Price in Pakistan Today | Latest Official Rates',
   description:
-    'Current verified High-Speed Diesel (HSD) price in Pakistan per litre. Official notifications from OGRA and Petroleum Division with historical trends.',
+    'Current verified Diesel price in Pakistan per litre. Official notifications from OGRA and Petroleum Division with historical trends.',
 };
 
 export default async function DieselPage() {
@@ -24,12 +24,12 @@ export default async function DieselPage() {
   const diesel = products.find(p => p.id === 'diesel')!;
   const currentPrice = latestPrices['diesel'];
   const petrolRate = latestPrices['petrol']?.pricePkr ?? 377.71;
-  const dieselRate = currentPrice?.pricePkr ?? 202.00;
+  const dieselRate = currentPrice?.pricePkr ?? 393.66;
   const hiOctaneRate = latestPrices['hi-octane']?.pricePkr ?? 415.00;
   const dieselFaqs = getDieselPageFaqs(dieselRate);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12 space-y-10 sm:space-y-16 w-full">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-6 sm:space-y-8 w-full">
       {/* Breadcrumb */}
       <nav className="text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400">
         <ol className="flex items-center space-x-2">
@@ -41,15 +41,15 @@ export default async function DieselPage() {
         </ol>
       </nav>
 
-      <div className="space-y-3 sm:space-y-4 max-w-5xl">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100 dark:bg-emerald-950/90 border border-emerald-300 dark:border-emerald-800 text-emerald-950 dark:text-emerald-300 text-xs sm:text-sm font-black tracking-wide">
-          <span>● High-Speed Diesel (HSD)</span>
+      <div className="space-y-2 max-w-4xl">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/90 border border-emerald-300 dark:border-emerald-800 text-emerald-950 dark:text-emerald-300 text-xs font-black tracking-wide">
+          <span>● Regulated Fuel Rate</span>
         </div>
-        <h1 className="text-2xl sm:text-4xl lg:text-6xl font-black text-slate-950 dark:text-white tracking-tight leading-tight">
-          High-Speed Diesel Price in Pakistan Today
+        <h1 className="text-2xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight leading-tight">
+          Diesel Price in Pakistan Today
         </h1>
-        <p className="text-sm sm:text-base lg:text-xl text-slate-700 dark:text-slate-300 max-w-4xl leading-relaxed font-medium">
-          High-Speed Diesel (HSD) is the primary fuel powering heavy logistics, public transit, and agriculture in Pakistan. Rates are strictly regulated by the Oil &amp; Gas Regulatory Authority (OGRA).
+        <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 max-w-3xl leading-relaxed font-medium">
+          Diesel is the primary fuel powering heavy logistics, public transit, and passenger vehicles in Pakistan. Regulated by OGRA and notified by the Federal Ministry of Energy.
         </p>
       </div>
 
@@ -60,7 +60,7 @@ export default async function DieselPage() {
 
       {/* Rate Trend Chart */}
       <div className="w-full">
-        <PriceChart records={dieselHistory} productName="High-Speed Diesel (HSD)" />
+        <PriceChart records={dieselHistory} productName="Diesel" />
       </div>
 
       <AdPlacement slotId="diesel-page-mid" format="banner" />

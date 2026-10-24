@@ -41,7 +41,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/hi-octane-price-in-pakistan" className="hover:text-emerald-400 transition font-medium min-h-[32px] flex items-center">
-                  Hi-Octane Price (PSO RON 97)
+                  Hi-Octane Price in Pakistan
                 </Link>
               </li>
               <li>
@@ -84,8 +84,8 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/methodology" className="hover:text-emerald-400 transition font-medium min-h-[32px] flex items-center">
-                  Verification Methodology
+                <Link href="/advertise" className="hover:text-emerald-400 transition font-medium min-h-[32px] flex items-center">
+                  Advertise With Us
                 </Link>
               </li>
             </ul>
@@ -119,7 +119,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/contact" className="hover:text-emerald-400 transition font-medium min-h-[32px] flex items-center">
-                  Contact &amp; Data Corrections
+                  Contact Us
                 </Link>
               </li>
             </ul>

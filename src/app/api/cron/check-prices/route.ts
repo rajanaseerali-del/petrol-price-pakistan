@@ -58,34 +58,38 @@ async function scrapeAllFuelProducts(): Promise<ScrapedFuelRates> {
       const rows = [...html.matchAll(/<tr[^>]*>([\s\S]*?)<\/tr>/gi)];
       for (const r of rows) {
         const text = r[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+        if (/Gazette|Notification|Archive|Download/i.test(text)) continue;
 
         // 1. Regular Petrol (Premier Euro 5)
-        if (/PREMIER\s*EURO\s*5/i.test(text) && !/OCTANE/i.test(text)) {
-          const m = text.match(/(?:Rs\.?|PKR)?\s*(\d{2,3}(?:\.\d{1,2})?)/i);
+        if (/PREMIER\s*EURO\s*5/i.test(text) && !/OCTANE/i.test(text) && !result.petrol) {
+          const m = text.match(/(?:Rs\.?|PKR)\s*(\d{2,3}(?:\.\d{1,2})?)/i);
           if (m) result.petrol = parseFloat(m[1]);
         }
 
         // 2. High Speed Diesel
-        if (/(?:HI-?CETANE\s*DIESEL|DIESEL\s*EURO\s*5|HSD)/i.test(text)) {
-          const m = text.match(/(?:Rs\.?|PKR)?\s*(\d{2,3}(?:\.\d{1,2})?)/i);
+        if (/(?:HI-?CETANE\s*DIESEL|DIESEL\s*EURO\s*5|HSD)/i.test(text) && !result.diesel) {
+          const m = text.match(/(?:Rs\.?|PKR)\s*(\d{2,3}(?:\.\d{1,2})?)/i);
           if (m) result.diesel = parseFloat(m[1]);
         }
 
         // 3. Hi-Octane (Octane Euro 5 / RON 97)
         if (/OCTANE\s*EURO\s*5/i.test(text) && !result.hiOctane) {
-          const m = text.match(/(?:Rs\.?|PKR)?\s*(\d{3}(?:\.\d{1,2})?)/i);
-          if (m) result.hiOctane = parseFloat(m[1]);
+          const m = text.match(/(?:(?:Rs\.?|PKR)\s*)?(\d{3}(?:\.\d{1,2})?)/i);
+          if (m) {
+            const val = parseFloat(m[1]);
+            if (val >= 300 && val <= 600) result.hiOctane = val;
+          }
         }
 
         // 4. Kerosene (SKO)
-        if (/\bSKO\b|KEROSENE/i.test(text)) {
-          const m = text.match(/(?:Rs\.?|PKR)?\s*(\d{2,3}(?:\.\d{1,2})?)/i);
+        if (/\bSKO\b|KEROSENE/i.test(text) && !result.kerosene) {
+          const m = text.match(/(?:Rs\.?|PKR)\s*(\d{2,3}(?:\.\d{1,2})?)/i);
           if (m) result.kerosene = parseFloat(m[1]);
         }
 
         // 5. Light Diesel Oil (LDO)
-        if (/\bLDO\b|LIGHT\s*DIESEL/i.test(text)) {
-          const m = text.match(/(?:Rs\.?|PKR)?\s*(\d{2,3}(?:\.\d{1,2})?)/i);
+        if (/\bLDO\b|LIGHT\s*DIESEL/i.test(text) && !result.ldo) {
+          const m = text.match(/(?:Rs\.?|PKR)\s*(\d{2,3}(?:\.\d{1,2})?)/i);
           if (m) result.ldo = parseFloat(m[1]);
         }
       }
@@ -271,10 +275,19 @@ export async function GET(request: NextRequest) {
   const dateStr = nowIso.split('T')[0];
 
   for (const p of productsToCheck) {
-    if (!p.scrapedPrice || p.scrapedPrice <= 50) continue;
+    if (!p.scrapedPrice || p.scrapedPrice < 100 || p.scrapedPrice > 600) continue;
 
     const currentPaisa = latestByProduct[p.id]?.pricePaisa || defaultPaisaMap[p.id] || 0;
     const newPaisa = Math.round(p.scrapedPrice * 100);
+
+    // Plausibility check: reject overnight drops/spikes exceeding 30%
+    if (currentPaisa > 0) {
+      const changeRatio = Math.abs(newPaisa - currentPaisa) / currentPaisa;
+      if (changeRatio > 0.30) {
+        console.warn(`Plausibility check failed for ${p.id}: new price ${p.scrapedPrice} deviates ${Math.round(changeRatio * 100)}% from current ${currentPaisa / 100}`);
+        continue;
+      }
+    }
 
     // If rate has changed OR to refresh active daily verification timestamp
     if (currentPaisa > 0) {

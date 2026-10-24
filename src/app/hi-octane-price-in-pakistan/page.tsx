@@ -31,10 +31,10 @@ export default async function HiOctanePage() {
 
       <div className="space-y-2 max-w-4xl">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold border border-slate-200 dark:border-slate-700">
-          <span>ℹ️ Deregulated Fuel Product</span>
+          <span>ℹ️ Premium Fuel</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white tracking-tight">
-          Hi-Octane (RON 97) Price in Pakistan Today
+          Hi-Octane Price in Pakistan Today
         </h1>
         <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
           Unlike standard petrol, Hi-Octane (95/97 RON) was deregulated by the federal government in 2016. Oil Marketing Companies (OMCs) like PSO, Shell, and TotalEnergies set their respective prices independently based on international import premiums.

@@ -24,9 +24,9 @@ All fuel rates are represented in internal databases as 64-bit integer paisas (1
 - /petrol-price-history: Historical audit archive of approved government circulars.
 - /diesel-price-history: High-Speed Diesel historical revision ledger.
 - /fuel-price-changes: Chronological log of price increases and decreases.
-- /methodology: Verification protocols, freshness thresholds, and conflict resolution rules.
+- /advertise: Advertising placements, audience reach, and media partnerships.
 - /about: Background, mission, and operating ethics.
-- /contact: Data corrections desk and editorial inquiries.
+- /contact: User feedback, support, and editorial inquiries.
 - /editorial-policy: Journalistic fact-checking guidelines.
 - /disclaimer: Statutory notice on official compliance and estimation tools.
 - /privacy-policy: User data privacy and cookie disclosure.

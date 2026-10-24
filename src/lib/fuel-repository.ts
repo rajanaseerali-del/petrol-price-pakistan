@@ -9,7 +9,7 @@ import ARCHIVE_DATA from './fuel-data-archive.json';
 export const INITIAL_PRODUCTS: FuelProduct[] = [
   {
     id: 'petrol',
-    displayName: 'Petrol (Super / Motor Spirit)',
+    displayName: 'Petrol',
     displayNameUr: 'پیٹرول',
     slug: 'petrol-price-in-pakistan',
     unit: 'Litre',
@@ -18,8 +18,8 @@ export const INITIAL_PRODUCTS: FuelProduct[] = [
   },
   {
     id: 'diesel',
-    displayName: 'High-Speed Diesel (HSD)',
-    displayNameUr: 'ہائی اسپیڈ ڈیزل',
+    displayName: 'Diesel',
+    displayNameUr: 'ڈیزل',
     slug: 'diesel-price-in-pakistan',
     unit: 'Litre',
     isActive: true,
@@ -27,7 +27,7 @@ export const INITIAL_PRODUCTS: FuelProduct[] = [
   },
   {
     id: 'hi-octane',
-    displayName: 'Hi-Octane RON 97 (Octane+)',
+    displayName: 'Hi-Octane',
     displayNameUr: 'ہائی اوکٹین',
     slug: 'hi-octane-price-in-pakistan',
     unit: 'Litre',
@@ -36,7 +36,7 @@ export const INITIAL_PRODUCTS: FuelProduct[] = [
   },
   {
     id: 'kerosene',
-    displayName: 'Kerosene Oil (SKO)',
+    displayName: 'Kerosene',
     displayNameUr: 'مٹی کا تیل',
     slug: 'kerosene-oil-price-in-pakistan',
     unit: 'Litre',
@@ -45,8 +45,8 @@ export const INITIAL_PRODUCTS: FuelProduct[] = [
   },
   {
     id: 'ldo',
-    displayName: 'Light Diesel Oil (LDO)',
-    displayNameUr: 'لائٹ ڈیزل آئل',
+    displayName: 'Light Diesel',
+    displayNameUr: 'لائٹ ڈیزل',
     slug: 'light-diesel-oil-price-in-pakistan',
     unit: 'Litre',
     isActive: true,
@@ -54,7 +54,7 @@ export const INITIAL_PRODUCTS: FuelProduct[] = [
   },
   {
     id: 'lpg',
-    displayName: 'LPG (Liquefied Petroleum Gas)',
+    displayName: 'LPG',
     displayNameUr: 'ایل پی جی',
     slug: 'lpg-price-in-pakistan',
     unit: 'kg',

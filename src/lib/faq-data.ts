@@ -51,16 +51,16 @@ export function getPetrolPageFaqs(currentPrice?: number): FAQItem[] {
 export const PETROL_PAGE_FAQS: FAQItem[] = getPetrolPageFaqs(377.71);
 
 export function getDieselPageFaqs(currentPrice?: number): FAQItem[] {
-  const formattedPrice = currentPrice ? `Rs. ${currentPrice.toFixed(2)}` : 'Rs. 202.00';
+  const formattedPrice = currentPrice ? `Rs. ${currentPrice.toFixed(2)}` : 'Rs. 393.66';
   return [
     {
-      question: 'What is the current official price of High-Speed Diesel (HSD) in Pakistan today?',
-      answer: `The current notified rate for High-Speed Diesel (HSD) is officially published at ${formattedPrice} per litre as notified under government circulars by OGRA and the Ministry of Energy.`,
+      question: 'What is the current official price of Diesel in Pakistan today?',
+      answer: `The current notified rate for High-Speed Diesel is officially published at ${formattedPrice} per litre as notified under government circulars by OGRA and the Ministry of Energy.`,
     },
     {
-      question: 'What is High-Speed Diesel (HSD) used for in Pakistan?',
+      question: 'What is Diesel used for in Pakistan?',
       answer:
-        'High-Speed Diesel is the backbone of Pakistan’s transport economy, powering heavy freight trucks, intercity passenger buses, agricultural tractors, tube-wells, and diesel 4x4 vehicles such as Toyota Hilux Revo and Fortuner.',
+        'Diesel is the backbone of Pakistan’s transport economy, powering heavy freight trucks, intercity passenger buses, agricultural tractors, tube-wells, and diesel 4x4 vehicles such as Toyota Hilux Revo and Fortuner.',
     },
     {
       question: 'Why does a diesel price increase affect general inflation in Pakistan?',
@@ -70,7 +70,7 @@ export function getDieselPageFaqs(currentPrice?: number): FAQItem[] {
   ];
 }
 
-export const DIESEL_PAGE_FAQS: FAQItem[] = getDieselPageFaqs(202.00);
+export const DIESEL_PAGE_FAQS: FAQItem[] = getDieselPageFaqs(393.66);
 
 export const HISTORY_PAGE_FAQS: FAQItem[] = [
   {
