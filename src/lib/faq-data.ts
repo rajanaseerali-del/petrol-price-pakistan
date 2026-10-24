@@ -28,36 +28,49 @@ export const HOME_FAQS: FAQItem[] = [
   },
 ];
 
-export const PETROL_PAGE_FAQS: FAQItem[] = [
-  {
-    question: 'What is the current official price of Petrol in Pakistan today?',
-    answer:
-      'The current notified rate for Petrol (Super / Motor Spirit 92 RON) is officially published at Rs. 382.02 per litre as notified under government circulars.',
-  },
-  {
-    question: 'What vehicle types use Petrol in Pakistan?',
-    answer:
-      'Petrol powers the vast majority of personal passenger cars (Suzuki Alto, Cultus, Toyota Corolla, Honda Civic), motorbikes (Honda CD 70, CG 125), and light urban commercial transport across Pakistan.',
-  },
-  {
-    question: 'How can I calculate my journey petrol cost?',
-    answer:
-      'Use our interactive Fuel & Trip Cost Calculator. Select your vehicle preset (e.g. Alto 660cc, Corolla GLi, or Honda CD 70), enter the distance in kilometres, and get instant calculations for required litres, cost per KM, and total rupees required.',
-  },
-];
+export function getPetrolPageFaqs(currentPrice?: number): FAQItem[] {
+  const formattedPrice = currentPrice ? `Rs. ${currentPrice.toFixed(2)}` : 'Rs. 377.71';
+  return [
+    {
+      question: 'What is the current official price of Petrol in Pakistan today?',
+      answer: `The current notified rate for Petrol (Super / Motor Spirit 92 RON) is officially published at ${formattedPrice} per litre as notified under government circulars by OGRA and the Ministry of Energy.`,
+    },
+    {
+      question: 'What vehicle types use Petrol in Pakistan?',
+      answer:
+        'Petrol powers the vast majority of personal passenger cars (Suzuki Alto, Cultus, Toyota Corolla, Honda Civic), motorbikes (Honda CD 70, CG 125), and light urban commercial transport across Pakistan.',
+    },
+    {
+      question: 'How can I calculate my journey petrol cost?',
+      answer:
+        'Use our interactive Fuel & Trip Cost Calculator. Select your vehicle preset (e.g. Alto 660cc, Corolla GLi, or Honda CD 70), enter the distance in kilometres, and get instant calculations for required litres, cost per KM, and total rupees required.',
+    },
+  ];
+}
 
-export const DIESEL_PAGE_FAQS: FAQItem[] = [
-  {
-    question: 'What is High-Speed Diesel (HSD) used for in Pakistan?',
-    answer:
-      'High-Speed Diesel is the backbone of Pakistan’s transport economy, powering heavy freight trucks, intercity passenger buses, agricultural tractors, tube-wells, and diesel 4x4 vehicles such as Toyota Hilux Revo and Fortuner.',
-  },
-  {
-    question: 'Why does a diesel price increase affect general inflation in Pakistan?',
-    answer:
-      'Because all commercial goods, agricultural produce, and raw materials are transported across the country using diesel freight trucks, any change in diesel directly impacts food prices and consumer inflation rates.',
-  },
-];
+export const PETROL_PAGE_FAQS: FAQItem[] = getPetrolPageFaqs(377.71);
+
+export function getDieselPageFaqs(currentPrice?: number): FAQItem[] {
+  const formattedPrice = currentPrice ? `Rs. ${currentPrice.toFixed(2)}` : 'Rs. 202.00';
+  return [
+    {
+      question: 'What is the current official price of High-Speed Diesel (HSD) in Pakistan today?',
+      answer: `The current notified rate for High-Speed Diesel (HSD) is officially published at ${formattedPrice} per litre as notified under government circulars by OGRA and the Ministry of Energy.`,
+    },
+    {
+      question: 'What is High-Speed Diesel (HSD) used for in Pakistan?',
+      answer:
+        'High-Speed Diesel is the backbone of Pakistan’s transport economy, powering heavy freight trucks, intercity passenger buses, agricultural tractors, tube-wells, and diesel 4x4 vehicles such as Toyota Hilux Revo and Fortuner.',
+    },
+    {
+      question: 'Why does a diesel price increase affect general inflation in Pakistan?',
+      answer:
+        'Because all commercial goods, agricultural produce, and raw materials are transported across the country using diesel freight trucks, any change in diesel directly impacts food prices and consumer inflation rates.',
+    },
+  ];
+}
+
+export const DIESEL_PAGE_FAQS: FAQItem[] = getDieselPageFaqs(202.00);
 
 export const HISTORY_PAGE_FAQS: FAQItem[] = [
   {

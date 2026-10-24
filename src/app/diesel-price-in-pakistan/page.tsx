@@ -7,7 +7,7 @@ import { PriceChart } from '@/components/PriceChart';
 import { FuelCalculator } from '@/components/FuelCalculator';
 import { TankFillCalculator } from '@/components/TankFillCalculator';
 import { FAQSection } from '@/components/FAQSection';
-import { DIESEL_PAGE_FAQS } from '@/lib/faq-data';
+import { getDieselPageFaqs } from '@/lib/faq-data';
 import { AdPlacement } from '@/components/AdPlacement';
 
 export const metadata: Metadata = {
@@ -23,9 +23,10 @@ export default async function DieselPage() {
 
   const diesel = products.find(p => p.id === 'diesel')!;
   const currentPrice = latestPrices['diesel'];
-  const petrolRate = latestPrices['petrol']?.pricePkr ?? 386.30;
-  const dieselRate = currentPrice?.pricePkr ?? 396.96;
+  const petrolRate = latestPrices['petrol']?.pricePkr ?? 377.71;
+  const dieselRate = currentPrice?.pricePkr ?? 202.00;
   const hiOctaneRate = latestPrices['hi-octane']?.pricePkr ?? 415.00;
+  const dieselFaqs = getDieselPageFaqs(dieselRate);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12 space-y-10 sm:space-y-16 w-full">
@@ -112,7 +113,7 @@ export default async function DieselPage() {
 
       {/* FAQs with SEO Schema */}
       <FAQSection
-        faqs={DIESEL_PAGE_FAQS}
+        faqs={dieselFaqs}
         title="Diesel Pricing FAQs (Pakistan)"
         description="Comprehensive answers regarding High-Speed Diesel (HSD) pricing, subsidies, and commercial freight impact."
       />

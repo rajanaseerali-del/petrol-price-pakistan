@@ -7,7 +7,7 @@ import { PriceChart } from '@/components/PriceChart';
 import { FuelCalculator } from '@/components/FuelCalculator';
 import { TankFillCalculator } from '@/components/TankFillCalculator';
 import { FAQSection } from '@/components/FAQSection';
-import { PETROL_PAGE_FAQS } from '@/lib/faq-data';
+import { getPetrolPageFaqs } from '@/lib/faq-data';
 import { AdPlacement } from '@/components/AdPlacement';
 
 export const metadata: Metadata = {
@@ -23,9 +23,10 @@ export default async function PetrolPage() {
 
   const petrol = products.find(p => p.id === 'petrol')!;
   const currentPrice = latestPrices['petrol'];
-  const petrolRate = currentPrice?.pricePkr ?? 386.30;
-  const dieselRate = latestPrices['diesel']?.pricePkr ?? 396.96;
+  const petrolRate = currentPrice?.pricePkr ?? 377.71;
+  const dieselRate = latestPrices['diesel']?.pricePkr ?? 202.00;
   const hiOctaneRate = latestPrices['hi-octane']?.pricePkr ?? 415.00;
+  const petrolFaqs = getPetrolPageFaqs(petrolRate);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12 space-y-10 sm:space-y-16 w-full">
@@ -112,7 +113,7 @@ export default async function PetrolPage() {
 
       {/* FAQs with SEO Schema */}
       <FAQSection
-        faqs={PETROL_PAGE_FAQS}
+        faqs={petrolFaqs}
         title="Petrol Pricing FAQs (Pakistan)"
         description="Detailed answers on how petrol is taxed, petroleum levy rates, and fortnightly revisions by OGRA."
       />

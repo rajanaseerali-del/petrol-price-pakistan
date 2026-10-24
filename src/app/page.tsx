@@ -79,11 +79,6 @@ export default async function HomePage() {
               Petrol Price Today in Pakistan
             </h1>
           </div>
-          <div className="flex items-center gap-2 shrink-0 self-start sm:self-auto">
-            <span className="text-[11px] sm:text-xs font-black text-emerald-900 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950 px-2.5 py-1 rounded-lg border border-emerald-300 dark:border-emerald-800">
-              Verified: 16 October 2026
-            </span>
-          </div>
         </div>
 
         {/* Current Verified Prices Grid - PRIMARY PETROL CARD ABOVE THE FOLD */}
