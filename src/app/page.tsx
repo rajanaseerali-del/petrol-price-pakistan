@@ -32,7 +32,7 @@ export default async function HomePage() {
     url: 'https://petrolpricepakistan.pk',
     potentialAction: {
       '@type': 'SearchAction',
-      target: 'https://petrolpricepakistan.pk/petrol-price-by-city?q={search_term_string}',
+      target: 'https://petrolpricepakistan.pk/?q={search_term_string}',
       'query-input': 'required name=search_term_string',
     },
     hasPart: [

@@ -25,7 +25,6 @@ Petrol Price Pakistan consumes and cross-verifies fuel rates directly from offic
 - [Diesel Price History](https://petrolpricepakistan.pk/diesel-price-history): High-Speed Diesel historical notifications.
 - [Price Increases & Decreases](https://petrolpricepakistan.pk/fuel-price-changes): Exact mathematical paisa revisions.
 - [Fuel Tank Fill-Up Calculator](https://petrolpricepakistan.pk/petrol-calculator): Accurate fill-up planning tool for bikes, hatchbacks, sedans, and SUVs.
-- [Rates by City & Depots](https://petrolpricepakistan.pk/petrol-price-by-city): Explanation of Inland Freight Equalization Margin (IFEM).
 - [Advertise With Us](https://petrolpricepakistan.pk/advertise): Advertising options and media inquiries for Pakistani motorists.
 
 ## Pricing Mechanism

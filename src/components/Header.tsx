@@ -16,7 +16,6 @@ export function Header() {
     { href: '/petrol-price-history', label: 'History' },
     { href: '/fuel-price-changes', label: 'Changes' },
     { href: '/petrol-calculator', label: 'Calculators' },
-    { href: '/petrol-price-by-city', label: 'By City' },
   ];
 
   const isLinkActive = (href: string) => {

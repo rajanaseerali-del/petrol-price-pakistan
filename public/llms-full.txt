@@ -20,7 +20,6 @@ All fuel rates are represented in internal databases as 64-bit integer paisas (1
 - /light-diesel-oil-price-in-pakistan: Light Diesel Oil (LDO) agricultural tube-well rates.
 - /lpg-price-in-pakistan: Liquefied Petroleum Gas monthly cylinder and per-kg maximum prices.
 - /petrol-calculator: Multi-vehicle fuel tank fill-up cost and highway journey fuel calculators.
-- /petrol-price-by-city: Nationwide uniform price breakdown under Inland Freight Equalization Margin (IFEM).
 - /petrol-price-history: Historical audit archive of approved government circulars.
 - /diesel-price-history: High-Speed Diesel historical revision ledger.
 - /fuel-price-changes: Chronological log of price increases and decreases.

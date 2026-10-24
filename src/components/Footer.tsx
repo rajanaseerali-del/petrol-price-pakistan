@@ -49,11 +49,6 @@ export function Footer() {
                   Latest Price Increases &amp; Decreases
                 </Link>
               </li>
-              <li>
-                <Link href="/petrol-price-by-city" className="hover:text-emerald-400 transition font-medium min-h-[32px] flex items-center">
-                  Rates by City &amp; Depots
-                </Link>
-              </li>
             </ul>
           </div>
 
