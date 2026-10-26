@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function DisclaimerPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8 w-full">
       <nav className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
         <ol className="flex items-center space-x-2">
           <li>

@@ -92,6 +92,11 @@ export class FuelRepository {
     };
   }
 
+  static clearCache(): void {
+    this.lastFetchTime = 0;
+    this.cachedRecords = [];
+  }
+
   private static async fetchAllRecords(): Promise<PriceRecord[]> {
     const now = Date.now();
     // In-memory cache for 10s during SSR / SSG

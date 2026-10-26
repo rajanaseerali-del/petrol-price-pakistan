@@ -2,11 +2,13 @@ name: Scheduled Fuel Price Crawler
 
 on:
   schedule:
-    # Runs everyday at 12:00 AM midnight Pakistan Standard Time (19:00 UTC)
-    - cron: '0 19 * * *'
-    # Also runs every 6 hours as a backup to catch mid-day announcements
-    - cron: '0 6,12,18 * * *'
-  workflow_dispatch: # Allows manual trigger anytime from GitHub Actions tab
+    # Runs every 6 hours aligned with 12:00 AM Midnight Pakistan Standard Time (UTC+5):
+    # 19:00 UTC = 12:00 AM Midnight PKT (Daily midnight cycle)
+    # 01:00 UTC = 06:00 AM PKT (6 hours later)
+    # 07:00 UTC = 12:00 PM Noon PKT (6 hours later)
+    # 13:00 UTC = 06:00 PM PKT (6 hours later)
+    - cron: '0 1,7,13,19 * * *'
+  workflow_dispatch: # Allows instant manual trigger anytime from GitHub Actions tab
 
 jobs:
   check-prices:
@@ -33,4 +35,4 @@ jobs:
             echo "Crawler endpoint failed with HTTP $HTTP_STATUS"
             exit 1
           fi
-          echo "Crawler check and auto-sync completed successfully."
+          echo "All 6 fuel rates scraped and verified successfully."

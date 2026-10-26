@@ -84,7 +84,7 @@ export function TankFillCalculator({
   const refillCost = litresToFill * activeRate;
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-md p-5 sm:p-7 max-w-4xl mx-auto transition-colors">
+    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-7 w-full transition-colors">
       {/* Header */}
       <div className="border-b border-slate-200 dark:border-slate-800 pb-4 mb-5">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs font-bold tracking-wide mb-2">

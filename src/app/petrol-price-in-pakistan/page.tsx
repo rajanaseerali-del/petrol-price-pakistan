@@ -6,6 +6,8 @@ import { HistoricalTable } from '@/components/HistoricalTable';
 import { PriceChart } from '@/components/PriceChart';
 import { FuelCalculator } from '@/components/FuelCalculator';
 import { TankFillCalculator } from '@/components/TankFillCalculator';
+import { TomorrowPriceEstimator } from '@/components/TomorrowPriceEstimator';
+import { OgraStatusWidget } from '@/components/OgraStatusWidget';
 import { FAQSection } from '@/components/FAQSection';
 import { getPetrolPageFaqs } from '@/lib/faq-data';
 import { AdPlacement } from '@/components/AdPlacement';
@@ -41,14 +43,15 @@ export default async function PetrolPage() {
         </ol>
       </nav>
 
-      <div className="space-y-2 max-w-4xl">
+      {/* Header Info */}
+      <div className="space-y-2">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/90 border border-emerald-300 dark:border-emerald-800 text-emerald-950 dark:text-emerald-300 text-xs font-black tracking-wide">
-          <span>● Regulated Fuel Rate</span>
+          <span>● Regulated Fuel Rate · Motor Spirit (Euro 5)</span>
         </div>
         <h1 className="text-2xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight leading-tight">
           Petrol Price in Pakistan Today
         </h1>
-        <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 max-w-3xl leading-relaxed font-medium">
+        <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 max-w-4xl leading-relaxed font-medium">
           Official ex-depot consumer sale price for Petrol across all filling stations in Pakistan. Regulated by OGRA and notified by the Federal Ministry of Energy.
         </p>
       </div>
@@ -58,65 +61,68 @@ export default async function PetrolPage() {
         <PriceCard product={petrol} record={currentPrice} featured={true} />
       </div>
 
-      {/* Rate Trend Chart */}
-      <div className="w-full">
-        <PriceChart records={petrolHistory} productName="Petrol" />
+      {/* 2-Column Responsive Dashboard Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+        {/* Left Column (8 cols): Trend Chart, History, Calculator, FAQs */}
+        <div className="lg:col-span-8 space-y-6 sm:space-y-8 min-w-0">
+          {/* Rate Trend Chart */}
+          <section className="space-y-3">
+            <h2 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white tracking-tight">
+              Petrol Price Trend (2026)
+            </h2>
+            <PriceChart records={petrolHistory} productName="Petrol" />
+          </section>
+
+          {/* Historical revisions */}
+          <section className="space-y-3">
+            <h2 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white tracking-tight">
+              Recent Petrol Price Revisions
+            </h2>
+            <HistoricalTable records={petrolHistory} />
+          </section>
+
+          {/* Calculator for petrol trips */}
+          <section className="space-y-3">
+            <h2 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white tracking-tight">
+              Calculate Your Journey Petrol Cost
+            </h2>
+            <FuelCalculator
+              initialPetrolPrice={petrolRate}
+              initialDieselPrice={dieselRate}
+              initialHiOctanePrice={hiOctaneRate}
+            />
+          </section>
+
+          {/* FAQs with SEO Schema */}
+          <FAQSection
+            faqs={petrolFaqs}
+            title="Petrol Pricing FAQs (Pakistan)"
+            description="Detailed answers on how petrol is taxed, petroleum levy rates, and fortnightly revisions by OGRA."
+          />
+        </div>
+
+        {/* Right Column (4 cols, sticky): Forecast, Tank Fill, OGRA Status */}
+        <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-20">
+          {/* Tomorrow Forecast */}
+          <TomorrowPriceEstimator
+            petrolPrice={petrolRate}
+            dieselPrice={dieselRate}
+            hiOctanePrice={hiOctaneRate}
+          />
+
+          {/* Tank Fill Calculator */}
+          <TankFillCalculator
+            petrolPrice={petrolRate}
+            dieselPrice={dieselRate}
+            hiOctanePrice={hiOctaneRate}
+          />
+
+          {/* OGRA Verification Status */}
+          <OgraStatusWidget products={products} latestPrices={latestPrices} />
+
+          <AdPlacement slotId="petrol-page-sidebar" format="rectangle" />
+        </aside>
       </div>
-
-      <AdPlacement slotId="petrol-page-mid" format="banner" />
-
-      {/* Tank Fill-up cost calculator for petrol */}
-      <section className="space-y-4 sm:space-y-6">
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-3 sm:pb-4">
-          <h2 className="text-xl sm:text-2xl lg:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
-            Calculate Petrol Tank Fill-Up Cost
-          </h2>
-          <p className="text-xs sm:text-sm md:text-base text-slate-700 dark:text-slate-300 mt-1 font-medium">
-            Choose your vehicle model to compute total tank fill cost and quarter top-off rates at today&apos;s petrol price.
-          </p>
-        </div>
-        <TankFillCalculator
-          petrolPrice={petrolRate}
-          dieselPrice={dieselRate}
-          hiOctanePrice={hiOctaneRate}
-        />
-      </section>
-
-      {/* Historical revisions */}
-      <section className="space-y-4 sm:space-y-6">
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-3 sm:pb-4">
-          <h2 className="text-xl sm:text-2xl lg:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
-            Recent Petrol Price Revisions (2026)
-          </h2>
-          <p className="text-xs sm:text-sm md:text-base text-slate-700 dark:text-slate-300 mt-1 font-medium">
-            Official chronological history of government notifications and price adjustments.
-          </p>
-        </div>
-        <HistoricalTable records={petrolHistory} />
-      </section>
-
-      {/* Calculator for petrol trips */}
-      <section className="space-y-4 sm:space-y-6">
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-3 sm:pb-4">
-          <h2 className="text-xl sm:text-2xl lg:text-4xl font-black text-slate-950 dark:text-white tracking-tight">
-            Calculate Your Journey Petrol Cost
-          </h2>
-          <p className="text-xs sm:text-sm md:text-base text-slate-700 dark:text-slate-300 mt-1 font-medium">
-            Plan city and highway trips based on verified per-litre petrol rates.
-          </p>
-        </div>
-        <FuelCalculator
-          initialPetrolPrice={petrolRate}
-          initialDieselPrice={dieselRate}
-        />
-      </section>
-
-      {/* FAQs with SEO Schema */}
-      <FAQSection
-        faqs={petrolFaqs}
-        title="Petrol Pricing FAQs (Pakistan)"
-        description="Detailed answers on how petrol is taxed, petroleum levy rates, and fortnightly revisions by OGRA."
-      />
     </div>
   );
 }
