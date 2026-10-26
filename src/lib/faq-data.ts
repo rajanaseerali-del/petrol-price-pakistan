@@ -29,7 +29,7 @@ export const HOME_FAQS: FAQItem[] = [
 ];
 
 export function getPetrolPageFaqs(currentPrice?: number): FAQItem[] {
-  const formattedPrice = currentPrice ? `Rs. ${currentPrice.toFixed(2)}` : 'Rs. 377.71';
+  const formattedPrice = currentPrice ? `Rs. ${currentPrice.toFixed(2)}` : 'Rs. 379.25';
   return [
     {
       question: 'What is the current official price of Petrol in Pakistan today?',
@@ -48,10 +48,10 @@ export function getPetrolPageFaqs(currentPrice?: number): FAQItem[] {
   ];
 }
 
-export const PETROL_PAGE_FAQS: FAQItem[] = getPetrolPageFaqs(377.71);
+export const PETROL_PAGE_FAQS: FAQItem[] = getPetrolPageFaqs(379.25);
 
 export function getDieselPageFaqs(currentPrice?: number): FAQItem[] {
-  const formattedPrice = currentPrice ? `Rs. ${currentPrice.toFixed(2)}` : 'Rs. 393.66';
+  const formattedPrice = currentPrice ? `Rs. ${currentPrice.toFixed(2)}` : 'Rs. 395.82';
   return [
     {
       question: 'What is the current official price of Diesel in Pakistan today?',
@@ -70,7 +70,7 @@ export function getDieselPageFaqs(currentPrice?: number): FAQItem[] {
   ];
 }
 
-export const DIESEL_PAGE_FAQS: FAQItem[] = getDieselPageFaqs(393.66);
+export const DIESEL_PAGE_FAQS: FAQItem[] = getDieselPageFaqs(395.82);
 
 export const HISTORY_PAGE_FAQS: FAQItem[] = [
   {

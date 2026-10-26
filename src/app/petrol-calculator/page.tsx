@@ -14,8 +14,8 @@ export const metadata: Metadata = {
 
 export default async function CalculatorPage() {
   const latestPrices = await FuelRepository.getLatestPrices();
-  const petrolPrice = latestPrices['petrol']?.pricePkr ?? 377.71;
-  const dieselPrice = latestPrices['diesel']?.pricePkr ?? 393.66;
+  const petrolPrice = latestPrices['petrol']?.pricePkr ?? 379.25;
+  const dieselPrice = latestPrices['diesel']?.pricePkr ?? 395.82;
   const hiOctanePrice = latestPrices['hi-octane']?.pricePkr ?? 415.00;
 
   return (

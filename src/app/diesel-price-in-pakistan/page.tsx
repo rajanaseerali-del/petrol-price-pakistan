@@ -25,8 +25,8 @@ export default async function DieselPage() {
 
   const diesel = products.find(p => p.id === 'diesel')!;
   const currentPrice = latestPrices['diesel'];
-  const petrolRate = latestPrices['petrol']?.pricePkr ?? 377.71;
-  const dieselRate = currentPrice?.pricePkr ?? 393.66;
+  const petrolRate = latestPrices['petrol']?.pricePkr ?? 379.25;
+  const dieselRate = currentPrice?.pricePkr ?? 395.82;
   const hiOctaneRate = latestPrices['hi-octane']?.pricePkr ?? 415.00;
   const dieselFaqs = getDieselPageFaqs(dieselRate);
 

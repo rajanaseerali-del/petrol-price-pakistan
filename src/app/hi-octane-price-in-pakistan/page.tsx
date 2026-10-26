@@ -21,8 +21,8 @@ export default async function HiOctanePage() {
   const hiOctaneHistory = await FuelRepository.getProductHistory('hi-octane');
   const hiOctane = products.find(p => p.id === 'hi-octane')!;
   const currentPrice = latestPrices['hi-octane'];
-  const petrolRate = latestPrices['petrol']?.pricePkr ?? 377.71;
-  const dieselRate = latestPrices['diesel']?.pricePkr ?? 393.66;
+  const petrolRate = latestPrices['petrol']?.pricePkr ?? 379.25;
+  const dieselRate = latestPrices['diesel']?.pricePkr ?? 395.82;
   const hiOctaneRate = currentPrice?.pricePkr ?? 415.00;
 
   return (

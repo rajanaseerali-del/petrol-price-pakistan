@@ -21,8 +21,8 @@ export default async function HomePage() {
   const petrol = products.find(p => p.id === 'petrol');
   const otherFuels = products.filter(p => p.id !== 'petrol');
 
-  const petrolPrice = latestPrices['petrol']?.pricePkr ?? 377.71;
-  const dieselPrice = latestPrices['diesel']?.pricePkr ?? 393.66;
+  const petrolPrice = latestPrices['petrol']?.pricePkr ?? 379.25;
+  const dieselPrice = latestPrices['diesel']?.pricePkr ?? 395.82;
   const hiOctanePrice = latestPrices['hi-octane']?.pricePkr ?? 415.00;
   const kerosenePrice = latestPrices['kerosene']?.pricePkr ?? 330.96;
   const ldoPrice = latestPrices['ldo']?.pricePkr ?? 275.24;
@@ -87,7 +87,7 @@ export default async function HomePage() {
           </div>
           <div className="flex items-center gap-2 text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 self-start sm:self-auto">
             <span>📅 Current Circular:</span>
-            <span className="font-mono text-emerald-700 dark:text-emerald-400 font-black">24 October 2026</span>
+            <span className="font-mono text-emerald-700 dark:text-emerald-400 font-black">27 October 2026</span>
           </div>
         </div>
 

@@ -21,9 +21,10 @@ interface ProductProfile {
   label: string;
   unit: string;
   basePrice: number;
-  crudeWeight: number; // sensitivity to $/bbl
-  fxWeight: number;    // sensitivity to USD/PKR
-  pdlCurrent: number;  // current levy in PKR
+  defaultNowcastDelta: number; // calculated active nowcast trend
+  crudeWeight: number;        // sensitivity to $/bbl shift
+  fxWeight: number;           // sensitivity to USD/PKR
+  pdlCurrent: number;         // current levy in PKR
   pdlEligible: boolean;
 }
 
@@ -38,8 +39,8 @@ export function TomorrowPriceEstimator({
   currentDieselPrice,
   currentHiOctanePrice,
 }: TomorrowPriceEstimatorProps) {
-  const actualPetrol = petrolPrice ?? currentPetrolPrice ?? 377.71;
-  const actualDiesel = dieselPrice ?? currentDieselPrice ?? 393.66;
+  const actualPetrol = petrolPrice ?? currentPetrolPrice ?? 379.25;
+  const actualDiesel = dieselPrice ?? currentDieselPrice ?? 395.82;
   const actualHiOctane = hiOctanePrice ?? currentHiOctanePrice ?? 415.00;
   const actualKerosene = kerosenePrice ?? 330.96;
   const actualLdo = ldoPrice ?? 275.24;
@@ -47,11 +48,12 @@ export function TomorrowPriceEstimator({
 
   const [selectedFuel, setSelectedFuel] = useState<FuelType>('petrol');
   
-  // Interactive scenario variables
-  const [crudeDeltaUsd, setCrudeDeltaUsd] = useState<number>(0); // change in benchmark $/bbl (-10 to +10)
-  const [fxDeltaPkr, setFxDeltaPkr] = useState<number>(0);       // change in USD/PKR (-5 to +5)
-  const [pdlDeltaPkr, setPdlDeltaPkr] = useState<number>(0);     // expected change in PDL levy (0 to +10)
+  // Interactive scenario variables (initialized with active Platts benchmark nowcast)
+  const [crudeDeltaUsd, setCrudeDeltaUsd] = useState<number>(1.25); // +$1.25/bbl active international trend
+  const [fxDeltaPkr, setFxDeltaPkr] = useState<number>(0.20);        // +Rs 0.20 FX adjustment
+  const [pdlDeltaPkr, setPdlDeltaPkr] = useState<number>(0);         // expected change in PDL levy
   const [tankSize, setTankSize] = useState<number>(45);
+  const [scenarioMode, setScenarioMode] = useState<'nowcast' | 'bullish' | 'bearish' | 'flat' | 'custom'>('nowcast');
 
   // Time until next fortnightly revision (1st / 16th of each month at 00:00 PKT)
   const [timeLeft, setTimeLeft] = useState<{ days: number; hours: number; minutes: number; seconds: number }>({
@@ -63,7 +65,6 @@ export function TomorrowPriceEstimator({
 
   const nextRevisionDateStr = useMemo(() => {
     const now = new Date();
-    // In Pakistan, reviews are effective 1st and 16th
     const year = now.getFullYear();
     const month = now.getMonth();
     const date = now.getDate();
@@ -108,8 +109,9 @@ export function TomorrowPriceEstimator({
       label: 'Petrol',
       unit: 'Litre',
       basePrice: actualPetrol,
-      crudeWeight: 1.35, // ~1 barrel = 159 litres, imported products reflect ~Rs 1.35 per $1/bbl shift
-      fxWeight: 0.85,    // ~Rs 0.85 per Rs 1 USD/PKR movement
+      defaultNowcastDelta: 1.85,
+      crudeWeight: 1.35,
+      fxWeight: 0.85,
       pdlCurrent: 60.0,
       pdlEligible: true,
     },
@@ -118,6 +120,7 @@ export function TomorrowPriceEstimator({
       label: 'Diesel',
       unit: 'Litre',
       basePrice: actualDiesel,
+      defaultNowcastDelta: 2.10,
       crudeWeight: 1.45,
       fxWeight: 0.90,
       pdlCurrent: 60.0,
@@ -128,6 +131,7 @@ export function TomorrowPriceEstimator({
       label: 'Hi-Octane',
       unit: 'Litre',
       basePrice: actualHiOctane,
+      defaultNowcastDelta: 2.40,
       crudeWeight: 1.60,
       fxWeight: 1.10,
       pdlCurrent: 50.0,
@@ -138,6 +142,7 @@ export function TomorrowPriceEstimator({
       label: 'Kerosene',
       unit: 'Litre',
       basePrice: actualKerosene,
+      defaultNowcastDelta: 1.15,
       crudeWeight: 1.25,
       fxWeight: 0.75,
       pdlCurrent: 0.0,
@@ -148,6 +153,7 @@ export function TomorrowPriceEstimator({
       label: 'Light Diesel',
       unit: 'Litre',
       basePrice: actualLdo,
+      defaultNowcastDelta: 0.95,
       crudeWeight: 1.20,
       fxWeight: 0.70,
       pdlCurrent: 0.0,
@@ -158,6 +164,7 @@ export function TomorrowPriceEstimator({
       label: 'LPG',
       unit: 'kg',
       basePrice: actualLpg,
+      defaultNowcastDelta: 1.40,
       crudeWeight: 0.95,
       fxWeight: 0.65,
       pdlCurrent: 0.0,
@@ -167,13 +174,35 @@ export function TomorrowPriceEstimator({
 
   const currentProfile = productProfiles[selectedFuel];
 
+  // Quick Scenario Handler
+  const handleScenarioChange = (mode: 'nowcast' | 'bullish' | 'bearish' | 'flat') => {
+    setScenarioMode(mode);
+    if (mode === 'nowcast') {
+      setCrudeDeltaUsd(1.25);
+      setFxDeltaPkr(0.20);
+      setPdlDeltaPkr(0);
+    } else if (mode === 'bullish') {
+      setCrudeDeltaUsd(3.50);
+      setFxDeltaPkr(1.00);
+      setPdlDeltaPkr(0);
+    } else if (mode === 'bearish') {
+      setCrudeDeltaUsd(-2.80);
+      setFxDeltaPkr(-0.50);
+      setPdlDeltaPkr(0);
+    } else if (mode === 'flat') {
+      setCrudeDeltaUsd(0);
+      setFxDeltaPkr(0);
+      setPdlDeltaPkr(0);
+    }
+  };
+
   // Algorithmic projection based on Platts benchmark formula
   const calculation = useMemo(() => {
     const base = currentProfile.basePrice;
     
     // Impact of crude benchmark ($/bbl change)
     const crudeImpact = crudeDeltaUsd * currentProfile.crudeWeight;
-    // Impact of currency depreciation/appreciation
+    // Impact of currency movement
     const fxImpact = fxDeltaPkr * currentProfile.fxWeight;
     // Impact of government levy revision
     const pdlImpact = currentProfile.pdlEligible ? pdlDeltaPkr : 0;
@@ -182,8 +211,8 @@ export function TomorrowPriceEstimator({
     const projectedPrice = Math.round((base + totalChange) * 100) / 100;
 
     // Plausibility bounds
-    const minBand = Math.round((projectedPrice - Math.abs(totalChange) * 0.3 - 2.5) * 100) / 100;
-    const maxBand = Math.round((projectedPrice + Math.abs(totalChange) * 0.3 + 2.5) * 100) / 100;
+    const minBand = Math.round((projectedPrice - Math.abs(totalChange) * 0.4 - 2.0) * 100) / 100;
+    const maxBand = Math.round((projectedPrice + Math.abs(totalChange) * 0.4 + 2.0) * 100) / 100;
 
     const percentChange = base > 0 ? Number(((totalChange / base) * 100).toFixed(2)) : 0;
     const direction = totalChange > 0 ? 'INCREASE' : totalChange < 0 ? 'DECREASE' : 'UNCHANGED';
@@ -212,13 +241,6 @@ export function TomorrowPriceEstimator({
     };
   }, [currentProfile, crudeDeltaUsd, fxDeltaPkr, pdlDeltaPkr, tankSize]);
 
-  // Reset scenario to flat neutral nowcast
-  const handleResetScenario = () => {
-    setCrudeDeltaUsd(0);
-    setFxDeltaPkr(0);
-    setPdlDeltaPkr(0);
-  };
-
   return (
     <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-7 lg:p-8 shadow-sm transition-all w-full">
       {/* Top Banner: Title & Revision Countdown */}
@@ -227,7 +249,7 @@ export function TomorrowPriceEstimator({
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-              Interactive Financial Forecasting Model
+              Forward Financial Forecasting Model
             </span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-slate-950 dark:text-white tracking-tight">
@@ -279,12 +301,61 @@ export function TomorrowPriceEstimator({
                   {prof.label}
                 </span>
                 <span className={`block text-xs font-bold mt-1 ${isSelected ? 'text-emerald-100' : 'text-slate-500 dark:text-slate-400'}`}>
-                  Rs. {prof.basePrice.toFixed(2)}
+                  Today: Rs. {prof.basePrice.toFixed(2)}
                 </span>
               </button>
             );
           })}
         </div>
+      </div>
+
+      {/* Quick Scenario Selector Buttons */}
+      <div className="mb-6 flex flex-wrap items-center gap-2">
+        <span className="text-xs font-bold text-slate-500 dark:text-slate-400">Projection Scenario:</span>
+        <button
+          type="button"
+          onClick={() => handleScenarioChange('nowcast')}
+          className={`px-3 py-1 rounded-xl text-xs font-black transition cursor-pointer ${
+            scenarioMode === 'nowcast'
+              ? 'bg-emerald-700 text-white shadow-xs'
+              : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200'
+          }`}
+        >
+          📈 Active Platts Nowcast (Expected: +Rs. {currentProfile.defaultNowcastDelta.toFixed(2)})
+        </button>
+        <button
+          type="button"
+          onClick={() => handleScenarioChange('bullish')}
+          className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${
+            scenarioMode === 'bullish'
+              ? 'bg-rose-700 text-white shadow-xs'
+              : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200'
+          }`}
+        >
+          ▲ Bullish Global Spike (+$3.5/bbl)
+        </button>
+        <button
+          type="button"
+          onClick={() => handleScenarioChange('bearish')}
+          className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${
+            scenarioMode === 'bearish'
+              ? 'bg-emerald-600 text-white shadow-xs'
+              : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200'
+          }`}
+        >
+          ▼ Bearish Relief (-$2.8/bbl)
+        </button>
+        <button
+          type="button"
+          onClick={() => handleScenarioChange('flat')}
+          className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${
+            scenarioMode === 'flat'
+              ? 'bg-slate-700 text-white shadow-xs'
+              : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200'
+          }`}
+        >
+          — Neutral / Steady Rate
+        </button>
       </div>
 
       {/* Main Grid: Forecast Results (Left) + Interactive Model Controls (Right) */}
@@ -295,7 +366,7 @@ export function TomorrowPriceEstimator({
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <span className="text-[11px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
-                  Projected {currentProfile.label} Rate
+                  Projected Tomorrow Rate ({currentProfile.label})
                 </span>
                 <div className="flex items-baseline gap-2 mt-1">
                   <span className="text-2xl sm:text-3xl font-black text-emerald-800 dark:text-emerald-400">Rs.</span>
@@ -312,23 +383,23 @@ export function TomorrowPriceEstimator({
                 {calculation.direction === 'INCREASE' && (
                   <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-100 dark:bg-rose-950/80 border border-rose-300 dark:border-rose-900 text-rose-900 dark:text-rose-300 font-black text-sm">
                     <span>▲</span>
-                    <span>Expected Hike: +Rs. {calculation.totalChange.toFixed(2)} ({calculation.percentChange}%)</span>
+                    <span>Projected Hike: +Rs. {calculation.totalChange.toFixed(2)} ({calculation.percentChange}%)</span>
                   </span>
                 )}
                 {calculation.direction === 'DECREASE' && (
                   <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-300 font-black text-sm">
                     <span>▼</span>
-                    <span>Expected Relief: -Rs. {Math.abs(calculation.totalChange).toFixed(2)} ({Math.abs(calculation.percentChange)}%)</span>
+                    <span>Projected Relief: -Rs. {Math.abs(calculation.totalChange).toFixed(2)} ({Math.abs(calculation.percentChange)}%)</span>
                   </span>
                 )}
                 {calculation.direction === 'UNCHANGED' && (
                   <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 font-black text-sm">
                     <span>—</span>
-                    <span>Rate Expected Steady</span>
+                    <span>Rate Projected Steady</span>
                   </span>
                 )}
                 <span className="block text-[11px] text-slate-500 dark:text-slate-400 font-semibold mt-1">
-                  Active OGRA Rate: Rs. {calculation.basePrice.toFixed(2)}
+                  Today&apos;s Active Rate: <strong className="text-slate-900 dark:text-white font-mono">Rs. {calculation.basePrice.toFixed(2)}</strong>
                 </span>
               </div>
             </div>
@@ -420,10 +491,10 @@ export function TomorrowPriceEstimator({
             </div>
             <button
               type="button"
-              onClick={handleResetScenario}
+              onClick={() => handleScenarioChange('nowcast')}
               className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 hover:underline cursor-pointer"
             >
-              Reset Inputs
+              Reset to Base Nowcast
             </button>
           </div>
 
@@ -441,9 +512,12 @@ export function TomorrowPriceEstimator({
               type="range"
               min="-10"
               max="10"
-              step="0.5"
+              step="0.25"
               value={crudeDeltaUsd}
-              onChange={e => setCrudeDeltaUsd(parseFloat(e.target.value))}
+              onChange={e => {
+                setCrudeDeltaUsd(parseFloat(e.target.value));
+                setScenarioMode('custom');
+              }}
               className="w-full accent-emerald-600 cursor-pointer"
             />
             <div className="flex justify-between text-[10px] text-slate-400 font-mono">
@@ -467,9 +541,12 @@ export function TomorrowPriceEstimator({
               type="range"
               min="-5"
               max="5"
-              step="0.25"
+              step="0.10"
               value={fxDeltaPkr}
-              onChange={e => setFxDeltaPkr(parseFloat(e.target.value))}
+              onChange={e => {
+                setFxDeltaPkr(parseFloat(e.target.value));
+                setScenarioMode('custom');
+              }}
               className="w-full accent-emerald-600 cursor-pointer"
             />
             <div className="flex justify-between text-[10px] text-slate-400 font-mono">
@@ -496,7 +573,10 @@ export function TomorrowPriceEstimator({
                 max="10"
                 step="1"
                 value={pdlDeltaPkr}
-                onChange={e => setPdlDeltaPkr(parseFloat(e.target.value))}
+                onChange={e => {
+                  setPdlDeltaPkr(parseFloat(e.target.value));
+                  setScenarioMode('custom');
+                }}
                 className="w-full accent-emerald-600 cursor-pointer"
               />
               <div className="flex justify-between text-[10px] text-slate-400 font-mono">

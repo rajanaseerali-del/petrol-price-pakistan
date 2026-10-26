@@ -21,8 +21,8 @@ export default async function LPGPage() {
 
   const lpg = products.find(p => p.id === 'lpg')!;
   const currentPrice = latestPrices['lpg'];
-  const petrolRate = latestPrices['petrol']?.pricePkr ?? 377.71;
-  const dieselRate = latestPrices['diesel']?.pricePkr ?? 393.66;
+  const petrolRate = latestPrices['petrol']?.pricePkr ?? 379.25;
+  const dieselRate = latestPrices['diesel']?.pricePkr ?? 395.82;
   const hiOctaneRate = latestPrices['hi-octane']?.pricePkr ?? 415.00;
   const lpgRate = currentPrice?.pricePkr ?? 279.34;
   const domesticCylinderCost = (lpgRate * 11.8).toFixed(2);
