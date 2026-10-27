@@ -210,6 +210,7 @@ export default async function HomePage() {
             {/* Fuel Tank Fill-Up Calculator Tool */}
             <div id="tank-calculator">
               <TankFillCalculator
+                compact={true}
                 petrolPrice={petrolPrice}
                 dieselPrice={dieselPrice}
                 hiOctanePrice={hiOctanePrice}

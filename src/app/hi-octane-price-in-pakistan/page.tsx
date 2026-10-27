@@ -95,6 +95,7 @@ export default async function HiOctanePage() {
             hiOctanePrice={hiOctaneRate}
           />
           <TankFillCalculator
+            compact={true}
             petrolPrice={petrolRate}
             dieselPrice={dieselRate}
             hiOctanePrice={hiOctaneRate}

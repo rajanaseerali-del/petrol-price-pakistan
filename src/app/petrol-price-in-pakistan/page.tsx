@@ -112,6 +112,7 @@ export default async function PetrolPage() {
 
           {/* Tank Fill Calculator */}
           <TankFillCalculator
+            compact={true}
             petrolPrice={petrolRate}
             dieselPrice={dieselRate}
             hiOctanePrice={hiOctaneRate}

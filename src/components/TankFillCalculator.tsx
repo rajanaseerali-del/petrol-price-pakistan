@@ -44,12 +44,14 @@ interface TankFillCalculatorProps {
   petrolPrice?: number;
   dieselPrice?: number;
   hiOctanePrice?: number;
+  compact?: boolean;
 }
 
 export function TankFillCalculator({
-  petrolPrice = 382.02,
-  dieselPrice = 389.80,
+  petrolPrice = 379.25,
+  dieselPrice = 395.82,
   hiOctanePrice = 415.00,
+  compact = false,
 }: TankFillCalculatorProps) {
   const [selectedTankId, setSelectedTankId] = useState<string>('corolla_tank');
   const [tankCapacity, setTankCapacity] = useState<number | ''>(50);
@@ -84,23 +86,23 @@ export function TankFillCalculator({
   const refillCost = litresToFill * activeRate;
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 sm:p-7 w-full transition-colors">
+    <div className={`bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm w-full transition-colors overflow-hidden ${compact ? 'p-4 sm:p-5' : 'p-5 sm:p-7'}`}>
       {/* Header */}
-      <div className="border-b border-slate-200 dark:border-slate-800 pb-4 mb-5">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs font-bold tracking-wide mb-2">
+      <div className="border-b border-slate-200 dark:border-slate-800 pb-3 mb-4">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs font-bold tracking-wide mb-1.5">
           <span>⛽ Vehicle Tank Estimator</span>
         </div>
-        <h2 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white tracking-tight">
+        <h2 className={`${compact ? 'text-lg sm:text-xl' : 'text-xl sm:text-2xl'} font-black text-slate-950 dark:text-white tracking-tight`}>
           Fuel Tank Fill-Up Cost Calculator
         </h2>
-        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1">
+        <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
           Calculate the exact cost to completely fill up or top-off your vehicle in Pakistan at today&apos;s verified OGRA rate.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+      <div className={compact ? 'flex flex-col space-y-4' : 'grid grid-cols-1 xl:grid-cols-12 gap-6 items-start'}>
         {/* Controls */}
-        <div className="md:col-span-7 space-y-4">
+        <div className={`${compact ? 'w-full' : 'xl:col-span-7'} space-y-4 min-w-0`}>
           {/* Preset Selector */}
           <div>
             <label htmlFor="tank-preset-select" className="block text-xs font-black text-slate-800 dark:text-white uppercase tracking-wider mb-1.5">
@@ -267,39 +269,39 @@ export function TankFillCalculator({
         </div>
 
         {/* Results Panel */}
-        <div className="md:col-span-5 bg-gradient-to-br from-emerald-50 via-emerald-100/60 to-emerald-200/40 dark:from-slate-800 dark:via-slate-800/90 dark:to-emerald-950/40 rounded-2xl border border-emerald-300 dark:border-slate-700 p-5 space-y-4 shadow-xs">
-          <div>
+        <div className={`${compact ? 'w-full' : 'xl:col-span-5'} bg-gradient-to-br from-emerald-50 via-emerald-100/60 to-emerald-200/40 dark:from-slate-800 dark:via-slate-800/90 dark:to-emerald-950/40 rounded-2xl border border-emerald-300 dark:border-slate-700 p-4 sm:p-5 space-y-3.5 shadow-xs overflow-hidden`}>
+          <div className="min-w-0">
             <span className="text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-300 block mb-1">
               {currentLevel === 0 ? 'Full Tank Fill-Up Cost' : 'Top-Off Refill Cost'}
             </span>
-            <div className="flex flex-wrap items-baseline gap-1.5">
-              <span className="text-xl font-black text-slate-500 dark:text-slate-400">Rs.</span>
-              <span className="text-4xl sm:text-5xl font-black text-slate-950 dark:text-white tracking-tight">
+            <div className="flex flex-wrap items-baseline gap-1.5 min-w-0">
+              <span className="text-base sm:text-lg font-black text-slate-500 dark:text-slate-400">Rs.</span>
+              <span className="text-2xl sm:text-3xl lg:text-3xl font-black text-slate-950 dark:text-white tracking-tight font-mono break-all">
                 {Math.round(refillCost).toLocaleString('en-PK')}
               </span>
-              <span className="text-base font-bold text-slate-500 dark:text-slate-400">PKR</span>
+              <span className="text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400">PKR</span>
             </div>
-            <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 mt-1.5 font-medium">
+            <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 mt-1 font-medium">
               Required: <strong className="text-emerald-800 dark:text-emerald-300 font-black">{litresToFill.toFixed(1)} Litres</strong> to reach 100% full.
             </p>
           </div>
 
           <div className="space-y-2 pt-3 border-t border-emerald-200 dark:border-slate-700 text-xs sm:text-sm">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center gap-2">
               <span className="text-slate-600 dark:text-slate-400 font-medium">0 to 100% Full Tank:</span>
-              <span className="font-black text-slate-950 dark:text-white">
+              <span className="font-black text-slate-950 dark:text-white font-mono whitespace-nowrap">
                 Rs. {Math.round(fullTankTotalCost).toLocaleString('en-PK')}
               </span>
             </div>
 
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center gap-2">
               <span className="text-slate-600 dark:text-slate-400 font-medium">Price per Litre:</span>
-              <span className="font-black text-emerald-800 dark:text-emerald-300">
+              <span className="font-black text-emerald-800 dark:text-emerald-300 font-mono whitespace-nowrap">
                 Rs. {activeRate.toFixed(2)}
               </span>
             </div>
 
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center gap-2">
               <span className="text-slate-600 dark:text-slate-400 font-medium">Fuel:</span>
               <span className="font-bold text-slate-950 dark:text-white capitalize">
                 {fuelType === 'hi-octane' ? 'Hi-Octane (RON 97)' : fuelType}
@@ -307,7 +309,7 @@ export function TankFillCalculator({
             </div>
           </div>
 
-          <div className="bg-white/95 dark:bg-slate-900/95 rounded-xl p-3 border border-emerald-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-800 dark:text-slate-200 shadow-xs">
+          <div className="bg-white/95 dark:bg-slate-900/95 rounded-xl p-2.5 sm:p-3 border border-emerald-200 dark:border-slate-700 text-xs font-mono font-bold text-slate-800 dark:text-slate-200 shadow-xs break-words">
             {litresToFill.toFixed(1)} L × Rs. {activeRate.toFixed(2)} = Rs. {Math.round(refillCost).toLocaleString('en-PK')}
           </div>
         </div>
