@@ -9,15 +9,6 @@ export const metadata: Metadata = {
 export default function EditorialPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8 w-full">
-      <nav className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
-        <ol className="flex items-center space-x-2">
-          <li>
-            <Link href="/" className="hover:text-emerald-700 dark:hover:text-emerald-400">Home</Link>
-          </li>
-          <li>/</li>
-          <li className="text-slate-900 dark:text-white font-bold">Editorial Policy</li>
-        </ol>
-      </nav>
 
       <div className="space-y-3">
         <h1 className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">

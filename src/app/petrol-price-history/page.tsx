@@ -17,15 +17,6 @@ export default async function PetrolHistoryPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-14 space-y-12">
-      <nav className="text-sm font-semibold text-slate-500 dark:text-slate-400">
-        <ol className="flex items-center space-x-2">
-          <li>
-            <Link href="/" className="hover:text-emerald-700 dark:hover:text-emerald-400">Home</Link>
-          </li>
-          <li>/</li>
-          <li className="text-slate-900 dark:text-white font-black">Price History</li>
-        </ol>
-      </nav>
 
       <div className="space-y-4 max-w-4xl">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-300 text-xs font-black uppercase tracking-wider">

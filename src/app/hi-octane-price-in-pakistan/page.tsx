@@ -26,16 +26,6 @@ export default async function HiOctanePage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-6 sm:space-y-8 w-full">
-      {/* Breadcrumb */}
-      <nav className="text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400">
-        <ol className="flex items-center space-x-2">
-          <li>
-            <Link href="/" className="hover:text-emerald-700 dark:hover:text-emerald-400">Home</Link>
-          </li>
-          <li>/</li>
-          <li className="text-slate-900 dark:text-white font-black">Hi-Octane Price in Pakistan</li>
-        </ol>
-      </nav>
 
       {/* Header */}
       <div className="space-y-2">

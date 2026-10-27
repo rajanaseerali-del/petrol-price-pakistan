@@ -10,7 +10,7 @@ export function Header() {
   const pathname = usePathname();
 
   const navLinks = [
-    { href: '/', label: "Today's Rates" },
+    { href: '/', label: 'Home' },
     { href: '/petrol-price-in-pakistan', label: 'Petrol' },
     { href: '/diesel-price-in-pakistan', label: 'Diesel' },
     { href: '/petrol-price-history', label: 'History' },
