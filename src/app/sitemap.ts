@@ -24,7 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { route: '/about', changeFrequency: 'monthly', priority: 0.6 },
     { route: '/contact', changeFrequency: 'monthly', priority: 0.6 },
     { route: '/privacy-policy', changeFrequency: 'monthly', priority: 0.5 },
-    { route: '/editorial-policy', changeFrequency: 'monthly', priority: 0.5 },
+    { route: '/terms-and-conditions', changeFrequency: 'monthly', priority: 0.5 },
     { route: '/disclaimer', changeFrequency: 'monthly', priority: 0.5 },
   ];
 

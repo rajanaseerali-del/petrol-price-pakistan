@@ -89,7 +89,7 @@ export function Footer() {
           {/* Governance & Policies */}
           <div>
             <h3 className="text-sm sm:text-base font-black uppercase tracking-wider text-white mb-3 sm:mb-5">
-              Editorial &amp; Legal
+              About &amp; Legal
             </h3>
             <ul className="space-y-2.5 sm:space-y-3.5 text-sm sm:text-base">
               <li>
@@ -98,8 +98,8 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/editorial-policy" className="hover:text-emerald-400 transition font-medium min-h-[32px] flex items-center">
-                  Editorial &amp; Correction Policy
+                <Link href="/terms-and-conditions" className="hover:text-emerald-400 transition font-medium min-h-[32px] flex items-center">
+                  Terms &amp; Conditions
                 </Link>
               </li>
               <li>
