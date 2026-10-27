@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { FuelRepository } from '@/lib/fuel-repository';
 import { PriceCard } from '@/components/PriceCard';
-import { TomorrowPriceEstimator } from '@/components/TomorrowPriceEstimator';
 import { TankFillCalculator } from '@/components/TankFillCalculator';
 import { OgraStatusWidget } from '@/components/OgraStatusWidget';
 import { HistoricalTable } from '@/components/HistoricalTable';
@@ -89,14 +88,8 @@ export default async function KerosenePage() {
           </div>
         </div>
 
-        {/* Right Column (4 cols, sticky): Forecast, Tank Fill, OGRA Status */}
+        {/* Right Column (4 cols, sticky): OGRA Status */}
         <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-20">
-          <TomorrowPriceEstimator
-            petrolPrice={petrolRate}
-            dieselPrice={dieselRate}
-            hiOctanePrice={hiOctaneRate}
-            kerosenePrice={keroseneRate}
-          />
           <OgraStatusWidget products={products} latestPrices={latestPrices} />
           <AdPlacement slotId="kerosene-page-sidebar" format="rectangle" />
         </aside>

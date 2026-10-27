@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { FuelRepository } from '@/lib/fuel-repository';
 import { PriceCard } from '@/components/PriceCard';
-import { TomorrowPriceEstimator } from '@/components/TomorrowPriceEstimator';
 import { OgraStatusWidget } from '@/components/OgraStatusWidget';
 import { HistoricalTable } from '@/components/HistoricalTable';
 import { PriceChart } from '@/components/PriceChart';
@@ -114,14 +113,8 @@ export default async function LPGPage() {
           </section>
         </div>
 
-        {/* Right Column (4 cols, sticky): Forecast, OGRA Status */}
+        {/* Right Column (4 cols, sticky): OGRA Status */}
         <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-20">
-          <TomorrowPriceEstimator
-            petrolPrice={petrolRate}
-            dieselPrice={dieselRate}
-            hiOctanePrice={hiOctaneRate}
-            lpgPrice={lpgRate}
-          />
           <OgraStatusWidget products={products} latestPrices={latestPrices} />
           <AdPlacement slotId="lpg-page-sidebar" format="rectangle" />
         </aside>

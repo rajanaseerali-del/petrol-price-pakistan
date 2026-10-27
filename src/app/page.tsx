@@ -4,7 +4,6 @@ import { FuelRepository } from '@/lib/fuel-repository';
 import { PriceCard } from '@/components/PriceCard';
 import { FuelCalculator } from '@/components/FuelCalculator';
 import { TankFillCalculator } from '@/components/TankFillCalculator';
-import { TomorrowPriceEstimator } from '@/components/TomorrowPriceEstimator';
 import { OgraStatusWidget } from '@/components/OgraStatusWidget';
 import { FAQSection } from '@/components/FAQSection';
 import { HOME_FAQS } from '@/lib/faq-data';
@@ -133,17 +132,6 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
           {/* MAIN CONTENT COLUMN (8 Cols) */}
           <div className="lg:col-span-8 space-y-6 sm:space-y-8 min-w-0">
-            {/* 1. Tomorrow's Interactive Forecasting Engine */}
-            <section aria-label="Tomorrow's Price Projection" id="tomorrow-forecast">
-              <TomorrowPriceEstimator
-                petrolPrice={petrolPrice}
-                dieselPrice={dieselPrice}
-                hiOctanePrice={hiOctanePrice}
-                kerosenePrice={kerosenePrice}
-                ldoPrice={ldoPrice}
-                lpgPrice={lpgPrice}
-              />
-            </section>
 
             {/* 2. Price History Chart */}
             <section aria-label="Historical Price Trend" className="space-y-4">

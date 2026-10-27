@@ -2,7 +2,6 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { FuelRepository } from '@/lib/fuel-repository';
 import { PriceCard } from '@/components/PriceCard';
-import { TomorrowPriceEstimator } from '@/components/TomorrowPriceEstimator';
 import { TankFillCalculator } from '@/components/TankFillCalculator';
 import { OgraStatusWidget } from '@/components/OgraStatusWidget';
 import { HistoricalTable } from '@/components/HistoricalTable';
@@ -89,11 +88,6 @@ export default async function HiOctanePage() {
 
         {/* Sidebar Column (4 cols, sticky) */}
         <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-20">
-          <TomorrowPriceEstimator
-            petrolPrice={petrolRate}
-            dieselPrice={dieselRate}
-            hiOctanePrice={hiOctaneRate}
-          />
           <TankFillCalculator
             compact={true}
             petrolPrice={petrolRate}
