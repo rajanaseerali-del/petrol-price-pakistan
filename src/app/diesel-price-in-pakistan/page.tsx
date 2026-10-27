@@ -6,7 +6,6 @@ import { HistoricalTable } from '@/components/HistoricalTable';
 import { PriceChart } from '@/components/PriceChart';
 import { FuelCalculator } from '@/components/FuelCalculator';
 import { TankFillCalculator } from '@/components/TankFillCalculator';
-import { TomorrowPriceEstimator } from '@/components/TomorrowPriceEstimator';
 import { OgraStatusWidget } from '@/components/OgraStatusWidget';
 import { FAQSection } from '@/components/FAQSection';
 import { getDieselPageFaqs } from '@/lib/faq-data';
@@ -101,15 +100,8 @@ export default async function DieselPage() {
           />
         </div>
 
-        {/* Right Column (4 cols, sticky): Forecast, Tank Fill, OGRA Status */}
+        {/* Right Column (4 cols, sticky): Tank Fill, OGRA Status */}
         <aside className="lg:col-span-4 space-y-6 lg:sticky lg:top-20">
-          {/* Tomorrow Forecast */}
-          <TomorrowPriceEstimator
-            petrolPrice={petrolRate}
-            dieselPrice={dieselRate}
-            hiOctanePrice={hiOctaneRate}
-          />
-
           {/* Tank Fill Calculator */}
           <TankFillCalculator
             compact={true}
